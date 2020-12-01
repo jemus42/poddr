@@ -18,4 +18,12 @@ Imports:
     rvest,
     dplyr,
     tidyr,
-    tibble
+    tibble,
+    stringr,
+    lubridate,
+    xml2,
+    readr,
+    purrr,
+    glue
+Suggests: 
+    rmarkdown

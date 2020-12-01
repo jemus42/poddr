@@ -1,0 +1,18 @@
+---
+title: "Demo"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval=FALSE}
+library(poddr)
+
+relay_shows <- relay_get_shows()
+
+tibble::glimpse(relay_shows)
+```
