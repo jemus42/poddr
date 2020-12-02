@@ -28,7 +28,7 @@ relay_parse_feed <- function(url) {
     stringr::str_replace(":", "") %>%
     as.character()
 
-  durations <- feed %>%
+  duration <- feed %>%
     html_nodes("duration") %>%
     html_text() %>%
     as.numeric()
