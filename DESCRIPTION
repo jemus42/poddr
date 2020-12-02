@@ -24,6 +24,8 @@ Imports:
     xml2,
     readr,
     purrr,
-    glue
+    glue,
+    progress,
+    polite
 Suggests: 
     rmarkdown
