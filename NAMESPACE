@@ -2,7 +2,10 @@
 
 export("%>%")
 export(cache_podcast_data)
+export(incomparable_get_episodes)
 export(incomparable_get_shows)
+export(incomparable_parse_archive)
+export(incomparable_parse_stats)
 export(label_n)
 export(parse_duration)
 export(relay_get_episodes)

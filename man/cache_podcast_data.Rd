@@ -23,6 +23,6 @@ Cache episode data
 }
 \examples{
 \dontrun{
-if (FALSE) cache_podcast_data()
+cache_podcast_data(incomparable_episodes)
 }
 }

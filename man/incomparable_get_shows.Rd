@@ -4,10 +4,7 @@
 \alias{incomparable_get_shows}
 \title{Get The Incomparable shows}
 \usage{
-incomparable_get_shows(url = "https://www.theincomparable.com/shows/")
-}
-\arguments{
-\item{url}{Show index URL: \code{"https://www.theincomparable.com/shows/"}.}
+incomparable_get_shows()
 }
 \value{
 A tibble.

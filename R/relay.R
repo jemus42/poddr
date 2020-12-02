@@ -10,7 +10,8 @@
 #' relay_parse_feed(url = "https://www.relay.fm/ungeniused/feed")
 #' }
 relay_parse_feed <- function(url) {
-  feed <- read_html(url)
+  feed <- polite::bow(url) %>%
+    polite::scrape(accept = "html", content = "text/html; charset=utf-8")
 
   show <- feed %>%
     html_node("channel") %>%
@@ -25,13 +26,12 @@ relay_parse_feed <- function(url) {
   number <- titles %>%
     stringr::str_extract("\\d+:") %>%
     stringr::str_replace(":", "") %>%
-    as.numeric()
+    as.character()
 
   durations <- feed %>%
     html_nodes("duration") %>%
     html_text() %>%
-    as.numeric() %>%
-    magrittr::divide_by(60) # in minutes
+    as.numeric()
 
   pubdate <- feed %>%
     html_nodes("pubdate") %>%
@@ -48,14 +48,14 @@ relay_parse_feed <- function(url) {
     magrittr::extract(-1)
 
   tibble(
-    number = number,
     show = show,
-    title = titles,
-    duration = durations,
+    number = number,
+    title = stringr::str_remove(titles, "^\\d+:\\s"),
+    duration = hms::hms(seconds = duration),
     date = pubdate,
     year = lubridate::year(date),
     month = lubridate::month(date, abbr = FALSE, label = TRUE),
-    weekday = lubridate::wday(date, label = TRUE, abbr = FALSE),
+    weekday = lubridate::wday(date, abbr = FALSE, label = TRUE),
     host = people,
     network = "relay.fm"
   )
@@ -73,7 +73,8 @@ relay_parse_feed <- function(url) {
 #' relay_get_shows()
 #' }
 relay_get_shows <- function(url = "https://www.relay.fm/shows") {
-  relay_shows <- read_html(url)
+  relay_shows <- polite::bow(url) %>%
+    polite::scrape()
 
   shows <- relay_shows %>%
     rvest::html_nodes(".broadcast__name a") %>%
@@ -104,14 +105,17 @@ relay_get_shows <- function(url = "https://www.relay.fm/shows") {
 #'
 #' @examples
 #' \dontrun{
-#' relay <- relay_get_episodes(relay__get_shows(url = "https://www.relay.fm/shows"))
+#' relay <- relay_get_episodes(relay_get_shows())
 #' }
 relay_get_episodes <- function(relay_shows) {
 
-  relay <- purrr::map_df(relay_shows$feed_url, relay_parse_feed)
+  pb <- progress::progress_bar$new(
+    format = "Getting :show [:bar] :current/:total (:percent) ETA: :eta",
+    total = nrow(relay_shows)
+  )
 
-  # relay <- relay_shows %>%
-  #   dplyr::left_join(relay, by = "show")
-
-  relay
+  purrr::pmap_df(relay_shows, ~{
+    pb$tick(tokens = list(show = ..1))
+    relay_parse_feed(..2)
+  })
 }

@@ -1,5 +1,7 @@
 ---
 title: "Demo"
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -10,9 +12,35 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, eval=FALSE}
+library(dplyr)
 library(poddr)
 
 relay_shows <- relay_get_shows()
+incomparable_shows <- incomparable_get_shows()
 
-tibble::glimpse(relay_shows)
+glimpse(relay_shows)
+glimpse(incomparable_shows)
+
+relay_episodes <- relay_get_episodes(relay_shows)
+incomparable_episodes <- incomparable_get_episodes(incomparable_shows)
+
+relay_episodes %>%
+  left_join(incomparable_episodes) %>%
+  View()
+
+# pb <- progress::progress_bar$new(
+#   format = "Getting :show [:bar] :current/:total (:percent)",
+#   total = nrow(incomparable_shows)
+# )
+# 
+# incomparable_stats <- purrr::pmap_dfr(incomparable_shows, ~{
+#   pb$tick(tokens = list(show = ..1))
+# 
+#   incomparable_parse_stats(..2) %>%
+#     dplyr::mutate(
+#       show = ..1
+#     ) %>%
+#     dplyr::relocate(.data$show)
+# })
+
 ```

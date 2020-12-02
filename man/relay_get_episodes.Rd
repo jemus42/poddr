@@ -17,6 +17,6 @@ Collect all relay.fm shows
 }
 \examples{
 \dontrun{
-relay <- relay_get_episodes(relay__get_shows(url = "https://www.relay.fm/shows"))
+relay <- relay_get_episodes(relay_get_shows())
 }
 }

@@ -10,9 +10,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' if (FALSE) cache_podcast_data()
+#' cache_podcast_data(incomparable_episodes)
 #' }
 cache_podcast_data <- function(x, dir = "data", filename = NULL, csv = TRUE) {
+ # browser()
   if (is.null(filename)) {
     filename <- deparse(substitute(x))
   }
@@ -24,7 +25,7 @@ cache_podcast_data <- function(x, dir = "data", filename = NULL, csv = TRUE) {
 
   if (csv) {
     path_csv <- paste0(file.path(dir, filename), ".csv")
-    cliapp::cli_alert_success("Saving {filename} to {path_csv}")
+    # cliapp::cli_alert_success("Saving {filename} to {path_csv}")
     readr::write_delim(x, path_csv, delim = ";")
   }
 }
