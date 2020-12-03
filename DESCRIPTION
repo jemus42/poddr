@@ -7,28 +7,29 @@ Authors@R:
            role = c("aut", "cre"),
            email = "lukas@tadaa-data.de",
            comment = c(ORCID = "0000-0001-7528-3795"))
-Description: Collecting all the data, but just for The Incomparable, Relay.fm
-  and ATP.
+Description: Collecting all the data, but just for The
+    Incomparable, Relay.fm and ATP.
 License: MIT + file LICENSE
+Imports: 
+    dplyr,
+    glue,
+    hms,
+    lubridate,
+    magrittr,
+    polite,
+    progress,
+    purrr,
+    readr,
+    rlang (>= 0.1.2),
+    rvest,
+    stringr,
+    tibble,
+    tidyr,
+    xml2
+Suggests: 
+    rmarkdown,
+    roxygen2
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: 
-    rvest,
-    dplyr,
-    tidyr,
-    tibble,
-    stringr,
-    lubridate,
-    xml2,
-    readr,
-    purrr,
-    glue,
-    progress,
-    polite,
-    hms,
-    rlang (>= 0.1.2)
-Suggests: 
-    rmarkdown,
-    roxygen2
