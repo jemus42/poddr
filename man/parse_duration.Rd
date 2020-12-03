@@ -15,6 +15,9 @@ A numeric of durations in \code{hms::hms()}.
 \description{
 Converting HH:MM:SS or MM:SS to \code{hms}
 }
+\note{
+Only needed to parse durations in The Incomparable \code{stats.txt} files.
+}
 \examples{
 parse_duration("32:12")
 parse_duration("32:12:04")

@@ -4,7 +4,7 @@
 #'
 #' @return A numeric of durations in `hms::hms()`.
 #' @export
-#'
+#' @note Only needed to parse durations in The Incomparable `stats.txt` files.
 #' @examples
 #' parse_duration("32:12")
 #' parse_duration("32:12:04")
@@ -54,4 +54,32 @@ label_n <- function(x, brackets = FALSE) {
     ret <- paste0("(", ret, ")")
   }
   ret
+}
+
+#' Gather episode datasets by people
+#'
+#' @param episodes A tbl containing `host` and `guest` columns, with names
+#' separated by `;`.
+#'
+#' @return A tibble with new columns `"role"` and `"person"`, one row per person.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' incomparable <- incomparable_get_episodes(incomparable_get_shows())
+#' incomparable_wide <- gather_people(incomparable)
+#' }
+gather_people <- function(episodes) {
+  episodes %>%
+    tidyr::separate_rows(host, sep = ";") %>%
+    tidyr::separate_rows(guest, sep = ";") %>%
+    tidyr::pivot_longer(
+      cols = c("host", "guest"),
+      names_to = "role", values_to = "person"
+    ) %>%
+    dplyr::group_by(.data$show, .data$number) %>%
+    dplyr::distinct(.keep_all = TRUE) %>%
+    dplyr::ungroup() %>%
+    # hms gets converted to durations for some reason
+    dplyr::mutate(dplyr::across(dplyr::any_of("duration"), hms::as_hms))
 }
