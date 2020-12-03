@@ -12,7 +12,7 @@
 #' atp_parse_page(page)
 #' }
 atp_parse_page <- function(page) {
-  html_nodes(page, "article") %>%
+  rvest::html_nodes(page, "article") %>%
     purrr::map_dfr(~{
       #browser()
       meta <- rvest::html_node(.x, ".metadata") %>%
@@ -77,7 +77,25 @@ atp_get_episodes <- function() {
   atp_pages <- list("1" = polite::scrape(session))
   next_page_num <- 2
 
+  latest_ep_num <- atp_pages[[1]] %>%
+    html_nodes("h2 a") %>%
+    html_text() %>%
+    stringr::str_extract("^\\d+") %>%
+    as.numeric() %>%
+    max()
+
+  # First page has 5 episodes, 50 episodes per page afterwards
+  total_pages <- ceiling((latest_ep_num - 5) / 50) + 1
+
+  pb <- progress::progress_bar$new(
+    format = "Getting pages [:bar] :current/:total (:percent) ETA: :eta",
+    total = total_pages
+  )
+  pb$tick()
+
   while (length(next_page_num) > 0) {
+    pb$tick()
+
     atp_pages[[next_page_num]] <- polite::scrape(
       session, query = list(page = next_page_num)
     )
