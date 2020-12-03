@@ -23,24 +23,7 @@ glimpse(incomparable_shows)
 
 relay_episodes <- relay_get_episodes(relay_shows)
 incomparable_episodes <- incomparable_get_episodes(incomparable_shows)
+atp <- atp_get_episodes()
 
-relay_episodes %>%
-  left_join(incomparable_episodes) %>%
-  View()
-
-# pb <- progress::progress_bar$new(
-#   format = "Getting :show [:bar] :current/:total (:percent)",
-#   total = nrow(incomparable_shows)
-# )
-# 
-# incomparable_stats <- purrr::pmap_dfr(incomparable_shows, ~{
-#   pb$tick(tokens = list(show = ..1))
-# 
-#   incomparable_parse_stats(..2) %>%
-#     dplyr::mutate(
-#       show = ..1
-#     ) %>%
-#     dplyr::relocate(.data$show)
-# })
-
+# gather_people(incomparable_episodes)
 ```

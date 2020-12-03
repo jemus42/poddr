@@ -4,6 +4,9 @@
 # poddr
 
 <!-- badges: start -->
+
+[![R build
+status](https://github.com/jemus42/poddr/workflows/R-CMD-check/badge.svg)](https://github.com/jemus42/poddr/actions)
 <!-- badges: end -->
 
 The goal of poddr is to collect podcast data so I can display it at
