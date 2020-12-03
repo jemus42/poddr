@@ -17,7 +17,7 @@ Parse a show's archive page on The Incomparable website
 }
 \examples{
 \dontrun{
-archive_url <- "https://www.theincomparable.com/theincomparable/archive/"
-incomparable <- incomparable_parse_archive(archive_url)
+archive_url <- "https://www.theincomparable.com/salvage/archive/"
+incomparable_parse_archive(archive_url)
 }
 }

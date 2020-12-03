@@ -17,7 +17,7 @@ WIP Parse The Incomparable stats.txt files
 }
 \examples{
 \dontrun{
-stats_url <- "https://www.theincomparable.com/theincomparable/stats.txt"
+stats_url <- "https://www.theincomparable.com/salvage/stats.txt"
 incomparable_parse_stats(stats_url)
 }
 }

@@ -27,6 +27,8 @@ Imports:
     glue,
     progress,
     polite,
-    hms
+    hms,
+    rlang (>= 0.1.2)
 Suggests: 
-    rmarkdown
+    rmarkdown,
+    roxygen2

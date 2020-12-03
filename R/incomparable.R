@@ -38,8 +38,8 @@ incomparable_get_shows <- function() {
 #'
 #' @examples
 #' \dontrun{
-#' archive_url <- "https://www.theincomparable.com/theincomparable/archive/"
-#' incomparable <- incomparable_parse_archive(archive_url)
+#' archive_url <- "https://www.theincomparable.com/salvage/archive/"
+#' incomparable_parse_archive(archive_url)
 #' }
 incomparable_parse_archive <- function(archive_url) {
 
@@ -161,7 +161,7 @@ incomparable_parse_archive <- function(archive_url) {
 #'
 #' @examples
 #' \dontrun{
-#' stats_url <- "https://www.theincomparable.com/theincomparable/stats.txt"
+#' stats_url <- "https://www.theincomparable.com/salvage/stats.txt"
 #' incomparable_parse_stats(stats_url)
 #' }
 incomparable_parse_stats <- function(stats_url) {
@@ -174,7 +174,7 @@ incomparable_parse_stats <- function(stats_url) {
     col_types = "cccccc",
     trim_ws = TRUE
   ) %>%
-    mutate(duration = parse_duration(duration))
+    mutate(duration = parse_duration(.data$duration))
 #
 #   showstats <- readr::read_lines(stats_url) %>%
 #     stringr::str_c(";") %>%
@@ -209,13 +209,18 @@ incomparable_get_episodes <- function(incomparable_shows) {
 
     archived <- incomparable_parse_archive(..3) %>%
       dplyr::mutate(show = ..1) %>%
-      dplyr::relocate(.data$show) %>%
-      dplyr::select(-duration)
+      dplyr::relocate(.data$show)
 
-    archived
+    stats <- incomparable_parse_stats(..2) %>%
+      dplyr::mutate(show = ..1)
 
-    # stats <- incomparable_parse_stats(..2) %>%
-    #   dplyr::mutate(show = ..1) %>%
-    #   dplyr::relocate(.data$show)
+    archived %>%
+      dplyr::select(-duration) %>%
+      dplyr::left_join(
+        stats %>%
+          dplyr::select(.data$show, .data$number, .data$duration),
+        by = c("show", "number")
+      ) %>%
+      dplyr::relocate(duration, .after = .data$title)
   })
 }
