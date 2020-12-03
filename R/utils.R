@@ -1,8 +1,8 @@
-#' Converting HH:MM:SS or MM:SS to a numeric vector of minutes
+#' Converting HH:MM:SS or MM:SS to `hms`
 #'
 #' @param x A duration
 #'
-#' @return A numeric of durations in minutes.
+#' @return A numeric of durations in `hms::hms()`.
 #' @export
 #'
 #' @examples
@@ -12,14 +12,22 @@ parse_duration <- function(x) {
   purrr::map_dbl(x, ~ {
     if (stringr::str_count(.x, ":") == 2) {
       xx <- as.numeric(unlist(stringr::str_split(.x, ":")))
-      minutes <- xx[1] * 60 + xx[2] + xx[3] / 60
+      hms::hms(
+        seconds = xx[3],
+        minutes = xx[2],
+        hours = xx[1]
+      )
     } else if (stringr::str_count(.x, ":") == 1) {
       xx <- as.numeric(unlist(stringr::str_split(.x, ":")))
-      minutes <- xx[1] + xx[2] / 60
+      hms::hms(
+        seconds = xx[2],
+        minutes = xx[1]
+      )
     } else {
       stop("Unexpected input format ", .x)
     }
-  })
+  }) %>%
+    hms::hms(seconds = .)
 }
 
 #' Convenience function to display N

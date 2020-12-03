@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{parse_duration}
 \alias{parse_duration}
-\title{Converting HH:MM:SS or MM:SS to a numeric vector of minutes}
+\title{Converting HH:MM:SS or MM:SS to \code{hms}}
 \usage{
 parse_duration(x)
 }
@@ -10,10 +10,10 @@ parse_duration(x)
 \item{x}{A duration}
 }
 \value{
-A numeric of durations in minutes.
+A numeric of durations in \code{hms::hms()}.
 }
 \description{
-Converting HH:MM:SS or MM:SS to a numeric vector of minutes
+Converting HH:MM:SS or MM:SS to \code{hms}
 }
 \examples{
 parse_duration("32:12")

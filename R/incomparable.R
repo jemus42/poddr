@@ -84,9 +84,8 @@ incomparable_parse_archive <- function(archive_url) {
       stringr::str_trim(side = "both") %>%
       lubridate::mdy()
 
-    # Handling of duration is wonly and WIP
+    # Handling of duration is wonky and WIP
     # also there are no seconds as of 2020-12-02
-    # but maybe Jason adds those soonish
     duration <- postdate[[2]]
 
     duration <- list(
@@ -167,8 +166,6 @@ incomparable_parse_archive <- function(archive_url) {
 #' }
 incomparable_parse_stats <- function(stats_url) {
 
-  # stats_url <- "https://www.theincomparable.com/theincomparable/stats.txt"
-
   readr::read_delim(
     stats_url, delim = ";", quote = "",
     col_names = c(
@@ -176,7 +173,8 @@ incomparable_parse_stats <- function(stats_url) {
     ),
     col_types = "cccccc",
     trim_ws = TRUE
-  )
+  ) %>%
+    mutate(duration = parse_duration(duration))
 #
 #   showstats <- readr::read_lines(stats_url) %>%
 #     stringr::str_c(";") %>%
@@ -209,10 +207,15 @@ incomparable_get_episodes <- function(incomparable_shows) {
   incomparable_episodes <- purrr::pmap_dfr(incomparable_shows, ~{
     pb$tick(tokens = list(show = ..1))
 
-    incomparable_parse_archive(..3) %>%
-      dplyr::mutate(
-        show = ..1
-      ) %>%
-      dplyr::relocate(.data$show)
+    archived <- incomparable_parse_archive(..3) %>%
+      dplyr::mutate(show = ..1) %>%
+      dplyr::relocate(.data$show) %>%
+      dplyr::select(-duration)
+
+    archived
+
+    # stats <- incomparable_parse_stats(..2) %>%
+    #   dplyr::mutate(show = ..1) %>%
+    #   dplyr::relocate(.data$show)
   })
 }
