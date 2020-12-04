@@ -44,7 +44,7 @@ relay_parse_feed <- function(url) {
   people <- feed %>%
     html_nodes("author") %>%
     html_text() %>%
-    stringr::str_replace_all(", and ", ";") %>%
+    stringr::str_replace_all(",? and ", ";") %>%
     stringr::str_replace_all(",\\s*", ";") %>%
     magrittr::extract(-1)
 
