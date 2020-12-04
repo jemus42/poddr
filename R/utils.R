@@ -60,6 +60,8 @@ label_n <- function(x, brackets = FALSE) {
 #'
 #' @param episodes A tbl containing `host` and `guest` columns, with names
 #' separated by `;`.
+#' @param people_cols FOr The Incomparable, use the default `c("host", "guest")`,
+#' for relay.fm, there's only a `"host"` column.
 #'
 #' @return A tibble with new columns `"role"` and `"person"`, one row per person.
 #' @export
@@ -69,17 +71,13 @@ label_n <- function(x, brackets = FALSE) {
 #' incomparable <- incomparable_get_episodes(incomparable_get_shows())
 #' incomparable_wide <- gather_people(incomparable)
 #' }
-gather_people <- function(episodes) {
+gather_people <- function(episodes, people_cols = c("host", "guest")) {
   episodes %>%
-    tidyr::separate_rows(host, sep = ";") %>%
-    tidyr::separate_rows(guest, sep = ";") %>%
     tidyr::pivot_longer(
-      cols = c("host", "guest"),
+      cols = people_cols,
       names_to = "role", values_to = "person"
     ) %>%
-    dplyr::group_by(.data$show, .data$number) %>%
-    dplyr::distinct(.keep_all = TRUE) %>%
-    dplyr::ungroup() %>%
+    tidyr::separate_rows(.data$person, sep = ";") %>%
     # hms gets converted to durations for some reason
     dplyr::mutate(dplyr::across(dplyr::any_of("duration"), hms::as_hms))
 }

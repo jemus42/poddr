@@ -4,11 +4,14 @@
 \alias{gather_people}
 \title{Gather episode datasets by people}
 \usage{
-gather_people(episodes)
+gather_people(episodes, people_cols = c("host", "guest"))
 }
 \arguments{
 \item{episodes}{A tbl containing \code{host} and \code{guest} columns, with names
 separated by \verb{;}.}
+
+\item{people_cols}{FOr The Incomparable, use the default \code{c("host", "guest")},
+for relay.fm, there's only a \code{"host"} column.}
 }
 \value{
 A tibble with new columns \code{"role"} and \code{"person"}, one row per person.

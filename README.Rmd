@@ -43,7 +43,18 @@ incomparable_shows <- incomparable_get_shows()
 glimpse(relay_shows)
 glimpse(incomparable_shows)
 
+# Getting episodes
 relay_episodes <- relay_get_episodes(relay_shows)
 incomparable_episodes <- incomparable_get_episodes(incomparable_shows)
 atp <- atp_get_episodes()
+
+# One line per person
+incomparable_episodes %>%
+  gather_people() %>%
+  select(show, number, person, role)
+
+relay_episodes %>%
+  gather_people(people_cols = "host") %>%
+  filter(show == "The Prompt") %>%
+  select(show, number, person, role)
 ```
