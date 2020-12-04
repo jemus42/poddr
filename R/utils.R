@@ -40,7 +40,7 @@ parse_duration <- function(x) {
 #'
 #' @examples
 #' label_n(100)
-#' label_n(tibble(x = 1:10, y = 1:10), brackets = TRUE)
+#' label_n(tibble::tibble(x = 1:10, y = 1:10), brackets = TRUE)
 label_n <- function(x, brackets = FALSE) {
   if (is.data.frame(x)) {
     n <- nrow(x)
@@ -83,3 +83,7 @@ gather_people <- function(episodes) {
     # hms gets converted to durations for some reason
     dplyr::mutate(dplyr::across(dplyr::any_of("duration"), hms::as_hms))
 }
+
+
+#
+globalVariables(c(".", "guest", "host"))

@@ -10,7 +10,7 @@ incomparable_parse_archive(archive_url)
 \item{archive_url}{E.g. \code{"https://www.theincomparable.com/theincomparable/archive/"}.}
 }
 \value{
-
+A tibble.
 }
 \description{
 Parse a show's archive page on The Incomparable website

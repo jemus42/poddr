@@ -33,7 +33,7 @@ incomparable_get_shows <- function() {
 #'
 #' @param archive_url E.g. `"https://www.theincomparable.com/theincomparable/archive/"`.
 #'
-#' @return
+#' @return A tibble.
 #' @export
 #'
 #' @examples
@@ -125,8 +125,8 @@ incomparable_parse_archive <- function(archive_url) {
     topics <- .x %>%
       html_nodes(".postdate+ .postdate") %>%
       html_text() %>%
-      stringr::str_extract("•.*") %>%
-      stringr::str_replace_all("•", "") %>%
+      stringr::str_extract("\\u2022.*") %>%
+      stringr::str_replace_all("\\u2022", "") %>%
       stringr::str_trim("both")
 
     if (identical(topics, character(0))) {

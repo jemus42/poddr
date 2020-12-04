@@ -26,6 +26,16 @@ remotes::install_github("jemus42/poddr")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
+library(dplyr)
 library(poddr)
-## basic example code
+
+relay_shows <- relay_get_shows()
+incomparable_shows <- incomparable_get_shows()
+
+glimpse(relay_shows)
+glimpse(incomparable_shows)
+
+relay_episodes <- relay_get_episodes(relay_shows)
+incomparable_episodes <- incomparable_get_episodes(incomparable_shows)
+atp <- atp_get_episodes()
 ```

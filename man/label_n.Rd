@@ -19,5 +19,5 @@ Convenience function to display N
 }
 \examples{
 label_n(100)
-label_n(tibble(x = 1:10, y = 1:10), brackets = TRUE)
+label_n(tibble::tibble(x = 1:10, y = 1:10), brackets = TRUE)
 }
