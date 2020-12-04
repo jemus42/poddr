@@ -51,12 +51,12 @@ incomparable_parse_archive <- function(archive_url) {
   # for things like topics and categories where not every episode
   # has such an element
   entries <- archive_parsed %>%
-    html_nodes(css = "#entry")
+    rvest::html_nodes(css = "#entry")
 
   purrr::map_dfr(entries, ~{
     epnums <- .x %>%
-      html_nodes(css = ".episode-number") %>%
-      html_text() %>%
+      rvest::html_nodes(css = ".episode-number") %>%
+      rvest::html_text() %>%
       as.character()
 
     # Comic book club test case
@@ -65,18 +65,18 @@ incomparable_parse_archive <- function(archive_url) {
     # if (epnums == "541") browser()
 
     summaries <- .x %>%
-      html_nodes(css = ".episode-description") %>%
-      html_text() %>%
+      rvest::html_nodes(css = ".episode-description") %>%
+      rvest::html_text() %>%
       stringr::str_replace_all("^(\\W)*", "") %>%
       stringr::str_replace_all("\\W*$", "")
 
     titles <- .x %>%
-      html_nodes(css = ".entry-title a") %>%
-      html_text()
+      rvest::html_nodes(css = ".entry-title a") %>%
+      rvest::html_text()
 
     postdate <- .x %>%
-      html_nodes(".postdate:nth-child(1)") %>%
-      html_text()
+      rvest::html_nodes(".postdate:nth-child(1)") %>%
+      rvest::html_text()
 
     date <- postdate[[1]] %>%
       stringr::str_trim(side = "both") %>%
@@ -107,15 +107,15 @@ incomparable_parse_archive <- function(archive_url) {
 
     host <- .x %>%
       rvest::html_nodes(".postdate+ a") %>%
-      html_text()
+      rvest::html_text()
 
     guest <- .x %>%
-      html_nodes("a+ a") %>%
-      html_text() %>%
+      rvest::html_nodes("a+ a") %>%
+      rvest::html_text() %>%
       paste(collapse = ";")
 
     categories <- .x %>%
-      html_nodes(".subcast img") %>%
+      rvest::html_nodes(".subcast img") %>%
       rvest::html_attr("alt")
 
     if (identical(categories, character(0))) {
@@ -123,8 +123,8 @@ incomparable_parse_archive <- function(archive_url) {
     }
 
     topics <- .x %>%
-      html_nodes(".postdate+ .postdate") %>%
-      html_text() %>%
+      rvest::html_nodes(".postdate+ .postdate") %>%
+      rvest::html_text() %>%
       stringr::str_extract("\\u2022.*") %>%
       stringr::str_replace_all("\\u2022", "") %>%
       stringr::str_trim("both")
@@ -173,7 +173,7 @@ incomparable_parse_stats <- function(stats_url) {
     col_types = "cccccc",
     trim_ws = TRUE
   ) %>%
-    mutate(duration = parse_duration(.data$duration))
+    dplyr::mutate(duration = parse_duration(.data$duration))
 }
 
 

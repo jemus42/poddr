@@ -78,8 +78,8 @@ atp_get_episodes <- function() {
   next_page_num <- 2
 
   latest_ep_num <- atp_pages[[1]] %>%
-    html_nodes("h2 a") %>%
-    html_text() %>%
+    rvest::html_nodes("h2 a") %>%
+    rvest::html_text() %>%
     stringr::str_extract("^\\d+") %>%
     as.numeric() %>%
     max()
