@@ -6,8 +6,8 @@
 \alias{poddr-package}
 \title{poddr: Collect Metadata for Selected Podcasts}
 \description{
-Collecting all the data, but just for The Incomparable, Relay.fm
-  and ATP.
+Collecting all the data, but just for The
+    Incomparable, Relay.fm and ATP.
 }
 \author{
 \strong{Maintainer}: Lukas Burk \email{lukas@tadaa-data.de} (\href{https://orcid.org/0000-0001-7528-3795}{ORCID})

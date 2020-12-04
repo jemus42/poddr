@@ -2,7 +2,7 @@
 % Please edit documentation in R/incomparable.R
 \name{incomparable_parse_stats}
 \alias{incomparable_parse_stats}
-\title{WIP Parse The Incomparable stats.txt files}
+\title{Parse The Incomparable stats.txt files}
 \usage{
 incomparable_parse_stats(stats_url)
 }
@@ -13,7 +13,7 @@ incomparable_parse_stats(stats_url)
 A tibble.
 }
 \description{
-WIP Parse The Incomparable stats.txt files
+Parse The Incomparable stats.txt files
 }
 \examples{
 \dontrun{

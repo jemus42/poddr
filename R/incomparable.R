@@ -152,7 +152,7 @@ incomparable_parse_archive <- function(archive_url) {
 
 }
 
-#' WIP Parse The Incomparable stats.txt files
+#' Parse The Incomparable stats.txt files
 #'
 #' @param stats_url URL to the `stats.txt`.
 #'
@@ -165,7 +165,6 @@ incomparable_parse_archive <- function(archive_url) {
 #' incomparable_parse_stats(stats_url)
 #' }
 incomparable_parse_stats <- function(stats_url) {
-
   readr::read_delim(
     stats_url, delim = ";", quote = "",
     col_names = c(
@@ -175,15 +174,6 @@ incomparable_parse_stats <- function(stats_url) {
     trim_ws = TRUE
   ) %>%
     mutate(duration = parse_duration(.data$duration))
-#
-#   showstats <- readr::read_lines(stats_url) %>%
-#     stringr::str_c(";") %>%
-#     paste0(collapse = "\n") %>%
-#     stringr::str_c("\n") %>% # Append extra newline at EOF to prevent failure for single-row files
-#     readr::read_delim(
-#       file = ., delim = ";", quote = "",
-#       col_names = FALSE, col_types = cols(X1 = col_character(), X3 = col_character())
-#     )
 }
 
 
