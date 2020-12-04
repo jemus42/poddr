@@ -24,7 +24,7 @@ incomparable_get_shows <- function() {
   tibble(
     show = shows,
     # partial = show_partials,
-    stats_url =  glue::glue("{base_url}/{show_partials}/stats.txt"),
+    stats_url = glue::glue("{base_url}/{show_partials}/stats.txt"),
     archive_url = glue::glue("{base_url}/{show_partials}/archive/")
   )
 }
@@ -42,7 +42,6 @@ incomparable_get_shows <- function() {
 #' incomparable_parse_archive(archive_url)
 #' }
 incomparable_parse_archive <- function(archive_url) {
-
   archive_parsed <- polite::bow(archive_url) %>%
     polite::scrape()
 
@@ -53,7 +52,7 @@ incomparable_parse_archive <- function(archive_url) {
   entries <- archive_parsed %>%
     rvest::html_nodes(css = "#entry")
 
-  purrr::map_dfr(entries, ~{
+  purrr::map_dfr(entries, ~ {
     epnums <- .x %>%
       rvest::html_nodes(css = ".episode-number") %>%
       rvest::html_text() %>%
@@ -94,8 +93,10 @@ incomparable_parse_archive <- function(archive_url) {
       seconds = stringr::str_extract(duration, pattern = "\\d+(?=(\\sseconds))")
     )
 
-    duration <- purrr::map(duration, ~{
-      if (is.na(.x)) return(0)
+    duration <- purrr::map(duration, ~ {
+      if (is.na(.x)) {
+        return(0)
+      }
       as.numeric(.x)
     })
 
@@ -149,7 +150,6 @@ incomparable_parse_archive <- function(archive_url) {
       network = "The Incomparable"
     )
   })
-
 }
 
 #' Parse The Incomparable stats.txt files
@@ -166,7 +166,8 @@ incomparable_parse_archive <- function(archive_url) {
 #' }
 incomparable_parse_stats <- function(stats_url) {
   readr::read_delim(
-    stats_url, delim = ";", quote = "",
+    stats_url,
+    delim = ";", quote = "",
     col_names = c(
       "number", "date", "duration", "title", "host", "guest"
     ),
@@ -194,7 +195,7 @@ incomparable_get_episodes <- function(incomparable_shows) {
     total = nrow(incomparable_shows)
   )
 
-  incomparable_episodes <- purrr::pmap_dfr(incomparable_shows, ~{
+  incomparable_episodes <- purrr::pmap_dfr(incomparable_shows, ~ {
     pb$tick(tokens = list(show = ..1))
 
     archived <- incomparable_parse_archive(..3) %>%

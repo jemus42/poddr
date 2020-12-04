@@ -13,8 +13,8 @@
 #' }
 atp_parse_page <- function(page) {
   rvest::html_nodes(page, "article") %>%
-    purrr::map_dfr(~{
-      #browser()
+    purrr::map_dfr(~ {
+      # browser()
       meta <- rvest::html_node(.x, ".metadata") %>%
         rvest::html_text() %>%
         stringr::str_trim()
@@ -59,7 +59,7 @@ atp_parse_page <- function(page) {
         ),
         n_links = purrr::map_int(links, nrow)
       )
-  })
+    })
 }
 
 #' Get all ATP episodes
@@ -97,7 +97,8 @@ atp_get_episodes <- function() {
     pb$tick()
 
     atp_pages[[next_page_num]] <- polite::scrape(
-      session, query = list(page = next_page_num)
+      session,
+      query = list(page = next_page_num)
     )
 
     next_page_num <- atp_pages[[next_page_num]] %>%
@@ -111,9 +112,8 @@ atp_get_episodes <- function() {
     total = length(atp_pages)
   )
 
-  purrr::map_dfr(atp_pages, ~{
+  purrr::map_dfr(atp_pages, ~ {
     pb$tick()
     atp_parse_page(.x)
   })
 }
-

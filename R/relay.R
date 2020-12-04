@@ -109,13 +109,12 @@ relay_get_shows <- function(url = "https://www.relay.fm/shows") {
 #' relay <- relay_get_episodes(relay_get_shows())
 #' }
 relay_get_episodes <- function(relay_shows) {
-
   pb <- progress::progress_bar$new(
     format = "Getting :show [:bar] :current/:total (:percent) ETA: :eta",
     total = nrow(relay_shows)
   )
 
-  purrr::pmap_df(relay_shows, ~{
+  purrr::pmap_df(relay_shows, ~ {
     pb$tick(tokens = list(show = ..1))
     relay_parse_feed(..2)
   })
