@@ -191,10 +191,13 @@ incomparable_parse_stats <- function(stats_url) {
   ) %>%
     dplyr::mutate(
       duration = parse_duration(.data$duration),
-      date = lubridate::dmy(.data$date),
-      host = stringr::str_replace_all(.data$host, ",\\s*", ";"),
-      guest = stringr::str_replace_all(.data$guest, ",\\s*", ";")
-    )
+      date = lubridate::dmy(.data$date)#,
+      #host = stringr::str_replace_all(.data$host, ",\\s*", ";"),
+      #guest = stringr::str_replace_all(.data$guest, ",\\s*", ";")
+    ) %>%
+    dplyr::mutate(dplyr::across(c("host", "guest"), ~ {
+      stringr::str_replace_all(.x, "\\s*,\\s*", ";")
+    }))
 }
 
 #' Retrieve all episodes for The Incomparable shows
