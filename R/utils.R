@@ -64,7 +64,7 @@ label_n <- function(x, brackets = FALSE) {
 #' separated by `;`.
 #' @param people_cols For The Incomparable, use the default `c("host", "guest")`,
 #' for relay.fm, there's only a `"host"` column, which results in a somewhat
-#' redunant `"role"` column in the resulting output.
+#' redundant `"role"` column in the output.
 #'
 #' @return A tibble with new columns `"role"` and `"person"`, one row per person.
 #' @export

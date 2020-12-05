@@ -12,7 +12,7 @@ separated by \verb{;}.}
 
 \item{people_cols}{For The Incomparable, use the default \code{c("host", "guest")},
 for relay.fm, there's only a \code{"host"} column, which results in a somewhat
-redunant \code{"role"} column in the resulting output.}
+redundant \code{"role"} column in the output.}
 }
 \value{
 A tibble with new columns \code{"role"} and \code{"person"}, one row per person.
