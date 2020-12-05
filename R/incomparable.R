@@ -13,11 +13,11 @@ incomparable_get_shows <- function() {
     polite::scrape()
 
   shows <- show_index %>%
-    html_nodes("h3 a") %>%
-    html_text()
+    rvest::html_nodes("h3 a") %>%
+    rvest::html_text()
 
   show_partials <- show_index %>%
-    html_nodes("h3 a") %>%
+    rvest::html_nodes("h3 a") %>%
     rvest::html_attr("href") %>%
     stringr::str_replace_all("\\/", "")
 
