@@ -4,7 +4,13 @@
 \alias{atp_get_episodes}
 \title{Get all ATP episodes}
 \usage{
-atp_get_episodes()
+atp_get_episodes(page_limit = NULL)
+}
+\arguments{
+\item{page_limit}{Number of pages to scrape, from newest to oldest episode.
+Page 1 contains the 5 most recent episodes, and subsequent pages contain 50
+episodes per page. As of December 2020, there are 10 pages total.
+Pass \code{NULL} (default) to get all pages.}
 }
 \value{
 A tibble.
@@ -14,6 +20,6 @@ Get all ATP episodes
 }
 \examples{
 \dontrun{
-atp <- atp_get_episodes()
+atp <- atp_get_episodes(page_limit = 2)
 }
 }

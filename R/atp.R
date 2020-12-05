@@ -64,17 +64,30 @@ atp_parse_page <- function(page) {
 
 #' Get all ATP episodes
 #'
+#' @param page_limit Number of pages to scrape, from newest to oldest episode.
+#' Page 1 contains the 5 most recent episodes, and subsequent pages contain 50
+#' episodes per page. As of December 2020, there are 10 pages total.
+#' Pass `NULL` (default) to get all pages.
 #' @return A tibble.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' atp <- atp_get_episodes()
+#' atp <- atp_get_episodes(page_limit = 2)
 #' }
-atp_get_episodes <- function() {
+atp_get_episodes <- function(page_limit = NULL) {
+
+  if (is.null(page_limit)) page_limit <- Inf
+
   session <- polite::bow(url = "https://atp.fm")
 
   atp_pages <- list("1" = polite::scrape(session))
+
+  # Early return for first page only
+  if (page_limit == 1) {
+    atp_parse_page(atp_pages[[1]])
+  }
+
   next_page_num <- 2
 
   latest_ep_num <- atp_pages[[1]] %>%
@@ -93,7 +106,7 @@ atp_get_episodes <- function() {
   )
   pb$tick()
 
-  while (length(next_page_num) > 0) {
+  while (length(next_page_num) > 0 & next_page_num <= page_limit) {
     pb$tick()
 
     atp_pages[[next_page_num]] <- polite::scrape(
@@ -104,7 +117,8 @@ atp_get_episodes <- function() {
     next_page_num <- atp_pages[[next_page_num]] %>%
       rvest::html_nodes("#pagination a+ a") %>%
       rvest::html_attr("href") %>%
-      stringr::str_extract("\\d+$")
+      stringr::str_extract("\\d+$") %>%
+      as.numeric()
   }
 
   pb <- progress::progress_bar$new(
