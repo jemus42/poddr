@@ -81,6 +81,7 @@ gather_people <- function(episodes, people_cols = c("host", "guest")) {
       names_to = "role", values_to = "person"
     ) %>%
     tidyr::separate_rows(.data$person, sep = ";") %>%
+    dplyr::mutate(person = stringr::str_trim(person, side = "both")) %>%
     # hms gets converted to durations for some reason
     dplyr::mutate(dplyr::across(dplyr::any_of("duration"), hms::as_hms)) %>%
     dplyr::filter(!is.na(.data$person))
