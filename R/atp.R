@@ -86,17 +86,19 @@ atp_get_episodes <- function(page_limit = NULL) {
 
   if (is.null(page_limit)) page_limit <- Inf
 
+  # Get the first page and scrape it
   session <- polite::bow(url = "https://atp.fm")
 
   atp_pages <- list("1" = polite::scrape(session))
+  next_page_num <- 2
 
   # Early return for first page only
   if (page_limit == 1) {
     atp_parse_page(atp_pages[[1]])
   }
 
-  next_page_num <- 2
-
+  # Find out how many pages there will be in total
+  # purely for progress bar cosmetics.
   latest_ep_num <- atp_pages[[1]] %>%
     rvest::html_nodes("h2 a") %>%
     rvest::html_text() %>%
@@ -113,7 +115,9 @@ atp_get_episodes <- function(page_limit = NULL) {
   )
   pb$tick()
 
-  while (length(next_page_num) > 0 & next_page_num <= page_limit) {
+  # Iteratively get the next page until the limit is reached
+  # (or of there's no next page to retrieve)
+  while (next_page_num <= page_limit) {
     pb$tick()
 
     atp_pages[[next_page_num]] <- polite::scrape(
@@ -121,15 +125,18 @@ atp_get_episodes <- function(page_limit = NULL) {
       query = list(page = next_page_num)
     )
 
+    # Find the next page number
     next_page_num <- atp_pages[[next_page_num]] %>%
       rvest::html_nodes("#pagination a+ a") %>%
       rvest::html_attr("href") %>%
       stringr::str_extract("\\d+$") %>%
       as.numeric()
 
+    # Break the loop if there's no next page
     if (length(next_page_num) == 0) break
   }
 
+  # Now parse all the pages and return
   pb <- progress::progress_bar$new(
     format = "Parsing pages [:bar] :current/:total (:percent) ETA: :eta",
     total = length(atp_pages)
