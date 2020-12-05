@@ -152,7 +152,8 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>cache_podcast_data</span><span class='op'>(</span><span class='va'>incomparable_episodes</span><span class='op'>)</span>
+<span class='va'>atp_new</span> <span class='op'>&lt;-</span> <span class='fu'><a href='atp_get_episodes.html'>atp_get_episodes</a></span><span class='op'>(</span>page_limit <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>cache_podcast_data</span><span class='op'>(</span><span class='va'>atp_new</span>, csv <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
