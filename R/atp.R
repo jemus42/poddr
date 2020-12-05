@@ -14,7 +14,6 @@
 atp_parse_page <- function(page) {
   rvest::html_nodes(page, "article") %>%
     purrr::map_dfr(~ {
-      # browser()
       meta <- rvest::html_node(.x, ".metadata") %>%
         rvest::html_text() %>%
         stringr::str_trim()
@@ -37,12 +36,41 @@ atp_parse_page <- function(page) {
         rvest::html_text() %>%
         stringr::str_remove("^\\d+:\\s")
 
-      link_text <- rvest::html_nodes(.x, "li a") %>%
+      # Get the sponsor links
+      link_text_sponsor <- .x %>%
+        rvest::html_nodes("ul~ ul li") %>%
+        rvest::html_nodes("a") %>%
         rvest::html_text()
 
-      link_url <- rvest::html_nodes(.x, "li a") %>%
+      link_href_sponsor <- .x %>%
+        rvest::html_nodes("ul~ ul li") %>%
+        rvest::html_nodes("a") %>%
         rvest::html_attr("href")
 
+      links_sponsor <- tibble(
+        link_text = link_text_sponsor,
+        link_url = link_href_sponsor,
+        type = "Sponsor"
+      )
+
+      # Get the regular shownotes links
+      link_text <- .x %>%
+        rvest::html_nodes(".subtitle+ ul li , li a") %>%
+        rvest::html_nodes("li a") %>%
+        rvest::html_text()
+
+      link_href <- .x %>%
+        rvest::html_nodes(".subtitle+ ul li , li a") %>%
+        rvest::html_nodes("li a") %>%
+        rvest::html_attr("href")
+
+      links_regular <- tibble(
+        link_text = link_text,
+        link_url = link_href,
+        link_type = "Shownotes"
+      )
+
+      # Piece it all together
       tibble(
         number = number,
         title = title,
@@ -51,12 +79,7 @@ atp_parse_page <- function(page) {
         year = lubridate::year(date),
         month = lubridate::month(date, abbr = FALSE, label = TRUE),
         weekday = lubridate::wday(date, abbr = FALSE, label = TRUE),
-        links = list(
-          tibble(
-            link_text = link_text,
-            link_url = link_url
-          )
-        ),
+        links = list(dplyr::bind_rows(links_regular, links_sponsor)),
         n_links = purrr::map_int(links, nrow)
       )
     })
