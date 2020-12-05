@@ -11,7 +11,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  cache = TRUE
 )
 ```
 
@@ -35,40 +36,51 @@ remotes::install_github("jemus42/poddr")
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example, cache=TRUE}
+```{r setup}
 library(dplyr, warn.conflicts = FALSE)
 library(poddr)
-
-relay_shows <- relay_get_shows()
-incomparable_shows <- incomparable_get_shows()
-
-head(relay_shows)
-head(incomparable_shows)
 ```
 
-## Getting episodes
+### The Incomparable
 
-```{r example2, cache=TRUE}
-relay_episodes <- relay_shows %>%
-  filter(show %in% c("The Prompt", "Connected")) %>%
-  relay_get_episodes()
-
-head(relay_episodes)
+```{r incomparable}
+incomparable_shows <- incomparable_get_shows()
+incomparable_shows
 
 incomparable_episodes <- incomparable_shows %>%
   filter(show %in% c("Unjustly Maligned", "A Legitimate Salvage")) %>%
   incomparable_get_episodes()
 
-head(incomparable_episodes)
-
-atp <- atp_get_episodes()
-
-head(atp)
+incomparable_episodes
 ```
 
 
+### Relay.fm
 
-```{r example3, cache=TRUE}
+```{r relay}
+relay_shows <- relay_get_shows()
+relay_shows
+
+relay_episodes <- relay_shows %>%
+  filter(show %in% c("The Prompt", "Connected")) %>%
+  relay_get_episodes()
+
+relay_episodes
+```
+
+
+### ATP
+
+Only get the first page (5 episodes)
+
+```{r atp}
+atp <- atp_get_episodes(page_limit = 1)
+atp
+```
+
+### For all the nice people
+
+```{r gathering}
 incomparable_episodes %>%
   gather_people() %>%
   select(show, number, person, role)
