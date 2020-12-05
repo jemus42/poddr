@@ -65,16 +65,16 @@ incomparable_episodes
 #> # A tibble: 116 x 14
 #>    show  number title duration date        year month weekday host  guest
 #>    <chr> <chr>  <chr> <time>   <date>     <dbl> <ord> <ord>   <chr> <chr>
-#>  1 A Le… 28     “Cib… 51'12"   2020-05-13  2020 May   Wednes… Chip… Warr…
-#>  2 A Le… 27     “Sae… 32'13"   2020-04-27  2020 April Monday  Chip… Warr…
-#>  3 A Le… 26     “The… 44'32"   2020-04-14  2020 April Tuesday Chip… Warr…
-#>  4 A Le… 25     “A S… 35'48"   2020-03-18  2020 March Wednes… Kayt… Warr…
-#>  5 A Le… 24     “Dis… 31'56"   2020-03-02  2020 March Monday  Chip… Warr…
-#>  6 A Le… 23     “Opp… 41'49"   2020-02-10  2020 Febr… Monday  Jen … Warr…
-#>  7 A Le… 22     “Ret… 32'16"   2020-01-23  2020 Janu… Thursd… Chip… Warr…
-#>  8 A Le… 21     “Sub… 27'13"   2020-01-18  2020 Janu… Saturd… Chip… Warr…
-#>  9 A Le… 20     “Jet… 45'26"   2020-01-02  2020 Janu… Thursd… Jen … Kayt…
-#> 10 A Le… 19     “New… 40'27"   2019-12-22  2019 Dece… Sunday  Chip… Warr…
+#>  1 A Le… 28     "\"C… 51'12"   2020-05-14  2020 May   Wednes… Chip… <NA> 
+#>  2 A Le… 27     "\"S… 32'13"   2020-04-27  2020 April Monday  Chip… <NA> 
+#>  3 A Le… 26     "\"T… 44'32"   2020-04-15  2020 April Tuesday Chip… <NA> 
+#>  4 A Le… 25     "\"A… 35'48"   2020-03-19  2020 March Wednes… Kayt… <NA> 
+#>  5 A Le… 24     "\"D… 31'56"   2020-03-03  2020 March Monday  Chip… <NA> 
+#>  6 A Le… 23     "\"O… 41'49"   2020-02-11  2020 Febr… Monday  Jen … <NA> 
+#>  7 A Le… 22     "\"R… 32'16"   2020-01-24  2020 Janu… Thursd… Chip… <NA> 
+#>  8 A Le… 21     "\"S… 27'13"   2020-01-19  2020 Janu… Saturd… Chip… <NA> 
+#>  9 A Le… 20     "\"J… 45'26"   2020-01-03  2020 Janu… Thursd… Jen … <NA> 
+#> 10 A Le… 19     "\"N… 40'27"   2019-12-23  2019 Dece… Sunday  Chip… <NA> 
 #> # … with 106 more rows, and 4 more variables: category <lgl>, topic <chr>,
 #> #   summary <chr>, network <chr>
 ```
@@ -180,20 +180,20 @@ case.
 incomparable_episodes %>%
   gather_people() %>%
   select(show, number, person, role)
-#> # A tibble: 276 x 4
+#> # A tibble: 275 x 4
 #>    show                 number person        role 
 #>    <chr>                <chr>  <chr>         <chr>
 #>  1 A Legitimate Salvage 28     Chip Sudderth host 
-#>  2 A Legitimate Salvage 28     Warren Frey   guest
-#>  3 A Legitimate Salvage 28     Kayti Burt    guest
-#>  4 A Legitimate Salvage 28     Jen Burt      guest
+#>  2 A Legitimate Salvage 28     Warren Frey   host 
+#>  3 A Legitimate Salvage 28     Kayti Burt    host 
+#>  4 A Legitimate Salvage 28     Jen Burt      host 
 #>  5 A Legitimate Salvage 27     Chip Sudderth host 
-#>  6 A Legitimate Salvage 27     Warren Frey   guest
-#>  7 A Legitimate Salvage 27     Kayti Burt    guest
-#>  8 A Legitimate Salvage 27     Jen Burt      guest
+#>  6 A Legitimate Salvage 27     Warren Frey   host 
+#>  7 A Legitimate Salvage 27     Kayti Burt    host 
+#>  8 A Legitimate Salvage 27     Jen Burt      host 
 #>  9 A Legitimate Salvage 26     Chip Sudderth host 
-#> 10 A Legitimate Salvage 26     Warren Frey   guest
-#> # … with 266 more rows
+#> 10 A Legitimate Salvage 26     Warren Frey   host 
+#> # … with 265 more rows
 
 relay_episodes %>%
   gather_people(people_cols = "host") %>%
