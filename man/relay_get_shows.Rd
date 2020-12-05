@@ -2,18 +2,17 @@
 % Please edit documentation in R/relay.R
 \name{relay_get_shows}
 \alias{relay_get_shows}
-\title{Collect all relay.fm shows}
+\title{Retrieve all relay.fm shows}
 \usage{
-relay_get_shows(url = "https://www.relay.fm/shows")
-}
-\arguments{
-\item{url}{Show overview page: \code{"https://www.relay.fm/shows"}.}
+relay_get_shows()
 }
 \value{
 A tibble with one row for each show
 }
 \description{
-Collect all relay.fm shows
+Parses the show overview page and returns a tibble of show names
+with corresponding feed URLs, which in turn can then be passed to
+\code{relay_parse_feed()} individually.
 }
 \examples{
 \dontrun{

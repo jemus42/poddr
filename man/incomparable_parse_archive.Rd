@@ -7,13 +7,17 @@
 incomparable_parse_archive(archive_url)
 }
 \arguments{
-\item{archive_url}{E.g. \code{"https://www.theincomparable.com/theincomparable/archive/"}.}
+\item{archive_url}{E.g.
+\code{"https://www.theincomparable.com/theincomparable/archive/"}.}
 }
 \value{
 A tibble.
 }
 \description{
-Parse a show's archive page on The Incomparable website
+Retrieves all episodes for one or more shows passed as a tibble.
+The archive page \emph{does not} include full duration information, as it is
+limited to hours and minutes. Use \code{incomparable_parse_stats()} for
+accurate episode durations.
 }
 \examples{
 \dontrun{

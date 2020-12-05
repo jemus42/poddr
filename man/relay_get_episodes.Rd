@@ -2,7 +2,7 @@
 % Please edit documentation in R/relay.R
 \name{relay_get_episodes}
 \alias{relay_get_episodes}
-\title{Collect all relay.fm shows}
+\title{Retrieve all episodes for relay.fm shows}
 \usage{
 relay_get_episodes(relay_shows)
 }
@@ -13,7 +13,7 @@ relay_get_episodes(relay_shows)
 A tibble.
 }
 \description{
-Collect all relay.fm shows
+Retrieves all episodes for one or more shows passed as a tibble.
 }
 \examples{
 \dontrun{

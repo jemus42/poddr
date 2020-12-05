@@ -1,5 +1,8 @@
-#' Get The Incomparable shows
+#' Retrieve all The Incomparable shows
 #'
+#' Parses the show overview page and returns a tibble of show names
+#' with corresponding URLs, which in turn can then be passed to
+#' `incomparable_parse_archive()` and `incomparable_parse_stats()` individually.
 #' @return A tibble.
 #' @export
 #'
@@ -31,7 +34,12 @@ incomparable_get_shows <- function() {
 
 #' Parse a show's archive page on The Incomparable website
 #'
-#' @param archive_url E.g. `"https://www.theincomparable.com/theincomparable/archive/"`.
+#' Retrieves all episodes for one or more shows passed as a tibble.
+#' The archive page *does not* include full duration information, as it is
+#' limited to hours and minutes. Use `incomparable_parse_stats()` for
+#' accurate episode durations.
+#' @param archive_url E.g.
+#' `"https://www.theincomparable.com/theincomparable/archive/"`.
 #'
 #' @return A tibble.
 #' @export
@@ -154,7 +162,14 @@ incomparable_parse_archive <- function(archive_url) {
 
 #' Parse The Incomparable stats.txt files
 #'
-#' @param stats_url URL to the `stats.txt`.
+#' The `stats.txt` files have a slightly different format, especially the
+#' host/guest information may differ from what is returned by
+#' `incomparable_parse_archive()`, which implicitly assumes the first person
+#' mentioned to be the host of the episode. However, this data source
+#' does not include podcast subcategories (e.g. "Old Movie Club") or
+#' topic information, which is only available on the archive page.
+#' @param stats_url URL to the `stats.txt`, e.g.
+#' `"https://www.theincomparable.com/salvage/stats.txt"`.
 #'
 #' @return A tibble.
 #' @export
@@ -180,9 +195,14 @@ incomparable_parse_stats <- function(stats_url) {
 
 #' Get all The Incomparable shows
 #'
-#' @param incomparable_shows Dataset of shows with title and URLs
+#' This combines `incomparable_parse_stats()` and `incomparable_parse_archive()`
+#' to retrieve full episode information including host/guest, durations
+#' including seconds, podcast subcategories and topics.
+#' Use sparingly to limit unecessarily hammering the poor webserver!
+#' @param incomparable_shows Dataset of shows with title and URLs as returned by
+#' `incomparable_get_shows()`.
 #'
-#' @return A tibble.
+#' @return A tibble with one row per episode.
 #' @export
 #'
 #' @examples

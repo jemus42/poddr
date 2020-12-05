@@ -13,7 +13,7 @@ relay_parse_feed(url)
 A tibble.
 }
 \description{
-Parse a relay.fm show feed
+Parses a single feed and returns its content as a tibble.
 }
 \examples{
 \dontrun{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/incomparable.R
 \name{incomparable_get_shows}
 \alias{incomparable_get_shows}
-\title{Get The Incomparable shows}
+\title{Retrieve all The Incomparable shows}
 \usage{
 incomparable_get_shows()
 }
@@ -10,7 +10,9 @@ incomparable_get_shows()
 A tibble.
 }
 \description{
-Get The Incomparable shows
+Parses the show overview page and returns a tibble of show names
+with corresponding URLs, which in turn can then be passed to
+\code{incomparable_parse_archive()} and \code{incomparable_parse_stats()} individually.
 }
 \examples{
 \dontrun{

@@ -1,5 +1,6 @@
 #' Parse a relay.fm show feed
 #'
+#' Parses a single feed and returns its content as a tibble.
 #' @param url A show's feed URL, e.g. `"https://www.relay.fm/ungeniused/feed"`.
 #'
 #' @return A tibble.
@@ -62,9 +63,11 @@ relay_parse_feed <- function(url) {
   )
 }
 
-#' Collect all relay.fm shows
+#' Retrieve all relay.fm shows
 #'
-#' @param url Show overview page: `"https://www.relay.fm/shows"`.
+#' Parses the show overview page and returns a tibble of show names
+#' with corresponding feed URLs, which in turn can then be passed to
+#' `relay_parse_feed()` individually.
 #'
 #' @return A tibble with one row for each show
 #' @export
@@ -73,7 +76,9 @@ relay_parse_feed <- function(url) {
 #' \dontrun{
 #' relay_get_shows()
 #' }
-relay_get_shows <- function(url = "https://www.relay.fm/shows") {
+relay_get_shows <- function() {
+  url <- "https://www.relay.fm/shows"
+
   relay_shows <- polite::bow(url) %>%
     polite::scrape()
 
@@ -97,8 +102,9 @@ relay_get_shows <- function(url = "https://www.relay.fm/shows") {
   )
 }
 
-#' Collect all relay.fm shows
+#' Retrieve all episodes for relay.fm shows
 #'
+#' Retrieves all episodes for one or more shows passed as a tibble.
 #' @param relay_shows A tibble of shows, from `relay_get_shows()`.
 #'
 #' @return A tibble.

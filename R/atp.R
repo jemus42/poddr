@@ -62,7 +62,7 @@ atp_parse_page <- function(page) {
     })
 }
 
-#' Get all ATP episodes
+#' Retrieve ATP episodes
 #'
 #' @param page_limit Number of pages to scrape, from newest to oldest episode.
 #' Page 1 contains the 5 most recent episodes, and subsequent pages contain 50

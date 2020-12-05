@@ -2,7 +2,7 @@
 % Please edit documentation in R/atp.R
 \name{atp_get_episodes}
 \alias{atp_get_episodes}
-\title{Get all ATP episodes}
+\title{Retrieve ATP episodes}
 \usage{
 atp_get_episodes(page_limit = NULL)
 }
@@ -16,7 +16,7 @@ Pass \code{NULL} (default) to get all pages.}
 A tibble.
 }
 \description{
-Get all ATP episodes
+Retrieve ATP episodes
 }
 \examples{
 \dontrun{

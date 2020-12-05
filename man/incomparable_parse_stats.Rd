@@ -7,13 +7,19 @@
 incomparable_parse_stats(stats_url)
 }
 \arguments{
-\item{stats_url}{URL to the \code{stats.txt}.}
+\item{stats_url}{URL to the \code{stats.txt}, e.g.
+\code{"https://www.theincomparable.com/salvage/stats.txt"}.}
 }
 \value{
 A tibble.
 }
 \description{
-Parse The Incomparable stats.txt files
+The \code{stats.txt} files have a slightly different format, especially the
+host/guest information may differ from what is returned by
+\code{incomparable_parse_archive()}, which implicitly assumes the first person
+mentioned to be the host of the episode. However, this data source
+does not include podcast subcategories (e.g. "Old Movie Club") or
+topic information, which is only available on the archive page.
 }
 \examples{
 \dontrun{

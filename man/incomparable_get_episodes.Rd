@@ -7,13 +7,17 @@
 incomparable_get_episodes(incomparable_shows)
 }
 \arguments{
-\item{incomparable_shows}{Dataset of shows with title and URLs}
+\item{incomparable_shows}{Dataset of shows with title and URLs as returned by
+\code{incomparable_get_shows()}.}
 }
 \value{
-A tibble.
+A tibble with one row per episode.
 }
 \description{
-Get all The Incomparable shows
+This combines \code{incomparable_parse_stats()} and \code{incomparable_parse_archive()}
+to retrieve full episode information including host/guest, durations
+including seconds, podcast subcategories and topics.
+Use sparingly to limit unecessarily hammering the poor webserver!
 }
 \examples{
 \dontrun{
