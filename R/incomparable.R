@@ -222,6 +222,11 @@ incomparable_get_episodes <- function(incomparable_shows) {
   incomparable_episodes <- purrr::pmap_dfr(incomparable_shows, ~ {
     pb$tick(tokens = list(show = ..1))
 
+    # Get the archive info, but drop duration (only HH:MM), and the
+    # slightly wonky host/guest info. Also, date is off, compared to
+    # stats.txt info, so not sure what to prefer
+    # Also drop title because it uses different quotes than stats.txt,
+    # which makes joining with stats.txt data weirder.
     archived <- incomparable_parse_archive(..3) %>%
       dplyr::mutate(show = ..1) %>%
       dplyr::select(-c("duration", "title", "host", "guest", "date"))

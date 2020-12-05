@@ -1,3 +1,42 @@
+#' Retrieve all relay.fm shows
+#'
+#' Parses the show overview page and returns a tibble of show names
+#' with corresponding feed URLs, which in turn can then be passed to
+#' `relay_parse_feed()` individually.
+#'
+#' @return A tibble with one row for each show
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' relay_get_shows()
+#' }
+relay_get_shows <- function() {
+  url <- "https://www.relay.fm/shows"
+
+  relay_shows <- polite::bow(url) %>%
+    polite::scrape()
+
+  shows <- relay_shows %>%
+    rvest::html_nodes(".broadcast__name a") %>%
+    rvest::html_text()
+
+  feed_urls <- relay_shows %>%
+    rvest::html_nodes(".broadcast__name a") %>%
+    rvest::html_attr("href") %>%
+    stringr::str_c("https://www.relay.fm", ., "/feed")
+
+  retired_shows <- relay_shows %>%
+    rvest::html_nodes(".subheader~ .entry .broadcast__name a") %>%
+    rvest::html_text()
+
+  tibble(
+    show = shows,
+    feed_url = feed_urls,
+    show_status = ifelse(shows %in% retired_shows, "Retired", "Active")
+  )
+}
+
 #' Parse a relay.fm show feed
 #'
 #' Parses a single feed and returns its content as a tibble.
@@ -60,45 +99,6 @@ relay_parse_feed <- function(url) {
     weekday = lubridate::wday(date, abbr = FALSE, label = TRUE),
     host = people,
     network = "relay.fm"
-  )
-}
-
-#' Retrieve all relay.fm shows
-#'
-#' Parses the show overview page and returns a tibble of show names
-#' with corresponding feed URLs, which in turn can then be passed to
-#' `relay_parse_feed()` individually.
-#'
-#' @return A tibble with one row for each show
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' relay_get_shows()
-#' }
-relay_get_shows <- function() {
-  url <- "https://www.relay.fm/shows"
-
-  relay_shows <- polite::bow(url) %>%
-    polite::scrape()
-
-  shows <- relay_shows %>%
-    rvest::html_nodes(".broadcast__name a") %>%
-    rvest::html_text()
-
-  feed_urls <- relay_shows %>%
-    rvest::html_nodes(".broadcast__name a") %>%
-    rvest::html_attr("href") %>%
-    stringr::str_c("https://www.relay.fm", ., "/feed")
-
-  retired_shows <- relay_shows %>%
-    rvest::html_nodes(".subheader~ .entry .broadcast__name a") %>%
-    rvest::html_text()
-
-  tibble(
-    show = shows,
-    feed_url = feed_urls,
-    show_status = ifelse(shows %in% retired_shows, "Retired", "Active")
   )
 }
 
