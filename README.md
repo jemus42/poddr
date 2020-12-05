@@ -23,7 +23,7 @@ remotes::install_github("jemus42/poddr")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Here’s the bulk of what’s inside the tin:
 
 ``` r
 library(dplyr, warn.conflicts = FALSE)
@@ -31,6 +31,13 @@ library(poddr)
 ```
 
 ### The Incomparable
+
+The basic workfflow is simple:
+
+1.  Get a list of all the shows on the network, including the relevant
+    URLs for further parsing.
+2.  Get all the episodes of the shows selected. To not bother the
+    webserver too much, I’m limiting the selection to two shows.
 
 ``` r
 incomparable_shows <- incomparable_get_shows()
@@ -74,6 +81,8 @@ incomparable_episodes
 
 ### Relay.fm
 
+Same procedure as before, also with two shows.
+
 ``` r
 relay_shows <- relay_get_shows()
 relay_shows
@@ -115,7 +124,12 @@ relay_episodes
 
 ### ATP
 
-Only get the first page (5 episodes)
+Since there’s only one show, there’s no reason to select one
+specifically, obviously. However, the website doesn’t show a list of
+*all* episodes on one page, so we’ll have to either parse all pages
+(there’s currently 10 total as of December 2020), or select a limit,
+like `1`, to only get episodes from the first page. The first page shows
+the 5 most recent episodes, and subsequent pages show 50 episodes each.
 
 ``` r
 atp <- atp_get_episodes(page_limit = 1)
@@ -124,13 +138,43 @@ atp
 #>   number title         duration date        year month  weekday links    n_links
 #>   <chr>  <chr>         <time>   <date>     <dbl> <ord>  <ord>   <list>     <int>
 #> 1 407    It Isn't a B… 01:49:53 2020-12-03  2020 Decem… Thursd… <tibble…      24
-#> 2 406    A Bomb on Yo… 02:36:18 2020-11-25  2020 Novem… Wednes… <tibble…      33
-#> 3 405    The Benevole… 01:57:06 2020-11-18  2020 Novem… Wednes… <tibble…      29
-#> 4 404    With Four Ha… 02:43:45 2020-11-11  2020 Novem… Wednes… <tibble…      31
-#> 5 403    A VCR for th… 02:05:10 2020-11-05  2020 Novem… Thursd… <tibble…      38
+#> 2 406    A Bomb on Yo… 02:36:18 2020-11-25  2020 Novem… Wednes… <tibble…      32
+#> 3 405    The Benevole… 01:57:06 2020-11-18  2020 Novem… Wednes… <tibble…      28
+#> 4 404    With Four Ha… 02:43:45 2020-11-11  2020 Novem… Wednes… <tibble…      30
+#> 5 403    A VCR for th… 02:05:10 2020-11-05  2020 Novem… Thursd… <tibble…      33
+
+# Looking at the links
+atp %>%
+  tidyr::unnest(links) %>%
+  select(number, title, link_text, link_url, link_type)
+#> # A tibble: 147 x 5
+#>    number title       link_text            link_url                    link_type
+#>    <chr>  <chr>       <chr>                <chr>                       <chr>    
+#>  1 407    It Isn't a… here                 https://www.icloud.com/set… Shownotes
+#>  2 407    It Isn't a… Ryan Fegley          https://twitter.com/ryanfe… Shownotes
+#>  3 407    It Isn't a… probably just uses … https://machinelearning.ap… Shownotes
+#>  4 407    It Isn't a… @hishnash            https://twitter.com/hishna… Shownotes
+#>  5 407    It Isn't a… Die size spreadsheet https://docs.google.com/sp… Shownotes
+#>  6 407    It Isn't a… Cerebras             https://www.cerebras.net/   Shownotes
+#>  7 407    It Isn't a… Memory interface ba… https://en.wikipedia.org/w… Shownotes
+#>  8 407    It Isn't a… TMSC Achieves Break… https://www.techpowerup.co… Shownotes
+#>  9 407    It Isn't a… What is “risk produ… https://news.ycombinator.c… Shownotes
+#> 10 407    It Isn't a… virtualizes ARM Win… https://the8-bit.com/devel… Shownotes
+#> # … with 137 more rows
 ```
 
 ### For all the nice people
+
+The regular episode data contains one row per episode, with associated
+people in a single cell with names separated by `;`. In some cases we’re
+interested in per-person data, for example the total number of
+appearances of a person on The Incomparable mothership, so we’ll longify
+the data with a helper function that performs the
+`tidyr::pivot_longer()` and `tidyr::separate_rows()` steps consistently.
+
+Note that relay.fm data only includes “hosts”, as there’s no separate
+guest information, so the host/guest distinction is redundant in that
+case.
 
 ``` r
 incomparable_episodes %>%

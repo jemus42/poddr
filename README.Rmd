@@ -34,7 +34,7 @@ remotes::install_github("jemus42/poddr")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Here's the bulk of what's inside the tin:
 
 ```{r setup}
 library(dplyr, warn.conflicts = FALSE)
@@ -42,6 +42,11 @@ library(poddr)
 ```
 
 ### The Incomparable
+
+The basic workfflow is simple: 
+
+1. Get a list of all the shows on the network, including the relevant URLs for further parsing.
+2. Get all the episodes of the shows selected. To not bother the webserver too much, I'm limiting the selection to two shows.
 
 ```{r incomparable}
 incomparable_shows <- incomparable_get_shows()
@@ -57,6 +62,8 @@ incomparable_episodes
 
 ### Relay.fm
 
+Same procedure as before, also with two shows.
+
 ```{r relay}
 relay_shows <- relay_get_shows()
 relay_shows
@@ -71,14 +78,24 @@ relay_episodes
 
 ### ATP
 
-Only get the first page (5 episodes)
+Since there's only one show, there's no reason to select one specifically, obviously. However, the website doesn't show a list of *all* episodes on one page, so we'll have to either parse all pages (there's currently 10 total as of December 2020), or select a limit, like `1`, to only get episodes from the first page.
+The first page shows the 5 most recent episodes, and subsequent pages show 50 episodes each.
 
 ```{r atp}
 atp <- atp_get_episodes(page_limit = 1)
 atp
+
+# Looking at the links
+atp %>%
+  tidyr::unnest(links) %>%
+  select(number, title, link_text, link_url, link_type)
 ```
 
 ### For all the nice people
+
+The regular episode data contains one row per episode, with associated people in a single cell with names separated by `;`. In some cases we're interested in per-person data, for example the total number of appearances of a person on The Incomparable mothership, so we'll longify the data with a helper function that performs the `tidyr::pivot_longer()` and `tidyr::separate_rows()` steps consistently.
+
+Note that relay.fm data only includes "hosts", as there's no separate guest information, so the host/guest distinction is redundant in that case.
 
 ```{r gathering}
 incomparable_episodes %>%
