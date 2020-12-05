@@ -1,0 +1,54 @@
+development:
+  mode: auto
+  destination: "."
+
+url: https://jemus42.github.io/poddr
+
+home:
+  title: Get data from some of your favorite podcasts.
+  description: >
+    Parse / scrape the websites and feeds of The Incomparable, relay.fm
+    and ATP. Just because it can be done.
+
+template:
+  params:
+    bootswatch: cosmo
+  opengraph:
+    twitter:
+      creator: "@jemus42"
+      card: summary_large_image
+
+authors:
+  Lukas Burk:
+    href: https://blog.jemu.name
+
+news:
+  one_page: true
+  cran_dates: false
+
+reference:
+  - title: Collecting data
+    desc: ""
+  - subtitle: The Incomparable
+    desc: ""
+    contents:
+      - starts_with("incomparable")
+  - subtitle: relay.fm
+    desc: ""
+    contents:
+      - starts_with("relay")
+  - subtitle: ATP
+    desc: ""
+    contents:
+      - starts_with("atp")
+  - title: Utilities
+    desc: >
+      These functions are basic building blocks – you don't have to use them directly.
+    contents:
+      - gather_people
+      - cache_podcast_data
+      - label_n
+      - parse_duration
+  - title: This package
+    contents:
+      - poddr
