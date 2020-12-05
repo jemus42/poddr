@@ -202,7 +202,7 @@ incomparable_parse_stats <- function(stats_url) {
 #' This combines `incomparable_parse_stats()` and `incomparable_parse_archive()`
 #' to retrieve full episode information including host/guest, durations
 #' including seconds, podcast subcategories and topics.
-#' Use sparingly to limit unecessarily hammering the poor webserver!
+#' Use sparingly to limit unnecessarily hammering the poor webserver!
 #' @param incomparable_shows Dataset of shows with title and URLs as returned by
 #' `incomparable_get_shows()`.
 #'

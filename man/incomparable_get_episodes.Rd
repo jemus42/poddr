@@ -17,7 +17,7 @@ A tibble with one row per episode.
 This combines \code{incomparable_parse_stats()} and \code{incomparable_parse_archive()}
 to retrieve full episode information including host/guest, durations
 including seconds, podcast subcategories and topics.
-Use sparingly to limit unecessarily hammering the poor webserver!
+Use sparingly to limit unnecessarily hammering the poor webserver!
 }
 \examples{
 \dontrun{
