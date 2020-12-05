@@ -73,7 +73,14 @@ atp_parse_page <- function(page) {
 #'
 #' @examples
 #' \dontrun{
-#' atp <- atp_get_episodes(page_limit = 2)
+#' # Only the first page with the newest 5 episodes
+#' atp_new <- atp_get_episodes(page_limit = 1)
+#'
+#' # The latest and then 50 more
+#' atp_latest <- atp_get_episodes(page_limit = 2)
+#'
+#' # Get all episodes (use wisely)
+#' atp_full <- atp_get_episodes()
 #' }
 atp_get_episodes <- function(page_limit = NULL) {
 
@@ -119,6 +126,8 @@ atp_get_episodes <- function(page_limit = NULL) {
       rvest::html_attr("href") %>%
       stringr::str_extract("\\d+$") %>%
       as.numeric()
+
+    if (length(next_page_num) == 0) break
   }
 
   pb <- progress::progress_bar$new(

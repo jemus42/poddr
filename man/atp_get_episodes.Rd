@@ -20,6 +20,13 @@ Retrieve ATP episodes
 }
 \examples{
 \dontrun{
-atp <- atp_get_episodes(page_limit = 2)
+# Only the first page with the newest 5 episodes
+atp_new <- atp_get_episodes(page_limit = 1)
+
+# The latest and then 50 more
+atp_latest <- atp_get_episodes(page_limit = 2)
+
+# Get all episodes (use wisely)
+atp_full <- atp_get_episodes()
 }
 }
