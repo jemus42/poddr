@@ -84,29 +84,117 @@
 <a href="#example" class="anchor"></a>Example</h2>
 <p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">poddr</span><span class="op">)</span>
 
 <span class="va">relay_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/relay_get_shows.html">relay_get_shows</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">incomparable_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/incomparable_get_shows.html">incomparable_get_shows</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">relay_shows</span><span class="op">)</span>
-<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">incomparable_shows</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">relay_shows</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 3</span>
+<span class="co">#&gt;   show             feed_url                             show_status</span>
+<span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;                                &lt;chr&gt;      </span>
+<span class="co">#&gt; 1 20 Macs for 2020 https://www.relay.fm/20macs/feed     Active     </span>
+<span class="co">#&gt; 2 Adapt            https://www.relay.fm/adapt/feed      Active     </span>
+<span class="co">#&gt; 3 Analog(ue)       https://www.relay.fm/analogue/feed   Active     </span>
+<span class="co">#&gt; 4 Automators       https://www.relay.fm/automators/feed Active     </span>
+<span class="co">#&gt; 5 BONANZA          https://www.relay.fm/bonanza/feed    Active     </span>
+<span class="co">#&gt; 6 B-Sides          https://www.relay.fm/b-sides/feed    Active</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">incomparable_shows</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 3</span>
+<span class="co">#&gt;   show          stats_url                        archive_url                    </span>
+<span class="co">#&gt;   &lt;chr&gt;         &lt;glue&gt;                           &lt;glue&gt;                         </span>
+<span class="co">#&gt; 1 A Legitimate… https://www.theincomparable.com… https://www.theincomparable.co…</span>
+<span class="co">#&gt; 2 Afoot         https://www.theincomparable.com… https://www.theincomparable.co…</span>
+<span class="co">#&gt; 3 Agents of SM… https://www.theincomparable.com… https://www.theincomparable.co…</span>
+<span class="co">#&gt; 4 Batman Unive… https://www.theincomparable.com… https://www.theincomparable.co…</span>
+<span class="co">#&gt; 5 Bear Left (R… https://www.theincomparable.com… https://www.theincomparable.co…</span>
+<span class="co">#&gt; 6 Beginner's P… https://www.theincomparable.com… https://www.theincomparable.co…</span></code></pre></div>
+</div>
+<div id="getting-episodes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#getting-episodes" class="anchor"></a>Getting episodes</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">relay_episodes</span> <span class="op">&lt;-</span> <span class="va">relay_shows</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"The Prompt"</span>, <span class="st">"Connected"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/relay_get_episodes.html">relay_get_episodes</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># Getting episodes</span>
-<span class="va">relay_episodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/relay_get_episodes.html">relay_get_episodes</a></span><span class="op">(</span><span class="va">relay_shows</span><span class="op">)</span>
-<span class="va">incomparable_episodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/incomparable_get_episodes.html">incomparable_get_episodes</a></span><span class="op">(</span><span class="va">incomparable_shows</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">relay_episodes</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 10</span>
+<span class="co">#&gt;   show   number title   duration date        year month weekday host     network</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt;    &lt;chr&gt;  </span>
+<span class="co">#&gt; 1 Conne… 323    Artisa… 01:43:44 2020-12-02  2020 Dece… Wednes… Federic… relay.…</span>
+<span class="co">#&gt; 2 Conne… 322    ismh@h… 01:39:06 2020-11-25  2020 Nove… Wednes… Federic… relay.…</span>
+<span class="co">#&gt; 3 Conne… 321    Friend… 02:11:32 2020-11-19  2020 Nove… Thursd… Federic… relay.…</span>
+<span class="co">#&gt; 4 Conne… 320    Actual… 01:24:25 2020-11-11  2020 Nove… Wednes… Federic… relay.…</span>
+<span class="co">#&gt; 5 Conne… 319    The Ri… 01:53:41 2020-11-04  2020 Nove… Wednes… Federic… relay.…</span>
+<span class="co">#&gt; 6 Conne… 318    Come O… 01:49:35 2020-10-28  2020 Octo… Wednes… Federic… relay.…</span>
+
+<span class="va">incomparable_episodes</span> <span class="op">&lt;-</span> <span class="va">incomparable_shows</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Unjustly Maligned"</span>, <span class="st">"A Legitimate Salvage"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/incomparable_get_episodes.html">incomparable_get_episodes</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">incomparable_episodes</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 14</span>
+<span class="co">#&gt;   show  number title duration date        year month weekday host  guest</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 A Le… 28     “Cib… 51'12"   2020-05-13  2020 May   Wednes… Chip… Warr…</span>
+<span class="co">#&gt; 2 A Le… 27     “Sae… 32'13"   2020-04-27  2020 April Monday  Chip… Warr…</span>
+<span class="co">#&gt; 3 A Le… 26     “The… 44'32"   2020-04-14  2020 April Tuesday Chip… Warr…</span>
+<span class="co">#&gt; 4 A Le… 25     “A S… 35'48"   2020-03-18  2020 March Wednes… Kayt… Warr…</span>
+<span class="co">#&gt; 5 A Le… 24     “Dis… 31'56"   2020-03-02  2020 March Monday  Chip… Warr…</span>
+<span class="co">#&gt; 6 A Le… 23     “Opp… 41'49"   2020-02-10  2020 Febr… Monday  Jen … Warr…</span>
+<span class="co">#&gt; # … with 4 more variables: category &lt;lgl&gt;, topic &lt;chr&gt;, summary &lt;chr&gt;,</span>
+<span class="co">#&gt; #   network &lt;chr&gt;</span>
+
 <span class="va">atp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/atp_get_episodes.html">atp_get_episodes</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># One line per person</span>
-<span class="va">incomparable_episodes</span> <span class="op">%&gt;%</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">atp</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 9</span>
+<span class="co">#&gt;   number title         duration date        year month  weekday links    n_links</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;         &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt;  &lt;ord&gt;   &lt;list&gt;     &lt;int&gt;</span>
+<span class="co">#&gt; 1 407    It Isn't a B… 01:49:53 2020-12-03  2020 Decem… Thursd… &lt;tibble…      24</span>
+<span class="co">#&gt; 2 406    A Bomb on Yo… 02:36:18 2020-11-25  2020 Novem… Wednes… &lt;tibble…      33</span>
+<span class="co">#&gt; 3 405    The Benevole… 01:57:06 2020-11-18  2020 Novem… Wednes… &lt;tibble…      29</span>
+<span class="co">#&gt; 4 404    With Four Ha… 02:43:45 2020-11-11  2020 Novem… Wednes… &lt;tibble…      31</span>
+<span class="co">#&gt; 5 403    A VCR for th… 02:05:10 2020-11-05  2020 Novem… Thursd… &lt;tibble…      38</span>
+<span class="co">#&gt; 6 402    Flat-Side Pr… 02:21:47 2020-10-29  2020 Octob… Thursd… &lt;tibble…      22</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">incomparable_episodes</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/gather_people.html">gather_people</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">show</span>, <span class="va">number</span>, <span class="va">person</span>, <span class="va">role</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 276 x 4</span>
+<span class="co">#&gt;    show                 number person        role </span>
+<span class="co">#&gt;    &lt;chr&gt;                &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;</span>
+<span class="co">#&gt;  1 A Legitimate Salvage 28     Chip Sudderth host </span>
+<span class="co">#&gt;  2 A Legitimate Salvage 28     Warren Frey   guest</span>
+<span class="co">#&gt;  3 A Legitimate Salvage 28     Kayti Burt    guest</span>
+<span class="co">#&gt;  4 A Legitimate Salvage 28     Jen Burt      guest</span>
+<span class="co">#&gt;  5 A Legitimate Salvage 27     Chip Sudderth host </span>
+<span class="co">#&gt;  6 A Legitimate Salvage 27     Warren Frey   guest</span>
+<span class="co">#&gt;  7 A Legitimate Salvage 27     Kayti Burt    guest</span>
+<span class="co">#&gt;  8 A Legitimate Salvage 27     Jen Burt      guest</span>
+<span class="co">#&gt;  9 A Legitimate Salvage 26     Chip Sudderth host </span>
+<span class="co">#&gt; 10 A Legitimate Salvage 26     Warren Frey   guest</span>
+<span class="co">#&gt; # … with 266 more rows</span>
 
 <span class="va">relay_episodes</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/gather_people.html">gather_people</a></span><span class="op">(</span>people_cols <span class="op">=</span> <span class="st">"host"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">==</span> <span class="st">"The Prompt"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">show</span>, <span class="va">number</span>, <span class="va">person</span>, <span class="va">role</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">show</span>, <span class="va">number</span>, <span class="va">person</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 1,140 x 3</span>
+<span class="co">#&gt;    show      number person          </span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;           </span>
+<span class="co">#&gt;  1 Connected 323    Federico Viticci</span>
+<span class="co">#&gt;  2 Connected 323    Myke Hurley     </span>
+<span class="co">#&gt;  3 Connected 323    Stephen Hackett </span>
+<span class="co">#&gt;  4 Connected 322    Federico Viticci</span>
+<span class="co">#&gt;  5 Connected 322    Myke Hurley     </span>
+<span class="co">#&gt;  6 Connected 322    Stephen Hackett </span>
+<span class="co">#&gt;  7 Connected 321    Federico Viticci</span>
+<span class="co">#&gt;  8 Connected 321    Myke Hurley     </span>
+<span class="co">#&gt;  9 Connected 321    Stephen Hackett </span>
+<span class="co">#&gt; 10 Connected 320    Federico Viticci</span>
+<span class="co">#&gt; # … with 1,130 more rows</span></code></pre></div>
 </div>
 </div>
   </div>
