@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Collect all relay.fm shows — relay_get_shows • poddr</title>
+<title>Retrieve all relay.fm shows — relay_get_shows • poddr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Collect all relay.fm shows — relay_get_shows" />
-<meta property="og:description" content="Collect all relay.fm shows" />
+<meta property="og:title" content="Retrieve all relay.fm shows — relay_get_shows" />
+<meta property="og:description" content="Parses the show overview page and returns a tibble of show names
+with corresponding feed URLs, which in turn can then be passed to
+relay_parse_feed() individually." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content="@jemus42" />
 <meta name="twitter:site" content="@jemus42" />
@@ -109,25 +111,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Collect all relay.fm shows</h1>
+    <h1>Retrieve all relay.fm shows</h1>
     
     <div class="hidden name"><code>relay_get_shows.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Collect all relay.fm shows</p>
+    <p>Parses the show overview page and returns a tibble of show names
+with corresponding feed URLs, which in turn can then be passed to
+<code><a href='relay_parse_feed.html'>relay_parse_feed()</a></code> individually.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>relay_get_shows</span><span class='op'>(</span>url <span class='op'>=</span> <span class='st'>"https://www.relay.fm/shows"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>relay_get_shows</span><span class='op'>(</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>url</th>
-      <td><p>Show overview page: <code>"https://www.relay.fm/shows"</code>.</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 

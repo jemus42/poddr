@@ -40,7 +40,10 @@
 
 
 <meta property="og:title" content="Get all The Incomparable shows — incomparable_get_episodes" />
-<meta property="og:description" content="Get all The Incomparable shows" />
+<meta property="og:description" content="This combines incomparable_parse_stats() and incomparable_parse_archive()
+to retrieve full episode information including host/guest, durations
+including seconds, podcast subcategories and topics.
+Use sparingly to limit unecessarily hammering the poor webserver!" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content="@jemus42" />
 <meta name="twitter:site" content="@jemus42" />
@@ -115,7 +118,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Get all The Incomparable shows</p>
+    <p>This combines <code><a href='incomparable_parse_stats.html'>incomparable_parse_stats()</a></code> and <code><a href='incomparable_parse_archive.html'>incomparable_parse_archive()</a></code>
+to retrieve full episode information including host/guest, durations
+including seconds, podcast subcategories and topics.
+Use sparingly to limit unecessarily hammering the poor webserver!</p>
     </div>
 
     <pre class="usage"><span class='fu'>incomparable_get_episodes</span><span class='op'>(</span><span class='va'>incomparable_shows</span><span class='op'>)</span></pre>
@@ -125,13 +131,14 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>incomparable_shows</th>
-      <td><p>Dataset of shows with title and URLs</p></td>
+      <td><p>Dataset of shows with title and URLs as returned by
+<code><a href='incomparable_get_shows.html'>incomparable_get_shows()</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble.</p>
+    <p>A tibble with one row per episode.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>

@@ -40,7 +40,12 @@
 
 
 <meta property="og:title" content="Parse The Incomparable stats.txt files — incomparable_parse_stats" />
-<meta property="og:description" content="Parse The Incomparable stats.txt files" />
+<meta property="og:description" content="The stats.txt files have a slightly different format, especially the
+host/guest information may differ from what is returned by
+incomparable_parse_archive(), which implicitly assumes the first person
+mentioned to be the host of the episode. However, this data source
+does not include podcast subcategories (e.g. &quot;Old Movie Club&quot;) or
+topic information, which is only available on the archive page." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content="@jemus42" />
 <meta name="twitter:site" content="@jemus42" />
@@ -115,7 +120,12 @@
     </div>
 
     <div class="ref-description">
-    <p>Parse The Incomparable stats.txt files</p>
+    <p>The <code>stats.txt</code> files have a slightly different format, especially the
+host/guest information may differ from what is returned by
+<code><a href='incomparable_parse_archive.html'>incomparable_parse_archive()</a></code>, which implicitly assumes the first person
+mentioned to be the host of the episode. However, this data source
+does not include podcast subcategories (e.g. "Old Movie Club") or
+topic information, which is only available on the archive page.</p>
     </div>
 
     <pre class="usage"><span class='fu'>incomparable_parse_stats</span><span class='op'>(</span><span class='va'>stats_url</span><span class='op'>)</span></pre>
@@ -125,7 +135,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>stats_url</th>
-      <td><p>URL to the <code>stats.txt</code>.</p></td>
+      <td><p>URL to the <code>stats.txt</code>, e.g.
+<code>"https://www.theincomparable.com/salvage/stats.txt"</code>.</p></td>
     </tr>
     </table>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get all ATP episodes — atp_get_episodes • poddr</title>
+<title>Retrieve ATP episodes — atp_get_episodes • poddr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get all ATP episodes — atp_get_episodes" />
-<meta property="og:description" content="Get all ATP episodes" />
+<meta property="og:title" content="Retrieve ATP episodes — atp_get_episodes" />
+<meta property="og:description" content="Retrieve ATP episodes" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content="@jemus42" />
 <meta name="twitter:site" content="@jemus42" />
@@ -109,17 +109,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get all ATP episodes</h1>
+    <h1>Retrieve ATP episodes</h1>
     
     <div class="hidden name"><code>atp_get_episodes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get all ATP episodes</p>
+    <p>Retrieve ATP episodes</p>
     </div>
 
-    <pre class="usage"><span class='fu'>atp_get_episodes</span><span class='op'>(</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>atp_get_episodes</span><span class='op'>(</span>page_limit <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>page_limit</th>
+      <td><p>Number of pages to scrape, from newest to oldest episode.
+Page 1 contains the 5 most recent episodes, and subsequent pages contain 50
+episodes per page. As of December 2020, there are 10 pages total.
+Pass <code>NULL</code> (default) to get all pages.</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
@@ -127,7 +138,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>atp</span> <span class='op'>&lt;-</span> <span class='fu'>atp_get_episodes</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>atp</span> <span class='op'>&lt;-</span> <span class='fu'>atp_get_episodes</span><span class='op'>(</span>page_limit <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

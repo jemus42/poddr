@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get The Incomparable shows — incomparable_get_shows • poddr</title>
+<title>Retrieve all The Incomparable shows — incomparable_get_shows • poddr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Get The Incomparable shows — incomparable_get_shows" />
-<meta property="og:description" content="Get The Incomparable shows" />
+<meta property="og:title" content="Retrieve all The Incomparable shows — incomparable_get_shows" />
+<meta property="og:description" content="Parses the show overview page and returns a tibble of show names
+with corresponding URLs, which in turn can then be passed to
+incomparable_parse_archive() and incomparable_parse_stats() individually." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content="@jemus42" />
 <meta name="twitter:site" content="@jemus42" />
@@ -109,13 +111,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get The Incomparable shows</h1>
+    <h1>Retrieve all The Incomparable shows</h1>
     
     <div class="hidden name"><code>incomparable_get_shows.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get The Incomparable shows</p>
+    <p>Parses the show overview page and returns a tibble of show names
+with corresponding URLs, which in turn can then be passed to
+<code><a href='incomparable_parse_archive.html'>incomparable_parse_archive()</a></code> and <code><a href='incomparable_parse_stats.html'>incomparable_parse_stats()</a></code> individually.</p>
     </div>
 
     <pre class="usage"><span class='fu'>incomparable_get_shows</span><span class='op'>(</span><span class='op'>)</span></pre>

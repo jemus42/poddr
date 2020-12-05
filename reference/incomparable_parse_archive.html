@@ -40,7 +40,10 @@
 
 
 <meta property="og:title" content="Parse a show's archive page on The Incomparable website — incomparable_parse_archive" />
-<meta property="og:description" content="Parse a show's archive page on The Incomparable website" />
+<meta property="og:description" content="Retrieves all episodes for one or more shows passed as a tibble.
+The archive page does not include full duration information, as it is
+limited to hours and minutes. Use incomparable_parse_stats() for
+accurate episode durations." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content="@jemus42" />
 <meta name="twitter:site" content="@jemus42" />
@@ -115,7 +118,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Parse a show's archive page on The Incomparable website</p>
+    <p>Retrieves all episodes for one or more shows passed as a tibble.
+The archive page <em>does not</em> include full duration information, as it is
+limited to hours and minutes. Use <code><a href='incomparable_parse_stats.html'>incomparable_parse_stats()</a></code> for
+accurate episode durations.</p>
     </div>
 
     <pre class="usage"><span class='fu'>incomparable_parse_archive</span><span class='op'>(</span><span class='va'>archive_url</span><span class='op'>)</span></pre>
@@ -125,7 +131,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>archive_url</th>
-      <td><p>E.g. <code>"https://www.theincomparable.com/theincomparable/archive/"</code>.</p></td>
+      <td><p>E.g.
+<code>"https://www.theincomparable.com/theincomparable/archive/"</code>.</p></td>
     </tr>
     </table>
 
