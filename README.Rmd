@@ -1,5 +1,7 @@
 ---
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -33,28 +35,45 @@ remotes::install_github("jemus42/poddr")
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example, eval=FALSE}
-library(dplyr)
+```{r example, cache=TRUE}
+library(dplyr, warn.conflicts = FALSE)
 library(poddr)
 
 relay_shows <- relay_get_shows()
 incomparable_shows <- incomparable_get_shows()
 
-glimpse(relay_shows)
-glimpse(incomparable_shows)
+head(relay_shows)
+head(incomparable_shows)
+```
 
-# Getting episodes
-relay_episodes <- relay_get_episodes(relay_shows)
-incomparable_episodes <- incomparable_get_episodes(incomparable_shows)
+## Getting episodes
+
+```{r example2, cache=TRUE}
+relay_episodes <- relay_shows %>%
+  filter(show %in% c("The Prompt", "Connected")) %>%
+  relay_get_episodes()
+
+head(relay_episodes)
+
+incomparable_episodes <- incomparable_shows %>%
+  filter(show %in% c("Unjustly Maligned", "A Legitimate Salvage")) %>%
+  incomparable_get_episodes()
+
+head(incomparable_episodes)
+
 atp <- atp_get_episodes()
 
-# One line per person
+head(atp)
+```
+
+
+
+```{r example3, cache=TRUE}
 incomparable_episodes %>%
   gather_people() %>%
   select(show, number, person, role)
 
 relay_episodes %>%
   gather_people(people_cols = "host") %>%
-  filter(show == "The Prompt") %>%
-  select(show, number, person, role)
+  select(show, number, person)
 ```
