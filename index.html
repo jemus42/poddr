@@ -85,81 +85,110 @@
 <p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">poddr</span><span class="op">)</span>
-
-<span class="va">relay_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/relay_get_shows.html">relay_get_shows</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">incomparable_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/incomparable_get_shows.html">incomparable_get_shows</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">relay_shows</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 3</span>
-<span class="co">#&gt;   show             feed_url                             show_status</span>
-<span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;                                &lt;chr&gt;      </span>
-<span class="co">#&gt; 1 20 Macs for 2020 https://www.relay.fm/20macs/feed     Active     </span>
-<span class="co">#&gt; 2 Adapt            https://www.relay.fm/adapt/feed      Active     </span>
-<span class="co">#&gt; 3 Analog(ue)       https://www.relay.fm/analogue/feed   Active     </span>
-<span class="co">#&gt; 4 Automators       https://www.relay.fm/automators/feed Active     </span>
-<span class="co">#&gt; 5 BONANZA          https://www.relay.fm/bonanza/feed    Active     </span>
-<span class="co">#&gt; 6 B-Sides          https://www.relay.fm/b-sides/feed    Active</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">incomparable_shows</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 3</span>
-<span class="co">#&gt;   show          stats_url                        archive_url                    </span>
-<span class="co">#&gt;   &lt;chr&gt;         &lt;glue&gt;                           &lt;glue&gt;                         </span>
-<span class="co">#&gt; 1 A Legitimate… https://www.theincomparable.com… https://www.theincomparable.co…</span>
-<span class="co">#&gt; 2 Afoot         https://www.theincomparable.com… https://www.theincomparable.co…</span>
-<span class="co">#&gt; 3 Agents of SM… https://www.theincomparable.com… https://www.theincomparable.co…</span>
-<span class="co">#&gt; 4 Batman Unive… https://www.theincomparable.com… https://www.theincomparable.co…</span>
-<span class="co">#&gt; 5 Bear Left (R… https://www.theincomparable.com… https://www.theincomparable.co…</span>
-<span class="co">#&gt; 6 Beginner's P… https://www.theincomparable.com… https://www.theincomparable.co…</span></code></pre></div>
-</div>
-<div id="getting-episodes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getting-episodes" class="anchor"></a>Getting episodes</h2>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">poddr</span><span class="op">)</span></code></pre></div>
+<div id="the-incomparable" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-incomparable" class="anchor"></a>The Incomparable</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">relay_episodes</span> <span class="op">&lt;-</span> <span class="va">relay_shows</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"The Prompt"</span>, <span class="st">"Connected"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/relay_get_episodes.html">relay_get_episodes</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">relay_episodes</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 10</span>
-<span class="co">#&gt;   show   number title   duration date        year month weekday host     network</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt;    &lt;chr&gt;  </span>
-<span class="co">#&gt; 1 Conne… 323    Artisa… 01:43:44 2020-12-02  2020 Dece… Wednes… Federic… relay.…</span>
-<span class="co">#&gt; 2 Conne… 322    ismh@h… 01:39:06 2020-11-25  2020 Nove… Wednes… Federic… relay.…</span>
-<span class="co">#&gt; 3 Conne… 321    Friend… 02:11:32 2020-11-19  2020 Nove… Thursd… Federic… relay.…</span>
-<span class="co">#&gt; 4 Conne… 320    Actual… 01:24:25 2020-11-11  2020 Nove… Wednes… Federic… relay.…</span>
-<span class="co">#&gt; 5 Conne… 319    The Ri… 01:53:41 2020-11-04  2020 Nove… Wednes… Federic… relay.…</span>
-<span class="co">#&gt; 6 Conne… 318    Come O… 01:49:35 2020-10-28  2020 Octo… Wednes… Federic… relay.…</span>
+<code class="sourceCode R"><span class="va">incomparable_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/incomparable_get_shows.html">incomparable_get_shows</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">incomparable_shows</span>
+<span class="co">#&gt; # A tibble: 45 x 3</span>
+<span class="co">#&gt;    show          stats_url                       archive_url                    </span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;glue&gt;                          &lt;glue&gt;                         </span>
+<span class="co">#&gt;  1 A Legitimate… https://www.theincomparable.co… https://www.theincomparable.co…</span>
+<span class="co">#&gt;  2 Afoot         https://www.theincomparable.co… https://www.theincomparable.co…</span>
+<span class="co">#&gt;  3 Agents of SM… https://www.theincomparable.co… https://www.theincomparable.co…</span>
+<span class="co">#&gt;  4 Batman Unive… https://www.theincomparable.co… https://www.theincomparable.co…</span>
+<span class="co">#&gt;  5 Bear Left (R… https://www.theincomparable.co… https://www.theincomparable.co…</span>
+<span class="co">#&gt;  6 Beginner's P… https://www.theincomparable.co… https://www.theincomparable.co…</span>
+<span class="co">#&gt;  7 Biff!         https://www.theincomparable.co… https://www.theincomparable.co…</span>
+<span class="co">#&gt;  8 Bonus Track   https://www.theincomparable.co… https://www.theincomparable.co…</span>
+<span class="co">#&gt;  9 Cartoon Cast  https://www.theincomparable.co… https://www.theincomparable.co…</span>
+<span class="co">#&gt; 10 Chick Flick … https://www.theincomparable.co… https://www.theincomparable.co…</span>
+<span class="co">#&gt; # … with 35 more rows</span>
 
 <span class="va">incomparable_episodes</span> <span class="op">&lt;-</span> <span class="va">incomparable_shows</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Unjustly Maligned"</span>, <span class="st">"A Legitimate Salvage"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/incomparable_get_episodes.html">incomparable_get_episodes</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">incomparable_episodes</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 14</span>
-<span class="co">#&gt;   show  number title duration date        year month weekday host  guest</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt; &lt;chr&gt;</span>
-<span class="co">#&gt; 1 A Le… 28     “Cib… 51'12"   2020-05-13  2020 May   Wednes… Chip… Warr…</span>
-<span class="co">#&gt; 2 A Le… 27     “Sae… 32'13"   2020-04-27  2020 April Monday  Chip… Warr…</span>
-<span class="co">#&gt; 3 A Le… 26     “The… 44'32"   2020-04-14  2020 April Tuesday Chip… Warr…</span>
-<span class="co">#&gt; 4 A Le… 25     “A S… 35'48"   2020-03-18  2020 March Wednes… Kayt… Warr…</span>
-<span class="co">#&gt; 5 A Le… 24     “Dis… 31'56"   2020-03-02  2020 March Monday  Chip… Warr…</span>
-<span class="co">#&gt; 6 A Le… 23     “Opp… 41'49"   2020-02-10  2020 Febr… Monday  Jen … Warr…</span>
-<span class="co">#&gt; # … with 4 more variables: category &lt;lgl&gt;, topic &lt;chr&gt;, summary &lt;chr&gt;,</span>
-<span class="co">#&gt; #   network &lt;chr&gt;</span>
+<span class="va">incomparable_episodes</span>
+<span class="co">#&gt; # A tibble: 116 x 14</span>
+<span class="co">#&gt;    show  number title duration date        year month weekday host  guest</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1 A Le… 28     “Cib… 51'12"   2020-05-13  2020 May   Wednes… Chip… Warr…</span>
+<span class="co">#&gt;  2 A Le… 27     “Sae… 32'13"   2020-04-27  2020 April Monday  Chip… Warr…</span>
+<span class="co">#&gt;  3 A Le… 26     “The… 44'32"   2020-04-14  2020 April Tuesday Chip… Warr…</span>
+<span class="co">#&gt;  4 A Le… 25     “A S… 35'48"   2020-03-18  2020 March Wednes… Kayt… Warr…</span>
+<span class="co">#&gt;  5 A Le… 24     “Dis… 31'56"   2020-03-02  2020 March Monday  Chip… Warr…</span>
+<span class="co">#&gt;  6 A Le… 23     “Opp… 41'49"   2020-02-10  2020 Febr… Monday  Jen … Warr…</span>
+<span class="co">#&gt;  7 A Le… 22     “Ret… 32'16"   2020-01-23  2020 Janu… Thursd… Chip… Warr…</span>
+<span class="co">#&gt;  8 A Le… 21     “Sub… 27'13"   2020-01-18  2020 Janu… Saturd… Chip… Warr…</span>
+<span class="co">#&gt;  9 A Le… 20     “Jet… 45'26"   2020-01-02  2020 Janu… Thursd… Jen … Kayt…</span>
+<span class="co">#&gt; 10 A Le… 19     “New… 40'27"   2019-12-22  2019 Dece… Sunday  Chip… Warr…</span>
+<span class="co">#&gt; # … with 106 more rows, and 4 more variables: category &lt;lgl&gt;, topic &lt;chr&gt;,</span>
+<span class="co">#&gt; #   summary &lt;chr&gt;, network &lt;chr&gt;</span></code></pre></div>
+</div>
+<div id="relayfm" class="section level3">
+<h3 class="hasAnchor">
+<a href="#relayfm" class="anchor"></a>Relay.fm</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">relay_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/relay_get_shows.html">relay_get_shows</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">relay_shows</span>
+<span class="co">#&gt; # A tibble: 46 x 3</span>
+<span class="co">#&gt;    show             feed_url                             show_status</span>
+<span class="co">#&gt;    &lt;chr&gt;            &lt;chr&gt;                                &lt;chr&gt;      </span>
+<span class="co">#&gt;  1 20 Macs for 2020 https://www.relay.fm/20macs/feed     Active     </span>
+<span class="co">#&gt;  2 Adapt            https://www.relay.fm/adapt/feed      Active     </span>
+<span class="co">#&gt;  3 Analog(ue)       https://www.relay.fm/analogue/feed   Active     </span>
+<span class="co">#&gt;  4 Automators       https://www.relay.fm/automators/feed Active     </span>
+<span class="co">#&gt;  5 BONANZA          https://www.relay.fm/bonanza/feed    Active     </span>
+<span class="co">#&gt;  6 B-Sides          https://www.relay.fm/b-sides/feed    Active     </span>
+<span class="co">#&gt;  7 Clockwise        https://www.relay.fm/clockwise/feed  Active     </span>
+<span class="co">#&gt;  8 Connected        https://www.relay.fm/connected/feed  Active     </span>
+<span class="co">#&gt;  9 Cortex           https://www.relay.fm/cortex/feed     Active     </span>
+<span class="co">#&gt; 10 Departures       https://www.relay.fm/departures/feed Active     </span>
+<span class="co">#&gt; # … with 36 more rows</span>
 
-<span class="va">atp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/atp_get_episodes.html">atp_get_episodes</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">relay_episodes</span> <span class="op">&lt;-</span> <span class="va">relay_shows</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"The Prompt"</span>, <span class="st">"Connected"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/relay_get_episodes.html">relay_get_episodes</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">atp</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 9</span>
+<span class="va">relay_episodes</span>
+<span class="co">#&gt; # A tibble: 380 x 10</span>
+<span class="co">#&gt;    show   number title   duration date        year month weekday host    network</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt;   &lt;chr&gt;  </span>
+<span class="co">#&gt;  1 Conne… 323    Artisa… 01:43:44 2020-12-02  2020 Dece… Wednes… Federi… relay.…</span>
+<span class="co">#&gt;  2 Conne… 322    ismh@h… 01:39:06 2020-11-25  2020 Nove… Wednes… Federi… relay.…</span>
+<span class="co">#&gt;  3 Conne… 321    Friend… 02:11:32 2020-11-19  2020 Nove… Thursd… Federi… relay.…</span>
+<span class="co">#&gt;  4 Conne… 320    Actual… 01:24:25 2020-11-11  2020 Nove… Wednes… Federi… relay.…</span>
+<span class="co">#&gt;  5 Conne… 319    The Ri… 01:53:41 2020-11-04  2020 Nove… Wednes… Federi… relay.…</span>
+<span class="co">#&gt;  6 Conne… 318    Come O… 01:49:35 2020-10-28  2020 Octo… Wednes… Federi… relay.…</span>
+<span class="co">#&gt;  7 Conne… 317    Captai… 01:31:28 2020-10-21  2020 Octo… Wednes… Federi… relay.…</span>
+<span class="co">#&gt;  8 Conne… 316    I Over… 01:48:38 2020-10-14  2020 Octo… Wednes… Federi… relay.…</span>
+<span class="co">#&gt;  9 Conne… 315    The Ri… 01:35:32 2020-10-07  2020 Octo… Wednes… Federi… relay.…</span>
+<span class="co">#&gt; 10 Conne… 314    The Je… 01:30:59 2020-09-30  2020 Sept… Wednes… Federi… relay.…</span>
+<span class="co">#&gt; # … with 370 more rows</span></code></pre></div>
+</div>
+<div id="atp" class="section level3">
+<h3 class="hasAnchor">
+<a href="#atp" class="anchor"></a>ATP</h3>
+<p>Only get the first page (5 episodes)</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">atp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/atp_get_episodes.html">atp_get_episodes</a></span><span class="op">(</span>page_limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="va">atp</span>
+<span class="co">#&gt; # A tibble: 5 x 9</span>
 <span class="co">#&gt;   number title         duration date        year month  weekday links    n_links</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;         &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt;  &lt;ord&gt;   &lt;list&gt;     &lt;int&gt;</span>
 <span class="co">#&gt; 1 407    It Isn't a B… 01:49:53 2020-12-03  2020 Decem… Thursd… &lt;tibble…      24</span>
 <span class="co">#&gt; 2 406    A Bomb on Yo… 02:36:18 2020-11-25  2020 Novem… Wednes… &lt;tibble…      33</span>
 <span class="co">#&gt; 3 405    The Benevole… 01:57:06 2020-11-18  2020 Novem… Wednes… &lt;tibble…      29</span>
 <span class="co">#&gt; 4 404    With Four Ha… 02:43:45 2020-11-11  2020 Novem… Wednes… &lt;tibble…      31</span>
-<span class="co">#&gt; 5 403    A VCR for th… 02:05:10 2020-11-05  2020 Novem… Thursd… &lt;tibble…      38</span>
-<span class="co">#&gt; 6 402    Flat-Side Pr… 02:21:47 2020-10-29  2020 Octob… Thursd… &lt;tibble…      22</span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<span class="co">#&gt; 5 403    A VCR for th… 02:05:10 2020-11-05  2020 Novem… Thursd… &lt;tibble…      38</span></code></pre></div>
+</div>
+<div id="for-all-the-nice-people" class="section level3">
+<h3 class="hasAnchor">
+<a href="#for-all-the-nice-people" class="anchor"></a>For all the nice people</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">incomparable_episodes</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/gather_people.html">gather_people</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">show</span>, <span class="va">number</span>, <span class="va">person</span>, <span class="va">role</span><span class="op">)</span>
@@ -195,6 +224,7 @@
 <span class="co">#&gt;  9 Connected 321    Stephen Hackett </span>
 <span class="co">#&gt; 10 Connected 320    Federico Viticci</span>
 <span class="co">#&gt; # … with 1,130 more rows</span></code></pre></div>
+</div>
 </div>
 </div>
   </div>
