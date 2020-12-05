@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -40,6 +40,9 @@
 
 
 <meta property="og:title" content="Function reference" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@jemus42" />
+<meta name="twitter:site" content="@jemus42" />
 
 
 
@@ -119,7 +122,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-collecting-data" class="hasAnchor"><a href="#section-collecting-data" class="anchor"></a>Collecting data</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -127,32 +130,17 @@
       
     </tbody><tbody>
       
+      <tr>
+        <th colspan="2">
+          <h3 id="section-the-incomparable" class="hasAnchor"><a href="#section-the-incomparable" class="anchor"></a>The Incomparable</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
       
       <tr>
-        
-        <td>
-          <p><code><a href="atp_get_episodes.html">atp_get_episodes()</a></code> </p>
-        </td>
-        <td><p>Get all ATP episodes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="atp_parse_page.html">atp_parse_page()</a></code> </p>
-        </td>
-        <td><p>Parse a single ATP page</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cache_podcast_data.html">cache_podcast_data()</a></code> </p>
-        </td>
-        <td><p>Cache episode data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gather_people.html">gather_people()</a></code> </p>
-        </td>
-        <td><p>Gather episode datasets by people</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="incomparable_get_episodes.html">incomparable_get_episodes()</a></code> </p>
@@ -176,19 +164,20 @@
           <p><code><a href="incomparable_parse_stats.html">incomparable_parse_stats()</a></code> </p>
         </td>
         <td><p>Parse The Incomparable stats.txt files</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="label_n.html">label_n()</a></code> </p>
-        </td>
-        <td><p>Convenience function to display N</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="parse_duration.html">parse_duration()</a></code> </p>
-        </td>
-        <td><p>Converting HH:MM:SS or MM:SS to <code>hms</code></p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-relay-fm" class="hasAnchor"><a href="#section-relay-fm" class="anchor"></a>relay.fm</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="relay_get_episodes.html">relay_get_episodes()</a></code> </p>
@@ -207,6 +196,87 @@
         </td>
         <td><p>Parse a relay.fm show feed</p></td>
       </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-atp" class="hasAnchor"><a href="#section-atp" class="anchor"></a>ATP</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="atp_get_episodes.html">atp_get_episodes()</a></code> </p>
+        </td>
+        <td><p>Get all ATP episodes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="atp_parse_page.html">atp_parse_page()</a></code> </p>
+        </td>
+        <td><p>Parse a single ATP page</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-utilities" class="hasAnchor"><a href="#section-utilities" class="anchor"></a>Utilities</h2>
+          <p class="section-desc"><p>These functions are basic building blocks – you don’t have to use them directly.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="gather_people.html">gather_people()</a></code> </p>
+        </td>
+        <td><p>Gather episode datasets by people</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cache_podcast_data.html">cache_podcast_data()</a></code> </p>
+        </td>
+        <td><p>Cache episode data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="label_n.html">label_n()</a></code> </p>
+        </td>
+        <td><p>Convenience function to display N</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="parse_duration.html">parse_duration()</a></code> </p>
+        </td>
+        <td><p>Converting HH:MM:SS or MM:SS to <code>hms</code></p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-this-package" class="hasAnchor"><a href="#section-this-package" class="anchor"></a>This package</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="poddr-package.html">poddr-package</a></code> </p>
+        </td>
+        <td><p>poddr: Collect Metadata for Selected Podcasts</p></td>
+      </tr>
     </tbody>
     </table>
   </div>
@@ -221,7 +291,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Lukas Burk.</p>
+  <p>Developed by <a href='https://blog.jemu.name'>Lukas Burk</a>.</p>
 </div>
 
 <div class="pkgdown">
