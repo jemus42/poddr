@@ -189,9 +189,13 @@ incomparable_parse_stats <- function(stats_url) {
     col_types = "cccccc",
     trim_ws = TRUE
   ) %>%
-    dplyr::mutate(duration = parse_duration(.data$duration))
+    dplyr::mutate(
+      duration = parse_duration(.data$duration),
+      date = lubridate::dmy(.data$date),
+      host = stringr::str_replace_all(.data$host, ",\\s*", ";"),
+      guest = stringr::str_replace_all(.data$guest, ",\\s*", ";")
+    )
 }
-
 
 #' Retrieve all episodes for The Incomparable shows
 #'
@@ -220,18 +224,19 @@ incomparable_get_episodes <- function(incomparable_shows) {
 
     archived <- incomparable_parse_archive(..3) %>%
       dplyr::mutate(show = ..1) %>%
-      dplyr::relocate(.data$show)
+      dplyr::select(-c("duration", "title", "host", "guest", "date"))
 
     stats <- incomparable_parse_stats(..2) %>%
       dplyr::mutate(show = ..1)
 
-    archived %>%
-      dplyr::select(-duration) %>%
-      dplyr::left_join(
-        stats %>%
-          dplyr::select(.data$show, .data$number, .data$duration),
+    stats %>%
+      dplyr::full_join(
+        archived,
         by = c("show", "number")
       ) %>%
-      dplyr::relocate(duration, .after = .data$title)
+      dplyr::select(
+        "show", "number", "title", "duration", "date", "year", "month",
+        "weekday", "host", "guest", "category", "topic", "summary", "network"
+      )
   })
 }
