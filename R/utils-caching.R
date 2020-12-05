@@ -10,22 +10,23 @@
 #'
 #' @examples
 #' \dontrun{
-#' cache_podcast_data(incomparable_episodes)
+#' atp_new <- atp_get_episodes(page_limit = 1)
+#' cache_podcast_data(atp_new, csv = FALSE)
 #' }
 cache_podcast_data <- function(x, dir = "data", filename = NULL, csv = TRUE) {
-  # browser()
+  # Early return just in case the data is wrong and empty
+  if (nrow(x) == 0) return(NULL)
+
+  # Get the filename from the data name
   if (is.null(filename)) {
     filename <- deparse(substitute(x))
   }
 
   path_rds <- paste0(file.path(dir, filename), ".rds")
-
-  # cliapp::cli_alert_success("Saving {filename} to {path_rds}")
   saveRDS(x, path_rds)
 
   if (csv) {
     path_csv <- paste0(file.path(dir, filename), ".csv")
-    # cliapp::cli_alert_success("Saving {filename} to {path_csv}")
     readr::write_delim(x, path_csv, delim = ";")
   }
 }

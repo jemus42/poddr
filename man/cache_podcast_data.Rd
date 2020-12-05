@@ -23,6 +23,7 @@ Cache episode data
 }
 \examples{
 \dontrun{
-cache_podcast_data(incomparable_episodes)
+atp_new <- atp_get_episodes(page_limit = 1)
+cache_podcast_data(atp_new, csv = FALSE)
 }
 }
