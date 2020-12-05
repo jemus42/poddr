@@ -89,13 +89,18 @@
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
+<p>Here’s the bulk of what’s inside the tin:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jemus42/poddr">poddr</a></span><span class="op">)</span></code></pre></div>
 <div id="the-incomparable" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-incomparable" class="anchor"></a>The Incomparable</h3>
+<p>The basic workfflow is simple:</p>
+<ol>
+<li>Get a list of all the shows on the network, including the relevant URLs for further parsing.</li>
+<li>Get all the episodes of the shows selected. To not bother the webserver too much, I’m limiting the selection to two shows.</li>
+</ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">incomparable_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/incomparable_get_shows.html">incomparable_get_shows</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">incomparable_shows</span>
@@ -138,6 +143,7 @@
 <div id="relayfm" class="section level3">
 <h3 class="hasAnchor">
 <a href="#relayfm" class="anchor"></a>Relay.fm</h3>
+<p>Same procedure as before, also with two shows.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">relay_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/relay_get_shows.html">relay_get_shows</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">relay_shows</span>
@@ -179,7 +185,7 @@
 <div id="atp" class="section level3">
 <h3 class="hasAnchor">
 <a href="#atp" class="anchor"></a>ATP</h3>
-<p>Only get the first page (5 episodes)</p>
+<p>Since there’s only one show, there’s no reason to select one specifically, obviously. However, the website doesn’t show a list of <em>all</em> episodes on one page, so we’ll have to either parse all pages (there’s currently 10 total as of December 2020), or select a limit, like <code>1</code>, to only get episodes from the first page. The first page shows the 5 most recent episodes, and subsequent pages show 50 episodes each.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">atp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/atp_get_episodes.html">atp_get_episodes</a></span><span class="op">(</span>page_limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="va">atp</span>
@@ -187,14 +193,35 @@
 <span class="co">#&gt;   number title         duration date        year month  weekday links    n_links</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;         &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt;  &lt;ord&gt;   &lt;list&gt;     &lt;int&gt;</span>
 <span class="co">#&gt; 1 407    It Isn't a B… 01:49:53 2020-12-03  2020 Decem… Thursd… &lt;tibble…      24</span>
-<span class="co">#&gt; 2 406    A Bomb on Yo… 02:36:18 2020-11-25  2020 Novem… Wednes… &lt;tibble…      33</span>
-<span class="co">#&gt; 3 405    The Benevole… 01:57:06 2020-11-18  2020 Novem… Wednes… &lt;tibble…      29</span>
-<span class="co">#&gt; 4 404    With Four Ha… 02:43:45 2020-11-11  2020 Novem… Wednes… &lt;tibble…      31</span>
-<span class="co">#&gt; 5 403    A VCR for th… 02:05:10 2020-11-05  2020 Novem… Thursd… &lt;tibble…      38</span></code></pre></div>
+<span class="co">#&gt; 2 406    A Bomb on Yo… 02:36:18 2020-11-25  2020 Novem… Wednes… &lt;tibble…      32</span>
+<span class="co">#&gt; 3 405    The Benevole… 01:57:06 2020-11-18  2020 Novem… Wednes… &lt;tibble…      28</span>
+<span class="co">#&gt; 4 404    With Four Ha… 02:43:45 2020-11-11  2020 Novem… Wednes… &lt;tibble…      30</span>
+<span class="co">#&gt; 5 403    A VCR for th… 02:05:10 2020-11-05  2020 Novem… Thursd… &lt;tibble…      33</span>
+
+<span class="co"># Looking at the links</span>
+<span class="va">atp</span> <span class="op">%&gt;%</span>
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">links</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">number</span>, <span class="va">title</span>, <span class="va">link_text</span>, <span class="va">link_url</span>, <span class="va">link_type</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 147 x 5</span>
+<span class="co">#&gt;    number title       link_text            link_url                    link_type</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;                &lt;chr&gt;                       &lt;chr&gt;    </span>
+<span class="co">#&gt;  1 407    It Isn't a… here                 https://www.icloud.com/set… Shownotes</span>
+<span class="co">#&gt;  2 407    It Isn't a… Ryan Fegley          https://twitter.com/ryanfe… Shownotes</span>
+<span class="co">#&gt;  3 407    It Isn't a… probably just uses … https://machinelearning.ap… Shownotes</span>
+<span class="co">#&gt;  4 407    It Isn't a… @hishnash            https://twitter.com/hishna… Shownotes</span>
+<span class="co">#&gt;  5 407    It Isn't a… Die size spreadsheet https://docs.google.com/sp… Shownotes</span>
+<span class="co">#&gt;  6 407    It Isn't a… Cerebras             https://www.cerebras.net/   Shownotes</span>
+<span class="co">#&gt;  7 407    It Isn't a… Memory interface ba… https://en.wikipedia.org/w… Shownotes</span>
+<span class="co">#&gt;  8 407    It Isn't a… TMSC Achieves Break… https://www.techpowerup.co… Shownotes</span>
+<span class="co">#&gt;  9 407    It Isn't a… What is “risk produ… https://news.ycombinator.c… Shownotes</span>
+<span class="co">#&gt; 10 407    It Isn't a… virtualizes ARM Win… https://the8-bit.com/devel… Shownotes</span>
+<span class="co">#&gt; # … with 137 more rows</span></code></pre></div>
 </div>
 <div id="for-all-the-nice-people" class="section level3">
 <h3 class="hasAnchor">
 <a href="#for-all-the-nice-people" class="anchor"></a>For all the nice people</h3>
+<p>The regular episode data contains one row per episode, with associated people in a single cell with names separated by <code>;</code>. In some cases we’re interested in per-person data, for example the total number of appearances of a person on The Incomparable mothership, so we’ll longify the data with a helper function that performs the <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">tidyr::pivot_longer()</a></code> and <code><a href="https://tidyr.tidyverse.org/reference/separate_rows.html">tidyr::separate_rows()</a></code> steps consistently.</p>
+<p>Note that relay.fm data only includes “hosts”, as there’s no separate guest information, so the host/guest distinction is redundant in that case.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">incomparable_episodes</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/gather_people.html">gather_people</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
