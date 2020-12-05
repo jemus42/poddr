@@ -58,10 +58,13 @@ label_n <- function(x, brackets = FALSE) {
 
 #' Gather episode datasets by people
 #'
-#' @param episodes A tbl containing `host` and `guest` columns, with names
+#' A thin wrapper around `tidyr::pivot_longer()` and `tidyr::separate_rows()`.
+#'
+#' @param episodes A tibble containing `host` and `guest` columns, with names
 #' separated by `;`.
-#' @param people_cols FOr The Incomparable, use the default `c("host", "guest")`,
-#' for relay.fm, there's only a `"host"` column.
+#' @param people_cols For The Incomparable, use the default `c("host", "guest")`,
+#' for relay.fm, there's only a `"host"` column, which results in a somewhat
+#' redunant `"role"` column in the resulting output.
 #'
 #' @return A tibble with new columns `"role"` and `"person"`, one row per person.
 #' @export

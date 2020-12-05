@@ -7,17 +7,18 @@
 gather_people(episodes, people_cols = c("host", "guest"))
 }
 \arguments{
-\item{episodes}{A tbl containing \code{host} and \code{guest} columns, with names
+\item{episodes}{A tibble containing \code{host} and \code{guest} columns, with names
 separated by \verb{;}.}
 
-\item{people_cols}{FOr The Incomparable, use the default \code{c("host", "guest")},
-for relay.fm, there's only a \code{"host"} column.}
+\item{people_cols}{For The Incomparable, use the default \code{c("host", "guest")},
+for relay.fm, there's only a \code{"host"} column, which results in a somewhat
+redunant \code{"role"} column in the resulting output.}
 }
 \value{
 A tibble with new columns \code{"role"} and \code{"person"}, one row per person.
 }
 \description{
-Gather episode datasets by people
+A thin wrapper around \code{tidyr::pivot_longer()} and \code{tidyr::separate_rows()}.
 }
 \examples{
 \dontrun{

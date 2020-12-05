@@ -193,7 +193,7 @@ incomparable_parse_stats <- function(stats_url) {
 }
 
 
-#' Get all The Incomparable shows
+#' Retrieve all episodes for The Incomparable shows
 #'
 #' This combines `incomparable_parse_stats()` and `incomparable_parse_archive()`
 #' to retrieve full episode information including host/guest, durations

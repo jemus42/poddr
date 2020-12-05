@@ -2,7 +2,7 @@
 % Please edit documentation in R/incomparable.R
 \name{incomparable_get_episodes}
 \alias{incomparable_get_episodes}
-\title{Get all The Incomparable shows}
+\title{Retrieve all episodes for The Incomparable shows}
 \usage{
 incomparable_get_episodes(incomparable_shows)
 }
