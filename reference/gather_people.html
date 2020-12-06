@@ -123,7 +123,7 @@
     <p>A thin wrapper around <code><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>tidyr::pivot_longer()</a></code> and <code><a href='https://tidyr.tidyverse.org/reference/separate_rows.html'>tidyr::separate_rows()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gather_people</span><span class='op'>(</span><span class='va'>episodes</span>, people_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"host"</span>, <span class='st'>"guest"</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gather_people</span><span class='op'>(</span><span class='va'>episodes</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,12 +132,6 @@
       <th>episodes</th>
       <td><p>A tibble containing <code>host</code> and <code>guest</code> columns, with names
 separated by <code>;</code>.</p></td>
-    </tr>
-    <tr>
-      <th>people_cols</th>
-      <td><p>For The Incomparable, use the default <code><a href='https://rdrr.io/r/base/c.html'>c("host", "guest")</a></code>,
-for relay.fm, there's only a <code>"host"</code> column, which results in a somewhat
-redundant <code>"role"</code> column in the output.</p></td>
     </tr>
     </table>
 

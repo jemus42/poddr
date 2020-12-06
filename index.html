@@ -96,10 +96,10 @@
 <div id="the-incomparable" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-incomparable" class="anchor"></a>The Incomparable</h3>
-<p>The basic workfflow is simple:</p>
+<p>The basic workflow is simple:</p>
 <ol>
 <li>Get a list of all the shows on the network, including the relevant URLs for further parsing.</li>
-<li>Get all the episodes of the shows selected. To not bother the webserver too much, I’m limiting the selection to two shows.</li>
+<li>Get all the episodes of the shows selected. To not bother the webserver too much, I’m limiting the selection to a single show.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">incomparable_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/incomparable_get_shows.html">incomparable_get_shows</a></span><span class="op">(</span><span class="op">)</span>
@@ -120,30 +120,30 @@
 <span class="co">#&gt; # … with 35 more rows</span>
 
 <span class="va">incomparable_episodes</span> <span class="op">&lt;-</span> <span class="va">incomparable_shows</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Unjustly Maligned"</span>, <span class="st">"A Legitimate Salvage"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">==</span> <span class="st">"Unjustly Maligned"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/incomparable_get_episodes.html">incomparable_get_episodes</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">incomparable_episodes</span>
-<span class="co">#&gt; # A tibble: 116 x 14</span>
+<span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt;    show  number title duration date        year month weekday host  guest</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt; &lt;chr&gt;</span>
-<span class="co">#&gt;  1 A Le… 28     "\"C… 51'12"   2020-05-14  2020 May   Wednes… Chip… &lt;NA&gt; </span>
-<span class="co">#&gt;  2 A Le… 27     "\"S… 32'13"   2020-04-27  2020 April Monday  Chip… &lt;NA&gt; </span>
-<span class="co">#&gt;  3 A Le… 26     "\"T… 44'32"   2020-04-15  2020 April Tuesday Chip… &lt;NA&gt; </span>
-<span class="co">#&gt;  4 A Le… 25     "\"A… 35'48"   2020-03-19  2020 March Wednes… Kayt… &lt;NA&gt; </span>
-<span class="co">#&gt;  5 A Le… 24     "\"D… 31'56"   2020-03-03  2020 March Monday  Chip… &lt;NA&gt; </span>
-<span class="co">#&gt;  6 A Le… 23     "\"O… 41'49"   2020-02-11  2020 Febr… Monday  Jen … &lt;NA&gt; </span>
-<span class="co">#&gt;  7 A Le… 22     "\"R… 32'16"   2020-01-24  2020 Janu… Thursd… Chip… &lt;NA&gt; </span>
-<span class="co">#&gt;  8 A Le… 21     "\"S… 27'13"   2020-01-19  2020 Janu… Saturd… Chip… &lt;NA&gt; </span>
-<span class="co">#&gt;  9 A Le… 20     "\"J… 45'26"   2020-01-03  2020 Janu… Thursd… Jen … &lt;NA&gt; </span>
-<span class="co">#&gt; 10 A Le… 19     "\"N… 40'27"   2019-12-23  2019 Dece… Sunday  Chip… &lt;NA&gt; </span>
-<span class="co">#&gt; # … with 106 more rows, and 4 more variables: category &lt;lgl&gt;, topic &lt;chr&gt;,</span>
+<span class="co">#&gt;  1 Unju… 87     "\"L… 01:10:56 2017-09-25  2017 Sept… Monday  Tony… Anto…</span>
+<span class="co">#&gt;  2 Unju… 86     "\"R… 01:04:46 2017-09-12  2017 Sept… Tuesday Anto… Andy…</span>
+<span class="co">#&gt;  3 Unju… 85     "\"S… 01:07:47 2017-08-28  2017 Augu… Monday  Anto… Eddy…</span>
+<span class="co">#&gt;  4 Unju… 84     "\"T… 01:13:53 2017-08-14  2017 Augu… Monday  Anto… Jess…</span>
+<span class="co">#&gt;  5 Unju… 83     "\"P… 01:00:03 2017-07-31  2017 July  Monday  Anto… Marc…</span>
+<span class="co">#&gt;  6 Unju… 82     "\"P… 01:10:57 2017-07-17  2017 July  Monday  Anto… Ed B…</span>
+<span class="co">#&gt;  7 Unju… 81     "\"T… 01:10:42 2017-07-03  2017 July  Monday  Anto… Kell…</span>
+<span class="co">#&gt;  8 Unju… 80     "\"N… 01:24:24 2017-06-19  2017 June  Monday  Anto… Matt…</span>
+<span class="co">#&gt;  9 Unju… 79     "\"S… 01:15:33 2017-06-05  2017 June  Monday  Anto… Pete…</span>
+<span class="co">#&gt; 10 Unju… 78     "\"E… 01:16:40 2017-05-22  2017 May   Monday  Anto… Rich…</span>
+<span class="co">#&gt; # … with 77 more rows, and 4 more variables: category &lt;lgl&gt;, topic &lt;chr&gt;,</span>
 <span class="co">#&gt; #   summary &lt;chr&gt;, network &lt;chr&gt;</span></code></pre></div>
 </div>
 <div id="relayfm" class="section level3">
 <h3 class="hasAnchor">
 <a href="#relayfm" class="anchor"></a>Relay.fm</h3>
-<p>Same procedure as before, also with two shows.</p>
+<p>Same procedure as before, also with one show.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">relay_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/relay_get_shows.html">relay_get_shows</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">relay_shows</span>
@@ -163,11 +163,11 @@
 <span class="co">#&gt; # … with 36 more rows</span>
 
 <span class="va">relay_episodes</span> <span class="op">&lt;-</span> <span class="va">relay_shows</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"The Prompt"</span>, <span class="st">"Connected"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">==</span> <span class="st">"Connected"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/relay_get_episodes.html">relay_get_episodes</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">relay_episodes</span>
-<span class="co">#&gt; # A tibble: 380 x 10</span>
+<span class="co">#&gt; # A tibble: 323 x 10</span>
 <span class="co">#&gt;    show   number title   duration date        year month weekday host    network</span>
 <span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt;   &lt;chr&gt;  </span>
 <span class="co">#&gt;  1 Conne… 323    Artisa… 01:43:44 2020-12-02  2020 Dece… Wednes… Federi… relay.…</span>
@@ -180,7 +180,7 @@
 <span class="co">#&gt;  8 Conne… 316    I Over… 01:48:38 2020-10-14  2020 Octo… Wednes… Federi… relay.…</span>
 <span class="co">#&gt;  9 Conne… 315    The Ri… 01:35:32 2020-10-07  2020 Octo… Wednes… Federi… relay.…</span>
 <span class="co">#&gt; 10 Conne… 314    The Je… 01:30:59 2020-09-30  2020 Sept… Wednes… Federi… relay.…</span>
-<span class="co">#&gt; # … with 370 more rows</span></code></pre></div>
+<span class="co">#&gt; # … with 313 more rows</span></code></pre></div>
 </div>
 <div id="atp" class="section level3">
 <h3 class="hasAnchor">
@@ -226,38 +226,38 @@
 <code class="sourceCode R"><span class="va">incomparable_episodes</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/gather_people.html">gather_people</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">show</span>, <span class="va">number</span>, <span class="va">person</span>, <span class="va">role</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 275 x 4</span>
-<span class="co">#&gt;    show                 number person        role </span>
-<span class="co">#&gt;    &lt;chr&gt;                &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;</span>
-<span class="co">#&gt;  1 A Legitimate Salvage 28     Chip Sudderth host </span>
-<span class="co">#&gt;  2 A Legitimate Salvage 28     Warren Frey   host </span>
-<span class="co">#&gt;  3 A Legitimate Salvage 28     Kayti Burt    host </span>
-<span class="co">#&gt;  4 A Legitimate Salvage 28     Jen Burt      host </span>
-<span class="co">#&gt;  5 A Legitimate Salvage 27     Chip Sudderth host </span>
-<span class="co">#&gt;  6 A Legitimate Salvage 27     Warren Frey   host </span>
-<span class="co">#&gt;  7 A Legitimate Salvage 27     Kayti Burt    host </span>
-<span class="co">#&gt;  8 A Legitimate Salvage 27     Jen Burt      host </span>
-<span class="co">#&gt;  9 A Legitimate Salvage 26     Chip Sudderth host </span>
-<span class="co">#&gt; 10 A Legitimate Salvage 26     Warren Frey   host </span>
-<span class="co">#&gt; # … with 265 more rows</span>
+<span class="co">#&gt; # A tibble: 176 x 4</span>
+<span class="co">#&gt;    show              number person            role </span>
+<span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;  &lt;chr&gt;             &lt;chr&gt;</span>
+<span class="co">#&gt;  1 Unjustly Maligned 87     Tony Sindelar     host </span>
+<span class="co">#&gt;  2 Unjustly Maligned 87     Antony Johnston   guest</span>
+<span class="co">#&gt;  3 Unjustly Maligned 86     Antony Johnston   host </span>
+<span class="co">#&gt;  4 Unjustly Maligned 86     Andy Ihnatko      guest</span>
+<span class="co">#&gt;  5 Unjustly Maligned 85     Antony Johnston   host </span>
+<span class="co">#&gt;  6 Unjustly Maligned 85     Eddy Webb         guest</span>
+<span class="co">#&gt;  7 Unjustly Maligned 84     Antony Johnston   host </span>
+<span class="co">#&gt;  8 Unjustly Maligned 84     Jessica Sliwinski guest</span>
+<span class="co">#&gt;  9 Unjustly Maligned 83     Antony Johnston   host </span>
+<span class="co">#&gt; 10 Unjustly Maligned 83     Marcos Huerta     guest</span>
+<span class="co">#&gt; # … with 166 more rows</span>
 
 <span class="va">relay_episodes</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/gather_people.html">gather_people</a></span><span class="op">(</span>people_cols <span class="op">=</span> <span class="st">"host"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">show</span>, <span class="va">number</span>, <span class="va">person</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1,140 x 3</span>
-<span class="co">#&gt;    show      number person          </span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;           </span>
-<span class="co">#&gt;  1 Connected 323    Federico Viticci</span>
-<span class="co">#&gt;  2 Connected 323    Myke Hurley     </span>
-<span class="co">#&gt;  3 Connected 323    Stephen Hackett </span>
-<span class="co">#&gt;  4 Connected 322    Federico Viticci</span>
-<span class="co">#&gt;  5 Connected 322    Myke Hurley     </span>
-<span class="co">#&gt;  6 Connected 322    Stephen Hackett </span>
-<span class="co">#&gt;  7 Connected 321    Federico Viticci</span>
-<span class="co">#&gt;  8 Connected 321    Myke Hurley     </span>
-<span class="co">#&gt;  9 Connected 321    Stephen Hackett </span>
-<span class="co">#&gt; 10 Connected 320    Federico Viticci</span>
-<span class="co">#&gt; # … with 1,130 more rows</span></code></pre></div>
+  <span class="fu"><a href="reference/gather_people.html">gather_people</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">show</span>, <span class="va">number</span>, <span class="va">person</span>, <span class="va">role</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 969 x 4</span>
+<span class="co">#&gt;    show      number person           role </span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;</span>
+<span class="co">#&gt;  1 Connected 323    Federico Viticci host </span>
+<span class="co">#&gt;  2 Connected 323    Myke Hurley      host </span>
+<span class="co">#&gt;  3 Connected 323    Stephen Hackett  host </span>
+<span class="co">#&gt;  4 Connected 322    Federico Viticci host </span>
+<span class="co">#&gt;  5 Connected 322    Myke Hurley      host </span>
+<span class="co">#&gt;  6 Connected 322    Stephen Hackett  host </span>
+<span class="co">#&gt;  7 Connected 321    Federico Viticci host </span>
+<span class="co">#&gt;  8 Connected 321    Myke Hurley      host </span>
+<span class="co">#&gt;  9 Connected 321    Stephen Hackett  host </span>
+<span class="co">#&gt; 10 Connected 320    Federico Viticci host </span>
+<span class="co">#&gt; # … with 959 more rows</span></code></pre></div>
 </div>
 </div>
 </div>
