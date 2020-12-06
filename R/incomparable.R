@@ -128,7 +128,7 @@ incomparable_parse_archive <- function(archive_url) {
       rvest::html_attr("alt")
 
     if (identical(categories, character(0))) {
-      categories <- NA
+      categories <- NA_character_
     }
 
     topics <- .x %>%
@@ -139,7 +139,7 @@ incomparable_parse_archive <- function(archive_url) {
       stringr::str_trim("both")
 
     if (identical(topics, character(0))) {
-      topics <- NA
+      topics <- NA_character_
     }
 
     tibble::tibble(
