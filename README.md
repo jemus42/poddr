@@ -32,12 +32,12 @@ library(poddr)
 
 ### The Incomparable
 
-The basic workfflow is simple:
+The basic workflow is simple:
 
 1.  Get a list of all the shows on the network, including the relevant
     URLs for further parsing.
 2.  Get all the episodes of the shows selected. To not bother the
-    webserver too much, I’m limiting the selection to two shows.
+    webserver too much, I’m limiting the selection to a single show.
 
 ``` r
 incomparable_shows <- incomparable_get_shows()
@@ -58,30 +58,30 @@ incomparable_shows
 #> # … with 35 more rows
 
 incomparable_episodes <- incomparable_shows %>%
-  filter(show %in% c("Unjustly Maligned", "A Legitimate Salvage")) %>%
+  filter(show == "Unjustly Maligned") %>%
   incomparable_get_episodes()
 
 incomparable_episodes
-#> # A tibble: 116 x 14
+#> # A tibble: 87 x 14
 #>    show  number title duration date        year month weekday host  guest
 #>    <chr> <chr>  <chr> <time>   <date>     <dbl> <ord> <ord>   <chr> <chr>
-#>  1 A Le… 28     "\"C… 51'12"   2020-05-14  2020 May   Wednes… Chip… <NA> 
-#>  2 A Le… 27     "\"S… 32'13"   2020-04-27  2020 April Monday  Chip… <NA> 
-#>  3 A Le… 26     "\"T… 44'32"   2020-04-15  2020 April Tuesday Chip… <NA> 
-#>  4 A Le… 25     "\"A… 35'48"   2020-03-19  2020 March Wednes… Kayt… <NA> 
-#>  5 A Le… 24     "\"D… 31'56"   2020-03-03  2020 March Monday  Chip… <NA> 
-#>  6 A Le… 23     "\"O… 41'49"   2020-02-11  2020 Febr… Monday  Jen … <NA> 
-#>  7 A Le… 22     "\"R… 32'16"   2020-01-24  2020 Janu… Thursd… Chip… <NA> 
-#>  8 A Le… 21     "\"S… 27'13"   2020-01-19  2020 Janu… Saturd… Chip… <NA> 
-#>  9 A Le… 20     "\"J… 45'26"   2020-01-03  2020 Janu… Thursd… Jen … <NA> 
-#> 10 A Le… 19     "\"N… 40'27"   2019-12-23  2019 Dece… Sunday  Chip… <NA> 
-#> # … with 106 more rows, and 4 more variables: category <lgl>, topic <chr>,
+#>  1 Unju… 87     "\"L… 01:10:56 2017-09-25  2017 Sept… Monday  Tony… Anto…
+#>  2 Unju… 86     "\"R… 01:04:46 2017-09-12  2017 Sept… Tuesday Anto… Andy…
+#>  3 Unju… 85     "\"S… 01:07:47 2017-08-28  2017 Augu… Monday  Anto… Eddy…
+#>  4 Unju… 84     "\"T… 01:13:53 2017-08-14  2017 Augu… Monday  Anto… Jess…
+#>  5 Unju… 83     "\"P… 01:00:03 2017-07-31  2017 July  Monday  Anto… Marc…
+#>  6 Unju… 82     "\"P… 01:10:57 2017-07-17  2017 July  Monday  Anto… Ed B…
+#>  7 Unju… 81     "\"T… 01:10:42 2017-07-03  2017 July  Monday  Anto… Kell…
+#>  8 Unju… 80     "\"N… 01:24:24 2017-06-19  2017 June  Monday  Anto… Matt…
+#>  9 Unju… 79     "\"S… 01:15:33 2017-06-05  2017 June  Monday  Anto… Pete…
+#> 10 Unju… 78     "\"E… 01:16:40 2017-05-22  2017 May   Monday  Anto… Rich…
+#> # … with 77 more rows, and 4 more variables: category <lgl>, topic <chr>,
 #> #   summary <chr>, network <chr>
 ```
 
 ### Relay.fm
 
-Same procedure as before, also with two shows.
+Same procedure as before, also with one show.
 
 ``` r
 relay_shows <- relay_get_shows()
@@ -102,11 +102,11 @@ relay_shows
 #> # … with 36 more rows
 
 relay_episodes <- relay_shows %>%
-  filter(show %in% c("The Prompt", "Connected")) %>%
+  filter(show == "Connected") %>%
   relay_get_episodes()
 
 relay_episodes
-#> # A tibble: 380 x 10
+#> # A tibble: 323 x 10
 #>    show   number title   duration date        year month weekday host    network
 #>    <chr>  <chr>  <chr>   <time>   <date>     <dbl> <ord> <ord>   <chr>   <chr>  
 #>  1 Conne… 323    Artisa… 01:43:44 2020-12-02  2020 Dece… Wednes… Federi… relay.…
@@ -119,7 +119,7 @@ relay_episodes
 #>  8 Conne… 316    I Over… 01:48:38 2020-10-14  2020 Octo… Wednes… Federi… relay.…
 #>  9 Conne… 315    The Ri… 01:35:32 2020-10-07  2020 Octo… Wednes… Federi… relay.…
 #> 10 Conne… 314    The Je… 01:30:59 2020-09-30  2020 Sept… Wednes… Federi… relay.…
-#> # … with 370 more rows
+#> # … with 313 more rows
 ```
 
 ### ATP
@@ -180,36 +180,36 @@ case.
 incomparable_episodes %>%
   gather_people() %>%
   select(show, number, person, role)
-#> # A tibble: 275 x 4
-#>    show                 number person        role 
-#>    <chr>                <chr>  <chr>         <chr>
-#>  1 A Legitimate Salvage 28     Chip Sudderth host 
-#>  2 A Legitimate Salvage 28     Warren Frey   host 
-#>  3 A Legitimate Salvage 28     Kayti Burt    host 
-#>  4 A Legitimate Salvage 28     Jen Burt      host 
-#>  5 A Legitimate Salvage 27     Chip Sudderth host 
-#>  6 A Legitimate Salvage 27     Warren Frey   host 
-#>  7 A Legitimate Salvage 27     Kayti Burt    host 
-#>  8 A Legitimate Salvage 27     Jen Burt      host 
-#>  9 A Legitimate Salvage 26     Chip Sudderth host 
-#> 10 A Legitimate Salvage 26     Warren Frey   host 
-#> # … with 265 more rows
+#> # A tibble: 176 x 4
+#>    show              number person            role 
+#>    <chr>             <chr>  <chr>             <chr>
+#>  1 Unjustly Maligned 87     Tony Sindelar     host 
+#>  2 Unjustly Maligned 87     Antony Johnston   guest
+#>  3 Unjustly Maligned 86     Antony Johnston   host 
+#>  4 Unjustly Maligned 86     Andy Ihnatko      guest
+#>  5 Unjustly Maligned 85     Antony Johnston   host 
+#>  6 Unjustly Maligned 85     Eddy Webb         guest
+#>  7 Unjustly Maligned 84     Antony Johnston   host 
+#>  8 Unjustly Maligned 84     Jessica Sliwinski guest
+#>  9 Unjustly Maligned 83     Antony Johnston   host 
+#> 10 Unjustly Maligned 83     Marcos Huerta     guest
+#> # … with 166 more rows
 
 relay_episodes %>%
-  gather_people(people_cols = "host") %>%
-  select(show, number, person)
-#> # A tibble: 1,140 x 3
-#>    show      number person          
-#>    <chr>     <chr>  <chr>           
-#>  1 Connected 323    Federico Viticci
-#>  2 Connected 323    Myke Hurley     
-#>  3 Connected 323    Stephen Hackett 
-#>  4 Connected 322    Federico Viticci
-#>  5 Connected 322    Myke Hurley     
-#>  6 Connected 322    Stephen Hackett 
-#>  7 Connected 321    Federico Viticci
-#>  8 Connected 321    Myke Hurley     
-#>  9 Connected 321    Stephen Hackett 
-#> 10 Connected 320    Federico Viticci
-#> # … with 1,130 more rows
+  gather_people() %>%
+  select(show, number, person, role)
+#> # A tibble: 969 x 4
+#>    show      number person           role 
+#>    <chr>     <chr>  <chr>            <chr>
+#>  1 Connected 323    Federico Viticci host 
+#>  2 Connected 323    Myke Hurley      host 
+#>  3 Connected 323    Stephen Hackett  host 
+#>  4 Connected 322    Federico Viticci host 
+#>  5 Connected 322    Myke Hurley      host 
+#>  6 Connected 322    Stephen Hackett  host 
+#>  7 Connected 321    Federico Viticci host 
+#>  8 Connected 321    Myke Hurley      host 
+#>  9 Connected 321    Stephen Hackett  host 
+#> 10 Connected 320    Federico Viticci host 
+#> # … with 959 more rows
 ```

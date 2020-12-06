@@ -62,9 +62,6 @@ label_n <- function(x, brackets = FALSE) {
 #'
 #' @param episodes A tibble containing `host` and `guest` columns, with names
 #' separated by `;`.
-#' @param people_cols For The Incomparable, use the default `c("host", "guest")`,
-#' for relay.fm, there's only a `"host"` column, which results in a somewhat
-#' redundant `"role"` column in the output.
 #'
 #' @return A tibble with new columns `"role"` and `"person"`, one row per person.
 #' @export
@@ -74,7 +71,11 @@ label_n <- function(x, brackets = FALSE) {
 #' incomparable <- incomparable_get_episodes(incomparable_get_shows())
 #' incomparable_wide <- gather_people(incomparable)
 #' }
-gather_people <- function(episodes, people_cols = c("host", "guest")) {
+gather_people <- function(episodes) {
+
+  # Get people cols, as relay doesn't have guests
+  people_cols <- names(episodes)[names(episodes) %in% c("host", "guest")]
+
   episodes %>%
     tidyr::pivot_longer(
       cols = people_cols,
@@ -88,6 +89,5 @@ gather_people <- function(episodes, people_cols = c("host", "guest")) {
     dplyr::filter(!is.na(.data$person))
 }
 
-
-#
-globalVariables(c(".", "guest", "host"))
+# Appease R CMD check
+globalVariables(c("."))
