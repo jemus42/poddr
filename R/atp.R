@@ -50,7 +50,7 @@ atp_parse_page <- function(page) {
       links_sponsor <- tibble(
         link_text = link_text_sponsor,
         link_url = link_href_sponsor,
-        type = "Sponsor"
+        link_type = "Sponsor"
       )
 
       # Get the regular shownotes links
