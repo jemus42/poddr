@@ -1,4 +1,4 @@
-# poddr 0.0.1
+# poddr 0.1.0
 
 * Add `pkgdown` site.
 * Pass R CMD check.

@@ -1,6 +1,6 @@
 Package: poddr
 Title: Collect Metadata for Selected Podcasts
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: 
     person(given = "Lukas",
            family = "Burk",

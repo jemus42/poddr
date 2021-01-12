@@ -1,6 +1,6 @@
 #' Parse a single ATP page
 #'
-#' @param page Scraped page.
+#' @param page Scraped page object, e.g. from `polite::scrape()`.
 #'
 #' @return A tibble.
 #' @export
@@ -38,7 +38,7 @@ atp_parse_page <- function(page) {
 
       # Get the sponsor links
       links_sponsor <- .x %>%
-        # Shownotes links are in the secodn <ul> element
+        # Shownotes links are in the second <ul> element
         rvest::html_nodes("ul~ ul li") %>%
         rvest::html_nodes("a")
 

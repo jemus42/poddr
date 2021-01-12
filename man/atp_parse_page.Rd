@@ -7,7 +7,7 @@
 atp_parse_page(page)
 }
 \arguments{
-\item{page}{Scraped page.}
+\item{page}{Scraped page object, e.g. from \code{polite::scrape()}.}
 }
 \value{
 A tibble.
