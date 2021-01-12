@@ -37,14 +37,15 @@ atp_parse_page <- function(page) {
         stringr::str_remove("^\\d+:\\s")
 
       # Get the sponsor links
-      link_text_sponsor <- .x %>%
+      links_sponsor <- .x %>%
+        # Shownotes links are in the secodn <ul> element
         rvest::html_nodes("ul~ ul li") %>%
-        rvest::html_nodes("a") %>%
+        rvest::html_nodes("a")
+
+      link_text_sponsor <- links_sponsor %>%
         rvest::html_text()
 
-      link_href_sponsor <- .x %>%
-        rvest::html_nodes("ul~ ul li") %>%
-        rvest::html_nodes("a") %>%
+      link_href_sponsor <- links_sponsor %>%
         rvest::html_attr("href")
 
       links_sponsor <- tibble(
@@ -54,14 +55,16 @@ atp_parse_page <- function(page) {
       )
 
       # Get the regular shownotes links
-      link_text <- .x %>%
-        rvest::html_nodes(".subtitle+ ul li , li a") %>%
-        rvest::html_nodes("li a") %>%
+      links_regular <- .x %>%
+        # Get the first <ul> element, then the listed links
+        # This avoids links in paragraphs and shownotes
+        rvest::html_node("ul") %>%
+        rvest::html_nodes("li a")
+
+      link_text <- links_regular %>%
         rvest::html_text()
 
-      link_href <- .x %>%
-        rvest::html_nodes(".subtitle+ ul li , li a") %>%
-        rvest::html_nodes("li a") %>%
+      link_href <- links_regular %>%
         rvest::html_attr("href")
 
       links_regular <- tibble(
