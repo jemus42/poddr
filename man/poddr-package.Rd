@@ -6,8 +6,7 @@
 \alias{poddr-package}
 \title{poddr: Collect Metadata for Selected Podcasts}
 \description{
-Collecting all the data, but just for The
-    Incomparable, Relay.fm and ATP.
+Collecting all the data, but just for The Incomparable, Relay.fm and ATP.
 }
 \seealso{
 Useful links:

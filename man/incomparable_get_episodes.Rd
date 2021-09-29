@@ -21,6 +21,7 @@ Use sparingly to limit unnecessarily hammering the poor webserver!
 }
 \examples{
 \dontrun{
-incomparable <- incomparable_get_episodes(incomparable_get_shows())
+incomparable_shows <- incomparable_get_shows()
+incomparable <- incomparable_get_episodes(incomparable_shows)
 }
 }

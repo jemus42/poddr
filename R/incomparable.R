@@ -214,11 +214,12 @@ incomparable_parse_stats <- function(stats_url) {
 #'
 #' @examples
 #' \dontrun{
-#' incomparable <- incomparable_get_episodes(incomparable_get_shows())
+#' incomparable_shows <- incomparable_get_shows()
+#' incomparable <- incomparable_get_episodes(incomparable_shows)
 #' }
 incomparable_get_episodes <- function(incomparable_shows) {
   pb <- progress::progress_bar$new(
-    format = "Getting :show [:bar] :current/:total (:percent) ETA: :eta",
+    format = "Getting :show :current/:total (:percent) ETA: :eta [:bar]",
     total = nrow(incomparable_shows)
   )
 
@@ -230,9 +231,19 @@ incomparable_get_episodes <- function(incomparable_shows) {
     # stats.txt info, so not sure what to prefer
     # Also drop title because it uses different quotes than stats.txt,
     # which makes joining with stats.txt data weirder.
-    archived <- incomparable_parse_archive(..3) %>%
+    archived <- incomparable_parse_archive(..3)
+
+    # Return early/empty for broken archives, e.g. dwf
+    # "https://www.theincomparable.com/dwf/archive/"
+    # As of 2021-09-29
+    if (nrow(archived) == 0) {
+      message("\nEmpty archive page for ", ..1, " at ", ..3, "\n")
+      return(tibble())
+    }
+
+    archived %>%
       dplyr::mutate(show = ..1) %>%
-      dplyr::select(-c("duration", "title", "host", "guest", "date"))
+      dplyr::select(-dplyr::any_of(c("duration", "title", "host", "guest", "date")))
 
     stats <- incomparable_parse_stats(..2) %>%
       dplyr::mutate(show = ..1)

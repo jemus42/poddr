@@ -112,11 +112,12 @@ relay_parse_feed <- function(url) {
 #'
 #' @examples
 #' \dontrun{
-#' relay <- relay_get_episodes(relay_get_shows())
+#' relay_shows <- relay_get_shows()
+#' relay <- relay_get_episodes(relay_shows)
 #' }
 relay_get_episodes <- function(relay_shows) {
   pb <- progress::progress_bar$new(
-    format = "Getting :show [:bar] :current/:total (:percent) ETA: :eta",
+    format = "Getting :show :current/:total (:percent) ETA: :eta [:bar]",
     total = nrow(relay_shows)
   )
 
