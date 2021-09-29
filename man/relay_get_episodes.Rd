@@ -17,6 +17,7 @@ Retrieves all episodes for one or more shows passed as a tibble.
 }
 \examples{
 \dontrun{
-relay <- relay_get_episodes(relay_get_shows())
+relay_shows <- relay_get_shows()
+relay <- relay_get_episodes(relay_shows)
 }
 }

@@ -241,7 +241,7 @@ incomparable_get_episodes <- function(incomparable_shows) {
       return(tibble())
     }
 
-    archived %>%
+    archived <- archived %>%
       dplyr::mutate(show = ..1) %>%
       dplyr::select(-dplyr::any_of(c("duration", "title", "host", "guest", "date")))
 

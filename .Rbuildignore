@@ -9,3 +9,4 @@
 ^\.github$
 ^README_cache$
 ^fiddle\.R$
+^data_cache$
