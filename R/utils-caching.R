@@ -30,3 +30,30 @@ cache_podcast_data <- function(x, dir = "data", filename = NULL, csv = TRUE) {
     readr::write_delim(x, path_csv, delim = ";")
   }
 }
+
+#' Update and cache data locally
+#'
+#' @return Nothing
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' if (FALSE) {
+#' update_cached_data()
+#' }
+#' }
+update_cached_data <- function(dir = "data_cache") {
+  atp <- atp_get_episodes()
+  cache_podcast_data(atp, csv = FALSE, dir = dir)
+
+  relay_shows <- relay_get_shows()
+  relay_episodes <- relay_get_episodes(relay_shows)
+  cache_podcast_data(relay_shows, dir = dir)
+  cache_podcast_data(relay_episodes, dir = dir)
+
+  incomparable_shows <- incomparable_get_shows()
+  incomparable_episodes <- incomparable_get_episodes(incomparable_shows)
+
+  cache_podcast_data(incomparable_shows, dir = dir)
+  cache_podcast_data(incomparable_episodes, dir = dir)
+}
