@@ -2,7 +2,7 @@ Package: poddr
 Title: Collect Metadata for Selected Podcasts
 Version: 0.1.1
 Authors@R: 
-    person("Lukas", "Burk", , "lukas@tadaa-data.de", role = c("aut", "cre"),
+    person("Lukas", "Burk", , "github@quantenbrot.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7528-3795"))
 Description: Collecting all the data, but just for The Incomparable,
     Relay.fm and ATP.
@@ -40,4 +40,4 @@ Remotes:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
