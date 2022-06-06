@@ -47,6 +47,7 @@ reference:
     contents:
       - gather_people
       - cache_podcast_data
+      - update_cached_data
       - label_n
       - parse_duration
   - title: This package
