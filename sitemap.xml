@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jemus42.github.io/poddr/404.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/poddr/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/poddr/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/poddr/authors.html</loc>
+  </url>
+  <url>
     <loc>https://jemus42.github.io/poddr/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/poddr/news/index.html</loc>
   </url>
   <url>
     <loc>https://jemus42.github.io/poddr/reference/atp_get_episodes.html</loc>
@@ -28,13 +43,13 @@
     <loc>https://jemus42.github.io/poddr/reference/incomparable_parse_stats.html</loc>
   </url>
   <url>
+    <loc>https://jemus42.github.io/poddr/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://jemus42.github.io/poddr/reference/label_n.html</loc>
   </url>
   <url>
     <loc>https://jemus42.github.io/poddr/reference/parse_duration.html</loc>
-  </url>
-  <url>
-    <loc>https://jemus42.github.io/poddr/reference/pipe.html</loc>
   </url>
   <url>
     <loc>https://jemus42.github.io/poddr/reference/poddr-package.html</loc>
@@ -50,5 +65,8 @@
   </url>
   <url>
     <loc>https://jemus42.github.io/poddr/reference/tidyeval.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/poddr/reference/update_cached_data.html</loc>
   </url>
 </urlset>
