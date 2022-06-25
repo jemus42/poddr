@@ -26,7 +26,7 @@ parse_duration <- function(x) {
     } else {
       stop("Unexpected input format ", .x)
     }
-  }) %>%
+  }) |>
     hms::hms(seconds = .)
 }
 
@@ -76,16 +76,16 @@ gather_people <- function(episodes) {
   # Get people cols, as relay doesn't have guests
   people_cols <- names(episodes)[names(episodes) %in% c("host", "guest")]
 
-  episodes %>%
+  episodes |>
     tidyr::pivot_longer(
       cols = people_cols,
       names_to = "role", values_to = "person"
-    ) %>%
-    tidyr::separate_rows(.data$person, sep = ";") %>%
+    ) |>
+    tidyr::separate_rows(.data$person, sep = ";") |>
     # Just in case of superfluous whitespaces
-    dplyr::mutate(person = stringr::str_trim(.data$person, side = "both")) %>%
+    dplyr::mutate(person = stringr::str_trim(.data$person, side = "both")) |>
     # hms gets converted to durations for some reason
-    dplyr::mutate(dplyr::across(dplyr::any_of("duration"), hms::as_hms)) %>%
+    dplyr::mutate(dplyr::across(dplyr::any_of("duration"), hms::as_hms)) |>
     dplyr::filter(!is.na(.data$person))
 }
 

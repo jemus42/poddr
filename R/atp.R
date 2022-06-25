@@ -12,40 +12,40 @@
 #' atp_parse_page(page)
 #' }
 atp_parse_page <- function(page) {
-  rvest::html_nodes(page, "article") %>%
+  rvest::html_nodes(page, "article") |>
     purrr::map_dfr(~ {
-      meta <- rvest::html_node(.x, ".metadata") %>%
-        rvest::html_text() %>%
+      meta <- rvest::html_node(.x, ".metadata") |>
+        rvest::html_text() |>
         stringr::str_trim()
 
-      date <- meta %>%
-        stringr::str_extract("^.*(?=\\\n)") %>%
+      date <- meta |>
+        stringr::str_extract("^.*(?=\\\n)") |>
         lubridate::mdy()
 
-      duration <- meta %>%
-        stringr::str_extract("\\d{2}:\\d{2}:\\d{2}") %>%
+      duration <- meta |>
+        stringr::str_extract("\\d{2}:\\d{2}:\\d{2}") |>
         hms::as_hms()
 
-      number <- .x %>%
-        rvest::html_nodes("h2 a") %>%
-        rvest::html_text() %>%
+      number <- .x |>
+        rvest::html_nodes("h2 a") |>
+        rvest::html_text() |>
         stringr::str_extract("^\\d+")
 
-      title <- .x %>%
-        rvest::html_nodes("h2 a") %>%
-        rvest::html_text() %>%
+      title <- .x |>
+        rvest::html_nodes("h2 a") |>
+        rvest::html_text() |>
         stringr::str_remove("^\\d+:\\s")
 
       # Get the sponsor links
-      links_sponsor <- .x %>%
+      links_sponsor <- .x |>
         # Shownotes links are in the second <ul> element
-        rvest::html_nodes("ul~ ul li") %>%
+        rvest::html_nodes("ul~ ul li") |>
         rvest::html_nodes("a")
 
-      link_text_sponsor <- links_sponsor %>%
+      link_text_sponsor <- links_sponsor |>
         rvest::html_text()
 
-      link_href_sponsor <- links_sponsor %>%
+      link_href_sponsor <- links_sponsor |>
         rvest::html_attr("href")
 
       links_sponsor <- tibble(
@@ -55,16 +55,16 @@ atp_parse_page <- function(page) {
       )
 
       # Get the regular shownotes links
-      links_regular <- .x %>%
+      links_regular <- .x |>
         # Get the first <ul> element, then the listed links
         # This avoids links in paragraphs and shownotes
-        rvest::html_node("ul") %>%
+        rvest::html_node("ul") |>
         rvest::html_nodes("li a")
 
-      link_text <- links_regular %>%
+      link_text <- links_regular |>
         rvest::html_text()
 
-      link_href <- links_regular %>%
+      link_href <- links_regular |>
         rvest::html_attr("href")
 
       links_regular <- tibble(
@@ -125,11 +125,11 @@ atp_get_episodes <- function(page_limit = NULL) {
 
   # Find out how many pages there will be in total
   # purely for progress bar cosmetics.
-  latest_ep_num <- atp_pages[[1]] %>%
-    rvest::html_nodes("h2 a") %>%
-    rvest::html_text() %>%
-    stringr::str_extract("^\\d+") %>%
-    as.numeric() %>%
+  latest_ep_num <- atp_pages[[1]] |>
+    rvest::html_nodes("h2 a") |>
+    rvest::html_text() |>
+    stringr::str_extract("^\\d+") |>
+    as.numeric() |>
     max()
 
   # First page has 5 episodes, 50 episodes per page afterwards
@@ -152,10 +152,10 @@ atp_get_episodes <- function(page_limit = NULL) {
     )
 
     # Find the next page number
-    next_page_num <- atp_pages[[next_page_num]] %>%
-      rvest::html_nodes("#pagination a+ a") %>%
-      rvest::html_attr("href") %>%
-      stringr::str_extract("\\d+$") %>%
+    next_page_num <- atp_pages[[next_page_num]] |>
+      rvest::html_nodes("#pagination a+ a") |>
+      rvest::html_attr("href") |>
+      stringr::str_extract("\\d+$") |>
       as.numeric()
 
     # Break the loop if there's no next page
