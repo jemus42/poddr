@@ -6,6 +6,9 @@
 \usage{
 update_cached_data(dir = "data_cache")
 }
+\arguments{
+\item{dir}{\verb{["data_cache"]} Directory path to save cached data to.}
+}
 \value{
 Nothing
 }

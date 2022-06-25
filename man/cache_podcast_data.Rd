@@ -7,13 +7,13 @@
 cache_podcast_data(x, dir = "data", filename = NULL, csv = TRUE)
 }
 \arguments{
-\item{x}{Object to cache}
+\item{x}{Object to cache.}
 
-\item{dir}{Directory to save data to}
+\item{dir}{\verb{["data"]} Directory to save data to.}
 
-\item{filename}{Optional filename, if not specified the name of \code{x}.}
+\item{filename}{Optional filename, if not specified the name of \code{x} is used.}
 
-\item{csv}{If \code{TRUE}, also saves a CSV file with the same base name.}
+\item{csv}{If \code{TRUE} (default), also saves a CSV file with the same base name.}
 }
 \value{
 Nothing

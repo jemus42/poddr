@@ -23,8 +23,9 @@ relay_get_shows <- function() {
 
   feed_urls <- relay_shows |>
     rvest::html_nodes(".broadcast__name a") |>
-    rvest::html_attr("href") |>
-    stringr::str_c("https://www.relay.fm", ., "/feed")
+    rvest::html_attr("href")
+
+  feed_urls <- stringr::str_c("https://www.relay.fm", feed_urls, "/feed")
 
   retired_shows <- relay_shows |>
     rvest::html_nodes(".subheader~ .entry .broadcast__name a") |>
@@ -86,6 +87,7 @@ relay_parse_feed <- function(url) {
     rvest::html_text() |>
     stringr::str_replace_all(",? and ", ";") |>
     stringr::str_replace_all(",\\s*", ";") |>
+    stringr::str_replace_all("\\s+", " ") |>
     magrittr::extract(-1)
 
   tibble(

@@ -9,7 +9,7 @@
 #' parse_duration("32:12")
 #' parse_duration("32:12:04")
 parse_duration <- function(x) {
-  purrr::map_dbl(x, ~ {
+  parsed <- purrr::map_dbl(x, ~ {
     if (stringr::str_count(.x, ":") == 2) {
       xx <- as.numeric(unlist(stringr::str_split(.x, ":")))
       hms::hms(
@@ -26,8 +26,9 @@ parse_duration <- function(x) {
     } else {
       stop("Unexpected input format ", .x)
     }
-  }) |>
-    hms::hms(seconds = .)
+  })
+
+  hms::hms(seconds = parsed)
 }
 
 #' Convenience function to display N
@@ -88,6 +89,3 @@ gather_people <- function(episodes) {
     dplyr::mutate(dplyr::across(dplyr::any_of("duration"), hms::as_hms)) |>
     dplyr::filter(!is.na(.data$person))
 }
-
-# Appease R CMD check
-globalVariables(c("."))

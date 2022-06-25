@@ -1,9 +1,9 @@
 #' Cache episode data
 #'
-#' @param x Object to cache
-#' @param dir Directory to save data to
-#' @param filename Optional filename, if not specified the name of `x`.
-#' @param csv If `TRUE`, also saves a CSV file with the same base name.
+#' @param x Object to cache.
+#' @param dir `["data"]` Directory to save data to.
+#' @param filename Optional filename, if not specified the name of `x` is used.
+#' @param csv If `TRUE` (default), also saves a CSV file with the same base name.
 #'
 #' @return Nothing
 #' @export
@@ -33,6 +33,7 @@ cache_podcast_data <- function(x, dir = "data", filename = NULL, csv = TRUE) {
 
 #' Update and cache data locally
 #'
+#' @param dir `["data_cache"]` Directory path to save cached data to.
 #' @return Nothing
 #' @export
 #'
