@@ -1,3 +1,8 @@
+# poddr 0.2.0
+
+* Update for the new [Incomparable website](https://www.theincomparable.com/) in June 2022.  
+  * Some information like sub-categories for the mothership (Book Club, Old Movie Club etc.) are not yet recovered though.
+
 # poddr 0.1.1
 
 * [Incomparable] Fix bug where empty show archive pages broke the whole episode gathering.

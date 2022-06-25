@@ -12,24 +12,44 @@
 #' }
 incomparable_get_shows <- function() {
   base_url <- "https://www.theincomparable.com"
-  show_index <- polite::bow(glue::glue("{base_url}/shows")) %>%
+  show_index <- polite::bow(glue::glue("{base_url}/shows")) |>
     polite::scrape()
 
-  shows <- show_index %>%
-    rvest::html_nodes("h3 a") %>%
+  shows <- show_index |>
+    rvest::html_nodes("#recent h5 a") |>
     rvest::html_text()
 
-  show_partials <- show_index %>%
-    rvest::html_nodes("h3 a") %>%
-    rvest::html_attr("href") %>%
+  show_partials <- show_index |>
+    rvest::html_nodes("#recent h5 a") |>
+    rvest::html_attr("href") |>
     stringr::str_replace_all("\\/", "")
 
-  tibble(
+  shows_active <- tibble::tibble(
     show = shows,
     # partial = show_partials,
     stats_url = glue::glue("{base_url}/{show_partials}/stats.txt"),
-    archive_url = glue::glue("{base_url}/{show_partials}/archive/")
+    archive_url = glue::glue("{base_url}/{show_partials}/archive/"),
+    status = "active"
   )
+
+  shows <- show_index |>
+    rvest::html_nodes("#retired h5 a") |>
+    rvest::html_text()
+
+  show_partials <- show_index |>
+    rvest::html_nodes("#retired h5 a") |>
+    rvest::html_attr("href") |>
+    stringr::str_replace_all("\\/", "")
+
+  shows_retired <- tibble::tibble(
+    show = shows,
+    # partial = show_partials,
+    stats_url = glue::glue("{base_url}/{show_partials}/stats.txt"),
+    archive_url = glue::glue("{base_url}/{show_partials}/archive/"),
+    status = "retired"
+  )
+
+  dplyr::bind_rows(shows_active, shows_retired)
 }
 
 #' Parse a show's archive page on The Incomparable website
@@ -50,20 +70,20 @@ incomparable_get_shows <- function() {
 #' incomparable_parse_archive(archive_url)
 #' }
 incomparable_parse_archive <- function(archive_url) {
-  archive_parsed <- polite::bow(archive_url) %>%
+  archive_parsed <- polite::bow(archive_url) |>
     polite::scrape()
 
   # One element per entry, iterate over this to ensure
   # each episode and respective elements can be matched correctly
   # for things like topics and categories where not every episode
   # has such an element
-  entries <- archive_parsed %>%
-    rvest::html_nodes(css = "#entry")
+  entries <- archive_parsed |>
+    rvest::html_nodes(css = ".episode-info")
 
   purrr::map_dfr(entries, ~ {
-    epnums <- .x %>%
-      rvest::html_nodes(css = ".episode-number") %>%
-      rvest::html_text() %>%
+    epnums <- .x |>
+      rvest::html_nodes(css = ".ep-num") |>
+      rvest::html_text() |>
       as.character()
 
     # Comic book club test case
@@ -71,72 +91,44 @@ incomparable_parse_archive <- function(archive_url) {
     # Non-categorized test case
     # if (epnums == "541") browser()
 
-    summaries <- .x %>%
-      rvest::html_nodes(css = ".episode-description") %>%
-      rvest::html_text() %>%
-      stringr::str_replace_all("^(\\W)*", "") %>%
-      stringr::str_replace_all("\\W*$", "")
+    summaries <- .x |>
+      rvest::html_nodes(css = "p") |>
+      rvest::html_text() |>
+      stringr::str_c(collapse = "")
+      # stringr::str_replace_all("^(\\W)*", "") |>
+      # stringr::str_replace_all("\\W*$", "")
 
-    titles <- .x %>%
-      rvest::html_nodes(css = ".entry-title a") %>%
-      rvest::html_text()
+    titles <- .x |>
+      rvest::html_nodes(css = "h5 a") |>
+      rvest::html_text() |>
+      stringr::str_remove_all("^\\d+\\w?[\\n\\s\\t]*")
 
-    postdate <- .x %>%
-      rvest::html_nodes(".postdate:nth-child(1)") %>%
-      rvest::html_text()
-
-    date <- postdate[[1]] %>%
-      stringr::str_trim(side = "both") %>%
-      stringr::str_extract("^.*\\n") %>%
-      stringr::str_trim(side = "both") %>%
+    date <- .x |>
+      rvest::html_nodes(".episode-date") |>
+      rvest::html_text() |>
+      stringr::str_extract("^[A-Za-z0-9\\s,]+\\d{4}") |>
       lubridate::mdy()
 
-    # Handling of duration is wonky and WIP
-    # also there are no seconds as of 2020-12-02
-    duration <- postdate[[2]]
-
-    duration <- list(
-      hours = stringr::str_extract(duration, pattern = "\\d+(?=(\\shours))"),
-      minutes = stringr::str_extract(duration, pattern = "\\d+(?=(\\sminutes))"),
-      seconds = stringr::str_extract(duration, pattern = "\\d+(?=(\\sseconds))")
-    )
-
-    duration <- purrr::map(duration, ~ {
-      if (is.na(.x)) {
-        return(0)
-      }
-      as.numeric(.x)
-    })
-
-    duration <- hms::hms(
-      seconds = duration$seconds,
-      minutes = duration$minutes,
-      hours = duration$hours
-    )
-
-    host <- .x %>%
-      rvest::html_nodes(".postdate+ a") %>%
+    host <- .x |>
+      rvest::html_nodes(".hosts a:nth-child(1)") |>
       rvest::html_text()
 
-    guest <- .x %>%
-      rvest::html_nodes("a+ a") %>%
-      rvest::html_text() %>%
+    guest <- .x |>
+      rvest::html_nodes("a+ a") |>
+      rvest::html_text() |>
       paste(collapse = ";")
 
-    categories <- .x %>%
-      rvest::html_nodes(".subcast img") %>%
-      rvest::html_attr("alt")
+    # categories <- .x |>
+    #   rvest::html_nodes(".subcast img") |>
+    #   rvest::html_attr("alt")
+    #
+    # if (identical(categories, character(0))) {
+    #   categories <- NA_character_
+    # }
 
-    if (identical(categories, character(0))) {
-      categories <- NA_character_
-    }
-
-    topics <- .x %>%
-      rvest::html_nodes(".postdate+ .postdate") %>%
-      rvest::html_text() %>%
-      stringr::str_extract("\\u2022.*") %>%
-      stringr::str_replace_all("\\u2022", "") %>%
-      stringr::str_trim("both")
+    topics <- .x |>
+      rvest::html_nodes(".episode-subtitle") |>
+      rvest::html_text()
 
     if (identical(topics, character(0))) {
       topics <- NA_character_
@@ -145,14 +137,14 @@ incomparable_parse_archive <- function(archive_url) {
     tibble::tibble(
       number = epnums,
       title = titles,
-      duration = duration,
+      #duration = duration,
       date = date,
       year = lubridate::year(date),
       month = lubridate::month(date, abbr = FALSE, label = TRUE),
       weekday = lubridate::wday(date, abbr = FALSE, label = TRUE),
       host = host,
       guest = guest,
-      category = categories,
+      #category = categories,
       topic = topics,
       summary = summaries,
       network = "The Incomparable"
@@ -188,13 +180,13 @@ incomparable_parse_stats <- function(stats_url) {
     ),
     col_types = "cccccc",
     trim_ws = TRUE
-  ) %>%
+  ) |>
     dplyr::mutate(
       duration = parse_duration(.data$duration),
       date = lubridate::dmy(.data$date)#,
       #host = stringr::str_replace_all(.data$host, ",\\s*", ";"),
       #guest = stringr::str_replace_all(.data$guest, ",\\s*", ";")
-    ) %>%
+    ) |>
     dplyr::mutate(dplyr::across(c("host", "guest"), ~ {
       stringr::str_replace_all(.x, "\\s*,\\s*", ";")
     }))
@@ -223,7 +215,7 @@ incomparable_get_episodes <- function(incomparable_shows) {
     total = nrow(incomparable_shows)
   )
 
-  incomparable_episodes <- purrr::pmap_dfr(incomparable_shows, ~ {
+  purrr::pmap_dfr(incomparable_shows, ~ {
     pb$tick(tokens = list(show = ..1))
 
     # Get the archive info, but drop duration (only HH:MM), and the
@@ -241,21 +233,23 @@ incomparable_get_episodes <- function(incomparable_shows) {
       return(tibble())
     }
 
-    archived <- archived %>%
-      dplyr::mutate(show = ..1) %>%
+    archived <- archived |>
+      dplyr::mutate(show = ..1) |>
       dplyr::select(-dplyr::any_of(c("duration", "title", "host", "guest", "date")))
 
-    stats <- incomparable_parse_stats(..2) %>%
+    stats <- incomparable_parse_stats(..2) |>
       dplyr::mutate(show = ..1)
 
-    stats %>%
+    stats |>
       dplyr::full_join(
         archived,
         by = c("show", "number")
-      ) %>%
+      ) |>
       dplyr::select(
         "show", "number", "title", "duration", "date", "year", "month",
-        "weekday", "host", "guest", "category", "topic", "summary", "network"
+        "weekday", "host", "guest",
+        #"category",
+        "topic", "summary", "network"
       )
   })
 }
