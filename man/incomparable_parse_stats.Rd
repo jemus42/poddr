@@ -23,7 +23,6 @@ topic information, which is only available on the archive page.
 }
 \examples{
 \dontrun{
-stats_url <- "https://www.theincomparable.com/salvage/stats.txt"
-incomparable_parse_stats(stats_url)
+incomparable_parse_stats("https://www.theincomparable.com/salvage/stats.txt")
 }
 }

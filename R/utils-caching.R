@@ -39,9 +39,7 @@ cache_podcast_data <- function(x, dir = "data", filename = NULL, csv = TRUE) {
 #'
 #' @examples
 #' \dontrun{
-#' if (FALSE) {
 #' update_cached_data()
-#' }
 #' }
 update_cached_data <- function(dir = "data_cache") {
   atp <- atp_get_episodes()

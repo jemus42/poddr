@@ -1,6 +1,10 @@
+# poddr 0.2.1
+
+* [Incomparable] Fix missing subcategory handling for the mothership, game show and some others.
+
 # poddr 0.2.0
 
-* Update for the new [Incomparable website](https://www.theincomparable.com/) in June 2022.  
+* [Incomparable] Update for the new [Incomparable website](https://www.theincomparable.com/) in June 2022.  
   * Some information like sub-categories for the mothership (Book Club, Old Movie Club etc.) are not yet recovered though.
 
 # poddr 0.1.1

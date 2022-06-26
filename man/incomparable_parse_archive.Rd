@@ -21,7 +21,7 @@ accurate episode durations.
 }
 \examples{
 \dontrun{
-archive_url <- "https://www.theincomparable.com/salvage/archive/"
+archive_url <- "https://www.theincomparable.com/gameshow/archive/"
 incomparable_parse_archive(archive_url)
 }
 }

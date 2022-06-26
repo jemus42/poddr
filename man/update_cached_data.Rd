@@ -17,8 +17,6 @@ Update and cache data locally
 }
 \examples{
 \dontrun{
-if (FALSE) {
 update_cached_data()
-}
 }
 }

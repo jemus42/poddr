@@ -66,7 +66,7 @@ incomparable_get_shows <- function() {
 #'
 #' @examples
 #' \dontrun{
-#' archive_url <- "https://www.theincomparable.com/salvage/archive/"
+#' archive_url <- "https://www.theincomparable.com/gameshow/archive/"
 #' incomparable_parse_archive(archive_url)
 #' }
 incomparable_parse_archive <- function(archive_url) {
@@ -78,25 +78,28 @@ incomparable_parse_archive <- function(archive_url) {
   # for things like topics and categories where not every episode
   # has such an element
   entries <- archive_parsed |>
-    rvest::html_nodes(css = ".episode-info")
+    rvest::html_nodes(css = ".episode-list li")
 
+  # Subcategory detection
+  subcat_header <- archive_parsed |>
+    rvest::html_nodes("h6") |>
+    rvest::html_text()
+
+  has_categories <- identical(subcat_header, "Subcategories")
+
+  # Iterate over list entries and return per-episode tbl to keep things together
   purrr::map_dfr(entries, ~ {
+    # Treat episode numbers as character in case of letter suffixes
     epnums <- .x |>
       rvest::html_nodes(css = ".ep-num") |>
       rvest::html_text() |>
       as.character()
 
-    # Comic book club test case
-    # if (epnums == "526") browser()
-    # Non-categorized test case
-    # if (epnums == "541") browser()
-
+    # Multiple paragraphs will result in multiple elements, hence the concatenation
     summaries <- .x |>
       rvest::html_nodes(css = "p") |>
       rvest::html_text() |>
       stringr::str_c(collapse = "")
-      # stringr::str_replace_all("^(\\W)*", "") |>
-      # stringr::str_replace_all("\\W*$", "")
 
     titles <- .x |>
       rvest::html_nodes(css = "h5 a") |>
@@ -118,13 +121,14 @@ incomparable_parse_archive <- function(archive_url) {
       rvest::html_text() |>
       paste(collapse = ";")
 
-    # categories <- .x |>
-    #   rvest::html_nodes(".subcast img") |>
-    #   rvest::html_attr("alt")
-    #
-    # if (identical(categories, character(0))) {
-    #   categories <- NA_character_
-    # }
+    # Only try to wrangle subcategory from image alt text if there are subcategories listed
+    categories <- NA_character_
+    if (has_categories) {
+      categories <- .x |>
+        rvest::html_nodes("img") |>
+        rvest::html_attr("alt") |>
+        stringr::str_remove_all("(^.*\\s-\\s)|(\\scover\\sart)")
+    }
 
     topics <- .x |>
       rvest::html_nodes(".episode-subtitle") |>
@@ -144,12 +148,43 @@ incomparable_parse_archive <- function(archive_url) {
       weekday = lubridate::wday(date, abbr = FALSE, label = TRUE),
       host = host,
       guest = guest,
-      #category = categories,
+      category = categories,
       topic = topics,
       summary = summaries,
       network = "The Incomparable"
     )
   })
+}
+
+#' Extract subcategory index for given show
+#'
+#' Not actively used in other functions but could come in handy.
+#'
+#' @inheritParams incomparable_parse_archive
+#'
+#' @return A tibble with subcategory links `link` and category name `category`
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' incomparable_get_subcategories("https://www.theincomparable.com/gameshow/archive/")
+#' }
+incomparable_get_subcategories <- function(archive_url = "https://www.theincomparable.com/gameshow/archive/") {
+  show_index <- polite::bow(archive_url) |>
+    polite::scrape()
+
+  show_index |>
+    rvest::html_nodes("#recent aside a") |>
+    purrr::map_dfr(~{
+
+      link <- .x |> rvest::html_attr("href")
+      link <- paste0("https://www.theincomparable.com", link)
+
+      tibble::tibble(
+        link = link,
+        category = .x |> rvest::html_text()
+      )
+    })
 }
 
 #' Parse The Incomparable stats.txt files
@@ -168,8 +203,7 @@ incomparable_parse_archive <- function(archive_url) {
 #'
 #' @examples
 #' \dontrun{
-#' stats_url <- "https://www.theincomparable.com/salvage/stats.txt"
-#' incomparable_parse_stats(stats_url)
+#' incomparable_parse_stats("https://www.theincomparable.com/salvage/stats.txt")
 #' }
 incomparable_parse_stats <- function(stats_url) {
   readr::read_delim(
@@ -183,9 +217,7 @@ incomparable_parse_stats <- function(stats_url) {
   ) |>
     dplyr::mutate(
       duration = parse_duration(.data$duration),
-      date = lubridate::dmy(.data$date)#,
-      #host = stringr::str_replace_all(.data$host, ",\\s*", ";"),
-      #guest = stringr::str_replace_all(.data$guest, ",\\s*", ";")
+      date = lubridate::dmy(.data$date)
     ) |>
     dplyr::mutate(dplyr::across(c("host", "guest"), ~ {
       stringr::str_replace_all(.x, "\\s*,\\s*", ";")
@@ -248,7 +280,7 @@ incomparable_get_episodes <- function(incomparable_shows) {
       dplyr::select(
         "show", "number", "title", "duration", "date", "year", "month",
         "weekday", "host", "guest",
-        #"category",
+        "category",
         "topic", "summary", "network"
       )
   })

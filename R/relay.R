@@ -79,16 +79,16 @@ relay_parse_feed <- function(url) {
     rvest::html_text() |>
     stringr::str_replace("^.{5}", "") |>
     lubridate::parse_date_time("%d %b %Y %H:%M:%S", tz = "GMT") |>
-    lubridate::as_date() |>
-    magrittr::extract(-1)
+    lubridate::as_date()
+  pubdate <- pubdate[-1]
 
   people <- feed |>
     rvest::html_nodes("author") |>
     rvest::html_text() |>
     stringr::str_replace_all(",? and ", ";") |>
     stringr::str_replace_all(",\\s*", ";") |>
-    stringr::str_replace_all("\\s+", " ") |>
-    magrittr::extract(-1)
+    stringr::str_replace_all("\\s+", " ")
+  people <- people[1]
 
   tibble(
     show = show,
