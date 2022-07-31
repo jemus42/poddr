@@ -11,7 +11,21 @@ incomparable_parse_archive(archive_url)
 \code{"https://www.theincomparable.com/theincomparable/archive/"}.}
 }
 \value{
-A tibble.
+A tibble, with following format:
+#> dplyr::glimpse(incomparable_parse_archive(archive_url))
+Columns: 12
+$ number   <chr>
+$ title    <chr>
+$ date     <date>
+$ year     <dbl>
+$ month    <ord>
+$ weekday  <ord>
+$ host     <chr>
+$ guest    <chr>
+$ category <chr>
+$ topic    <chr>
+$ summary  <chr>
+$ network  <chr>
 }
 \description{
 Retrieves all episodes for one or more shows passed as a tibble.

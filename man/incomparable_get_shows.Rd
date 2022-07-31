@@ -7,7 +7,12 @@
 incomparable_get_shows()
 }
 \value{
-A tibble.
+A tibble with following columns:
+Columns: 4
+$ show        <chr>
+$ stats_url   <glue>
+$ archive_url <glue>
+$ status      <chr>
 }
 \description{
 Parses the show overview page and returns a tibble of show names

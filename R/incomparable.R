@@ -3,7 +3,13 @@
 #' Parses the show overview page and returns a tibble of show names
 #' with corresponding URLs, which in turn can then be passed to
 #' `incomparable_parse_archive()` and `incomparable_parse_stats()` individually.
-#' @return A tibble.
+#'
+#' @return A tibble with following columns:
+#' Columns: 4
+#' $ show        <chr>
+#' $ stats_url   <glue>
+#' $ archive_url <glue>
+#' $ status      <chr>
 #' @export
 #'
 #' @examples
@@ -61,7 +67,21 @@ incomparable_get_shows <- function() {
 #' @param archive_url E.g.
 #' `"https://www.theincomparable.com/theincomparable/archive/"`.
 #'
-#' @return A tibble.
+#' @return A tibble, with following format:
+#' #> dplyr::glimpse(incomparable_parse_archive(archive_url))
+#'  Columns: 12
+#'  $ number   <chr>
+#'  $ title    <chr>
+#'  $ date     <date>
+#'  $ year     <dbl>
+#'  $ month    <ord>
+#'  $ weekday  <ord>
+#'  $ host     <chr>
+#'  $ guest    <chr>
+#'  $ category <chr>
+#'  $ topic    <chr>
+#'  $ summary  <chr>
+#'  $ network  <chr>
 #' @export
 #'
 #' @examples
@@ -72,6 +92,10 @@ incomparable_get_shows <- function() {
 incomparable_parse_archive <- function(archive_url) {
   archive_parsed <- polite::bow(archive_url) |>
     polite::scrape()
+
+  # Catch 500 error for archive pages, e.g. https://www.theincomparable.com/pod4ham/
+  # 2022-07-31
+  if (is.null(archive_parsed)) return(tibble::tibble())
 
   # One element per entry, iterate over this to ensure
   # each episode and respective elements can be matched correctly
@@ -109,7 +133,7 @@ incomparable_parse_archive <- function(archive_url) {
     date <- .x |>
       rvest::html_nodes(".episode-date") |>
       rvest::html_text() |>
-      stringr::str_extract("^[A-Za-z0-9\\s,]+\\d{4}") |>
+      stringr::str_extract("^[A-Za-z0-9\\s,]+,\\s+\\d{4}") |>
       lubridate::mdy()
 
     host <- .x |>
