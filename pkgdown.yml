@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 2.0.5
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-06-26T14:36Z
+last_built: 2022-07-31T18:51Z
 urls:
   reference: https://jemus42.github.io/poddr/reference
   article: https://jemus42.github.io/poddr/articles
