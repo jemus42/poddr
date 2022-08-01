@@ -8,11 +8,13 @@ incomparable_get_shows()
 }
 \value{
 A tibble with following columns:
-Columns: 4
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Columns: 4
 $ show        <chr>
 $ stats_url   <glue>
 $ archive_url <glue>
 $ status      <chr>
+}\if{html}{\out{</div>}}
 }
 \description{
 Parses the show overview page and returns a tibble of show names

@@ -5,11 +5,13 @@
 #' `incomparable_parse_archive()` and `incomparable_parse_stats()` individually.
 #'
 #' @return A tibble with following columns:
+#' ```
 #' Columns: 4
 #' $ show        <chr>
 #' $ stats_url   <glue>
 #' $ archive_url <glue>
 #' $ status      <chr>
+#' ```
 #' @export
 #'
 #' @examples
@@ -68,6 +70,7 @@ incomparable_get_shows <- function() {
 #' `"https://www.theincomparable.com/theincomparable/archive/"`.
 #'
 #' @return A tibble, with following format:
+#' ```
 #' #> dplyr::glimpse(incomparable_parse_archive(archive_url))
 #'  Columns: 12
 #'  $ number   <chr>
@@ -82,6 +85,7 @@ incomparable_get_shows <- function() {
 #'  $ topic    <chr>
 #'  $ summary  <chr>
 #'  $ network  <chr>
+#' ```
 #' @export
 #'
 #' @examples

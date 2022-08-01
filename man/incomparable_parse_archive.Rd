@@ -12,20 +12,22 @@ incomparable_parse_archive(archive_url)
 }
 \value{
 A tibble, with following format:
-#> dplyr::glimpse(incomparable_parse_archive(archive_url))
-Columns: 12
-$ number   <chr>
-$ title    <chr>
-$ date     <date>
-$ year     <dbl>
-$ month    <ord>
-$ weekday  <ord>
-$ host     <chr>
-$ guest    <chr>
-$ category <chr>
-$ topic    <chr>
-$ summary  <chr>
-$ network  <chr>
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#> dplyr::glimpse(incomparable_parse_archive(archive_url))
+ Columns: 12
+ $ number   <chr>
+ $ title    <chr>
+ $ date     <date>
+ $ year     <dbl>
+ $ month    <ord>
+ $ weekday  <ord>
+ $ host     <chr>
+ $ guest    <chr>
+ $ category <chr>
+ $ topic    <chr>
+ $ summary  <chr>
+ $ network  <chr>
+}\if{html}{\out{</div>}}
 }
 \description{
 Retrieves all episodes for one or more shows passed as a tibble.
