@@ -20,7 +20,7 @@ accurate episode durations."><meta name="twitter:card" content="summary_large_im
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">poddr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -73,21 +73,25 @@ accurate episode durations.</p>
     <h2>Value</h2>
     
 
-<p>A tibble, with following format:
-#&gt; dplyr::glimpse(incomparable_parse_archive(archive_url))
-Columns: 12
-$ number   &lt;chr&gt;
-$ title    &lt;chr&gt;
-$ date     &lt;date&gt;
-$ year     &lt;dbl&gt;
-$ month    &lt;ord&gt;
-$ weekday  &lt;ord&gt;
-$ host     &lt;chr&gt;
-$ guest    &lt;chr&gt;
-$ category &lt;chr&gt;
-$ topic    &lt;chr&gt;
-$ summary  &lt;chr&gt;
-$ network  &lt;chr&gt;</p>
+<p>A tibble, with following format:</p>
+
+
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#&gt; dplyr::glimpse(incomparable_parse_archive(archive_url))</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a> Columns<span class="op">:</span><span class="st"> </span><span class="dv">12</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a> <span class="op">$</span><span class="st"> </span>number   <span class="op">&lt;</span>chr<span class="op">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>title    <span class="op">&lt;</span>chr<span class="op">&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>date     <span class="op">&lt;</span>date<span class="op">&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>year     <span class="op">&lt;</span>dbl<span class="op">&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>month    <span class="op">&lt;</span>ord<span class="op">&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>weekday  <span class="op">&lt;</span>ord<span class="op">&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>host     <span class="op">&lt;</span>chr<span class="op">&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>guest    <span class="op">&lt;</span>chr<span class="op">&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>category <span class="op">&lt;</span>chr<span class="op">&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>topic    <span class="op">&lt;</span>chr<span class="op">&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>summary  <span class="op">&lt;</span>chr<span class="op">&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="st"> </span><span class="er">$</span><span class="st"> </span>network  <span class="op">&lt;</span>chr<span class="op">&gt;</span></span></code></pre><p></p></div>
+
+
     </div>
 
     <div id="ref-examples">
