@@ -1,3 +1,8 @@
+# poddr 0.2.2
+
+*  [Incomparable] Add safety check in case an archive page returns `500` and is not parseable.
+*  [Incomparable] Slightly improve date parsing from archive pages. 
+
 # poddr 0.2.1
 
 * [Incomparable] Fix missing subcategory handling for the mothership, game show and some others.
