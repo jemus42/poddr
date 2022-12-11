@@ -1,3 +1,7 @@
+# poddr 0.2.3
+
+* [Relay.fm] Fix incorrect host parsing, leading to all hosts being displayed as "Relay FM"
+
 # poddr 0.2.2
 
 *  [Incomparable] Add safety check in case an archive page returns `500` and is not parseable.

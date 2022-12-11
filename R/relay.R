@@ -88,7 +88,7 @@ relay_parse_feed <- function(url) {
     stringr::str_replace_all(",? and ", ";") |>
     stringr::str_replace_all(",\\s*", ";") |>
     stringr::str_replace_all("\\s+", " ")
-  people <- people[1]
+  people <- people[-1]
 
   tibble(
     show = show,
