@@ -14,6 +14,15 @@
 atp_parse_page <- function(page) {
   rvest::html_nodes(page, "article") |>
     purrr::map_dfr(~ {
+
+      # Check if it's a members-only episode
+      is_memberpost <- !is.na(rvest::html_node(.x, ".membersonlypromo"))
+
+      # Not much else to do with that
+      if (is_memberpost) {
+        return(tibble::tibble())
+      }
+
       meta <- rvest::html_node(.x, ".metadata") |>
         rvest::html_text() |>
         stringr::str_trim()

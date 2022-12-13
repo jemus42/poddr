@@ -1,6 +1,10 @@
+# poddr 0.2.4
+
+* [ATP] Ignore members-only posts rather than including them with missing data.
+
 # poddr 0.2.3
 
-* [Relay.fm] Fix incorrect host parsing, leading to all hosts being displayed as "Relay FM"
+* [Relay FM] Fix incorrect host parsing, leading to all hosts being displayed as "Relay FM".
 
 # poddr 0.2.2
 
@@ -25,5 +29,5 @@
 
 * Add `pkgdown` site.
 * Pass R CMD check.
-* Add functions to get episodes from The Incomparable, relay.fm and ATP.
+* Add functions to get episodes from The Incomparable, Relay FM and ATP.
 * Added a `NEWS.md` file to track changes to the package.

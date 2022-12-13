@@ -1,6 +1,6 @@
 Package: poddr
 Title: Collect Metadata for Selected Podcasts
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: 
     person("Lukas", "Burk", , "github@quantenbrot.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7528-3795"))
