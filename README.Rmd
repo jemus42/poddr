@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 # poddr
 
 <!-- badges: start -->
-[![R build status](https://github.com/jemus42/poddr/workflows/R-CMD-check/badge.svg)](https://github.com/jemus42/poddr/actions)
+[![R-CMD-check](https://github.com/jemus42/poddr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jemus42/poddr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of poddr is to collect podcast data so I can display it at [podcasts.jemu.name](https://podcasts.jemu.name/). It's not intended to be a real package for real people.
@@ -52,8 +52,8 @@ The basic workflow is simple:
 incomparable_shows <- incomparable_get_shows()
 incomparable_shows
 
-incomparable_episodes <- incomparable_shows %>%
-  filter(show == "Unjustly Maligned") %>%
+incomparable_episodes <- incomparable_shows |>
+  filter(show == "Unjustly Maligned") |>
   incomparable_get_episodes()
 
 incomparable_episodes
@@ -68,8 +68,8 @@ Same procedure as before, also with one show.
 relay_shows <- relay_get_shows()
 relay_shows
 
-relay_episodes <- relay_shows %>%
-  filter(show == "Connected") %>%
+relay_episodes <- relay_shows |>
+  filter(show == "Connected") |>
   relay_get_episodes()
 
 relay_episodes
@@ -86,8 +86,8 @@ atp <- atp_get_episodes(page_limit = 1)
 atp
 
 # Looking at the links
-atp %>%
-  tidyr::unnest(links) %>%
+atp |>
+  tidyr::unnest(links) |>
   select(number, title, link_text, link_url, link_type)
 ```
 
@@ -98,11 +98,11 @@ The regular episode data contains one row per episode, with associated people in
 Note that relay.fm data only includes "hosts", as there's no separate guest information, so the host/guest distinction is redundant in that case.
 
 ```{r gathering}
-incomparable_episodes %>%
-  gather_people() %>%
+incomparable_episodes |>
+  gather_people() |>
   select(show, number, person, role)
 
-relay_episodes %>%
-  gather_people() %>%
+relay_episodes |>
+  gather_people() |>
   select(show, number, person, role)
 ```

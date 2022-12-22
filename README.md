@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/jemus42/poddr/workflows/R-CMD-check/badge.svg)](https://github.com/jemus42/poddr/actions)
+[![R-CMD-check](https://github.com/jemus42/poddr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jemus42/poddr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of poddr is to collect podcast data so I can display it at
@@ -42,40 +41,40 @@ The basic workflow is simple:
 ``` r
 incomparable_shows <- incomparable_get_shows()
 incomparable_shows
-#> # A tibble: 45 x 3
-#>    show          stats_url                       archive_url                    
-#>    <chr>         <glue>                          <glue>                         
-#>  1 A Legitimate… https://www.theincomparable.co… https://www.theincomparable.co…
-#>  2 Afoot         https://www.theincomparable.co… https://www.theincomparable.co…
-#>  3 Agents of SM… https://www.theincomparable.co… https://www.theincomparable.co…
-#>  4 Batman Unive… https://www.theincomparable.co… https://www.theincomparable.co…
-#>  5 Bear Left (R… https://www.theincomparable.co… https://www.theincomparable.co…
-#>  6 Beginner's P… https://www.theincomparable.co… https://www.theincomparable.co…
-#>  7 Biff!         https://www.theincomparable.co… https://www.theincomparable.co…
-#>  8 Bonus Track   https://www.theincomparable.co… https://www.theincomparable.co…
-#>  9 Cartoon Cast  https://www.theincomparable.co… https://www.theincomparable.co…
-#> 10 Chick Flick … https://www.theincomparable.co… https://www.theincomparable.co…
-#> # … with 35 more rows
+#> # A tibble: 55 × 4
+#>    show                                   stats_url               archi…¹ status
+#>    <chr>                                  <glue>                  <glue>  <chr> 
+#>  1 A Complicated Profession               https://www.theincompa… https:… active
+#>  2 Agents of SMOOCH                       https://www.theincompa… https:… active
+#>  3 Beginner's Puck                        https://www.theincompa… https:… active
+#>  4 Biff!                                  https://www.theincompa… https:… active
+#>  5 Defocused                              https://www.theincompa… https:… active
+#>  6 Doctor Who Flashcast                   https://www.theincompa… https:… active
+#>  7 Dragonmount: The Wheel of Time Podcast https://www.theincompa… https:… active
+#>  8 Football is Life                       https://www.theincompa… https:… active
+#>  9 Game Show                              https://www.theincompa… https:… active
+#> 10 I Want My M(CU)TV                      https://www.theincompa… https:… active
+#> # … with 45 more rows, and abbreviated variable name ¹​archive_url
 
-incomparable_episodes <- incomparable_shows %>%
-  filter(show == "Unjustly Maligned") %>%
+incomparable_episodes <- incomparable_shows |>
+  filter(show == "Unjustly Maligned") |>
   incomparable_get_episodes()
 
 incomparable_episodes
-#> # A tibble: 87 x 14
-#>    show  number title duration date        year month weekday host  guest
-#>    <chr> <chr>  <chr> <time>   <date>     <dbl> <ord> <ord>   <chr> <chr>
-#>  1 Unju… 87     "\"L… 01:10:56 2017-09-25  2017 Sept… Monday  Tony… Anto…
-#>  2 Unju… 86     "\"R… 01:04:46 2017-09-12  2017 Sept… Tuesday Anto… Andy…
-#>  3 Unju… 85     "\"S… 01:07:47 2017-08-28  2017 Augu… Monday  Anto… Eddy…
-#>  4 Unju… 84     "\"T… 01:13:53 2017-08-14  2017 Augu… Monday  Anto… Jess…
-#>  5 Unju… 83     "\"P… 01:00:03 2017-07-31  2017 July  Monday  Anto… Marc…
-#>  6 Unju… 82     "\"P… 01:10:57 2017-07-17  2017 July  Monday  Anto… Ed B…
-#>  7 Unju… 81     "\"T… 01:10:42 2017-07-03  2017 July  Monday  Anto… Kell…
-#>  8 Unju… 80     "\"N… 01:24:24 2017-06-19  2017 June  Monday  Anto… Matt…
-#>  9 Unju… 79     "\"S… 01:15:33 2017-06-05  2017 June  Monday  Anto… Pete…
-#> 10 Unju… 78     "\"E… 01:16:40 2017-05-22  2017 May   Monday  Anto… Rich…
-#> # … with 77 more rows, and 4 more variables: category <lgl>, topic <chr>,
+#> # A tibble: 87 × 14
+#>    show         number title duration date        year month weekday host  guest
+#>    <chr>        <chr>  <chr> <time>   <date>     <dbl> <ord> <ord>   <chr> <chr>
+#>  1 Unjustly Ma… 87     "\"L… 01:10:56 2017-09-25  2017 Sept… Monday  Tony… Anto…
+#>  2 Unjustly Ma… 86     "\"R… 01:04:46 2017-09-12  2017 Sept… Tuesday Anto… Andy…
+#>  3 Unjustly Ma… 85     "\"S… 01:07:47 2017-08-28  2017 Augu… Monday  Anto… Eddy…
+#>  4 Unjustly Ma… 84     "\"T… 01:13:53 2017-08-14  2017 Augu… Monday  Anto… Jess…
+#>  5 Unjustly Ma… 83     "\"P… 01:00:03 2017-07-31  2017 July  Monday  Anto… Marc…
+#>  6 Unjustly Ma… 82     "\"P… 01:10:57 2017-07-17  2017 July  Monday  Anto… Ed B…
+#>  7 Unjustly Ma… 81     "\"T… 01:10:42 2017-07-03  2017 July  Monday  Anto… Kell…
+#>  8 Unjustly Ma… 80     "\"N… 01:24:24 2017-06-19  2017 June  Monday  Anto… Matt…
+#>  9 Unjustly Ma… 79     "\"S… 01:15:33 2017-06-05  2017 June  Monday  Anto… Pete…
+#> 10 Unjustly Ma… 78     "\"E… 01:16:40 2017-05-22  2017 May   Monday  Anto… Rich…
+#> # … with 77 more rows, and 4 more variables: category <chr>, topic <chr>,
 #> #   summary <chr>, network <chr>
 ```
 
@@ -86,40 +85,40 @@ Same procedure as before, also with one show.
 ``` r
 relay_shows <- relay_get_shows()
 relay_shows
-#> # A tibble: 46 x 3
-#>    show             feed_url                             show_status
-#>    <chr>            <chr>                                <chr>      
-#>  1 20 Macs for 2020 https://www.relay.fm/20macs/feed     Active     
-#>  2 Adapt            https://www.relay.fm/adapt/feed      Active     
-#>  3 Analog(ue)       https://www.relay.fm/analogue/feed   Active     
-#>  4 Automators       https://www.relay.fm/automators/feed Active     
-#>  5 BONANZA          https://www.relay.fm/bonanza/feed    Active     
-#>  6 B-Sides          https://www.relay.fm/b-sides/feed    Active     
-#>  7 Clockwise        https://www.relay.fm/clockwise/feed  Active     
-#>  8 Connected        https://www.relay.fm/connected/feed  Active     
-#>  9 Cortex           https://www.relay.fm/cortex/feed     Active     
-#> 10 Departures       https://www.relay.fm/departures/feed Active     
-#> # … with 36 more rows
+#> # A tibble: 49 × 3
+#>    show       feed_url                             show_status
+#>    <chr>      <chr>                                <chr>      
+#>  1 Analog(ue) https://www.relay.fm/analogue/feed   Active     
+#>  2 Automators https://www.relay.fm/automators/feed Active     
+#>  3 BONANZA    https://www.relay.fm/bonanza/feed    Active     
+#>  4 B-Sides    https://www.relay.fm/b-sides/feed    Active     
+#>  5 Clockwise  https://www.relay.fm/clockwise/feed  Active     
+#>  6 Conduit    https://www.relay.fm/conduit/feed    Active     
+#>  7 Connected  https://www.relay.fm/connected/feed  Active     
+#>  8 Cortex     https://www.relay.fm/cortex/feed     Active     
+#>  9 Departures https://www.relay.fm/departures/feed Active     
+#> 10 Downstream https://www.relay.fm/downstream/feed Active     
+#> # … with 39 more rows
 
-relay_episodes <- relay_shows %>%
-  filter(show == "Connected") %>%
+relay_episodes <- relay_shows |>
+  filter(show == "Connected") |>
   relay_get_episodes()
 
 relay_episodes
-#> # A tibble: 323 x 10
-#>    show   number title   duration date        year month weekday host    network
-#>    <chr>  <chr>  <chr>   <time>   <date>     <dbl> <ord> <ord>   <chr>   <chr>  
-#>  1 Conne… 323    Artisa… 01:43:44 2020-12-02  2020 Dece… Wednes… Federi… relay.…
-#>  2 Conne… 322    ismh@h… 01:39:06 2020-11-25  2020 Nove… Wednes… Federi… relay.…
-#>  3 Conne… 321    Friend… 02:11:32 2020-11-19  2020 Nove… Thursd… Federi… relay.…
-#>  4 Conne… 320    Actual… 01:24:25 2020-11-11  2020 Nove… Wednes… Federi… relay.…
-#>  5 Conne… 319    The Ri… 01:53:41 2020-11-04  2020 Nove… Wednes… Federi… relay.…
-#>  6 Conne… 318    Come O… 01:49:35 2020-10-28  2020 Octo… Wednes… Federi… relay.…
-#>  7 Conne… 317    Captai… 01:31:28 2020-10-21  2020 Octo… Wednes… Federi… relay.…
-#>  8 Conne… 316    I Over… 01:48:38 2020-10-14  2020 Octo… Wednes… Federi… relay.…
-#>  9 Conne… 315    The Ri… 01:35:32 2020-10-07  2020 Octo… Wednes… Federi… relay.…
-#> 10 Conne… 314    The Je… 01:30:59 2020-09-30  2020 Sept… Wednes… Federi… relay.…
-#> # … with 313 more rows
+#> # A tibble: 429 × 10
+#>    show      number title  duration date        year month weekday host  network
+#>    <chr>     <chr>  <chr>  <time>   <date>     <dbl> <ord> <ord>   <chr> <chr>  
+#>  1 Connected 429    Lucy'… 00:58:56 2022-12-21  2022 Dece… Wednes… Jaso… relay.…
+#>  2 Connected 428    Timer… 01:27:25 2022-12-15  2022 Dece… Thursd… Fede… relay.…
+#>  3 Connected 427    Thera… 01:01:37 2022-12-07  2022 Dece… Wednes… Fede… relay.…
+#>  4 Connected 426    Just … 01:23:18 2022-11-30  2022 Nove… Wednes… Fede… relay.…
+#>  5 Connected 425    Inden… 00:56:00 2022-11-23  2022 Nove… Wednes… Fede… relay.…
+#>  6 Connected 424    The C… 01:28:02 2022-11-16  2022 Nove… Wednes… Fede… relay.…
+#>  7 Connected 423    I Kno… 01:39:22 2022-11-09  2022 Nove… Wednes… Fede… relay.…
+#>  8 Connected 422    Rearr… 01:19:41 2022-11-02  2022 Nove… Wednes… Fede… relay.…
+#>  9 Connected 421    The S… 01:32:51 2022-10-26  2022 Octo… Wednes… Fede… relay.…
+#> 10 Connected 420    2 Reg… 01:30:49 2022-10-19  2022 Octo… Wednes… Fede… relay.…
+#> # … with 419 more rows
 ```
 
 ### ATP
@@ -134,33 +133,33 @@ the 5 most recent episodes, and subsequent pages show 50 episodes each.
 ``` r
 atp <- atp_get_episodes(page_limit = 1)
 atp
-#> # A tibble: 5 x 9
-#>   number title         duration date        year month  weekday links    n_links
-#>   <chr>  <chr>         <time>   <date>     <dbl> <ord>  <ord>   <list>     <int>
-#> 1 407    It Isn't a B… 01:49:53 2020-12-03  2020 Decem… Thursd… <tibble…      24
-#> 2 406    A Bomb on Yo… 02:36:18 2020-11-25  2020 Novem… Wednes… <tibble…      32
-#> 3 405    The Benevole… 01:57:06 2020-11-18  2020 Novem… Wednes… <tibble…      28
-#> 4 404    With Four Ha… 02:43:45 2020-11-11  2020 Novem… Wednes… <tibble…      30
-#> 5 403    A VCR for th… 02:05:10 2020-11-05  2020 Novem… Thursd… <tibble…      33
+#> # A tibble: 5 × 9
+#>   number title          duration date        year month weekday links    n_links
+#>   <chr>  <chr>          <time>   <date>     <dbl> <ord> <ord>   <list>     <int>
+#> 1 514    My Immense So… 01:45:25 2022-12-22  2022 Dece… Thursd… <tibble>      26
+#> 2 513    Scribble on t… 02:09:32 2022-12-15  2022 Dece… Thursd… <tibble>      30
+#> 3 512    Owned With a P 01:56:33 2022-12-08  2022 Dece… Thursd… <tibble>      24
+#> 4 511    Moving to Ant… 01:50:29 2022-12-01  2022 Dece… Thursd… <tibble>      29
+#> 5 510    It's Occupied… 02:09:12 2022-11-22  2022 Nove… Tuesday <tibble>      45
 
 # Looking at the links
-atp %>%
-  tidyr::unnest(links) %>%
+atp |>
+  tidyr::unnest(links) |>
   select(number, title, link_text, link_url, link_type)
-#> # A tibble: 147 x 5
-#>    number title       link_text            link_url                    link_type
-#>    <chr>  <chr>       <chr>                <chr>                       <chr>    
-#>  1 407    It Isn't a… here                 https://www.icloud.com/set… Shownotes
-#>  2 407    It Isn't a… Ryan Fegley          https://twitter.com/ryanfe… Shownotes
-#>  3 407    It Isn't a… probably just uses … https://machinelearning.ap… Shownotes
-#>  4 407    It Isn't a… @hishnash            https://twitter.com/hishna… Shownotes
-#>  5 407    It Isn't a… Die size spreadsheet https://docs.google.com/sp… Shownotes
-#>  6 407    It Isn't a… Cerebras             https://www.cerebras.net/   Shownotes
-#>  7 407    It Isn't a… Memory interface ba… https://en.wikipedia.org/w… Shownotes
-#>  8 407    It Isn't a… TMSC Achieves Break… https://www.techpowerup.co… Shownotes
-#>  9 407    It Isn't a… What is “risk produ… https://news.ycombinator.c… Shownotes
-#> 10 407    It Isn't a… virtualizes ARM Win… https://the8-bit.com/devel… Shownotes
-#> # … with 137 more rows
+#> # A tibble: 154 × 5
+#>    number title               link_text                          link_…¹ link_…²
+#>    <chr>  <chr>               <chr>                              <chr>   <chr>  
+#>  1 514    My Immense Softness x2 and k56flex                     https:… Showno…
+#>  2 514    My Immense Softness Superbad                           https:… Showno…
+#>  3 514    My Immense Softness DIVX                               https:… Showno…
+#>  4 514    My Immense Softness Colima                             https:… Showno…
+#>  5 514    My Immense Softness Apple is considering dropping the… https:… Showno…
+#>  6 514    My Immense Softness Blink                              https:… Showno…
+#>  7 514    My Immense Softness Gecko                              https:… Showno…
+#>  8 514    My Immense Softness SR-71                              https:… Showno…
+#>  9 514    My Immense Softness Trident II D5                      https:… Showno…
+#> 10 514    My Immense Softness Inertial Navigation System         https:… Showno…
+#> # … with 144 more rows, and abbreviated variable names ¹​link_url, ²​link_type
 ```
 
 ### For all the nice people
@@ -177,10 +176,10 @@ guest information, so the host/guest distinction is redundant in that
 case.
 
 ``` r
-incomparable_episodes %>%
-  gather_people() %>%
+incomparable_episodes |>
+  gather_people() |>
   select(show, number, person, role)
-#> # A tibble: 176 x 4
+#> # A tibble: 176 × 4
 #>    show              number person            role 
 #>    <chr>             <chr>  <chr>             <chr>
 #>  1 Unjustly Maligned 87     Tony Sindelar     host 
@@ -195,21 +194,21 @@ incomparable_episodes %>%
 #> 10 Unjustly Maligned 83     Marcos Huerta     guest
 #> # … with 166 more rows
 
-relay_episodes %>%
-  gather_people() %>%
+relay_episodes |>
+  gather_people() |>
   select(show, number, person, role)
-#> # A tibble: 969 x 4
+#> # A tibble: 1,285 × 4
 #>    show      number person           role 
 #>    <chr>     <chr>  <chr>            <chr>
-#>  1 Connected 323    Federico Viticci host 
-#>  2 Connected 323    Myke Hurley      host 
-#>  3 Connected 323    Stephen Hackett  host 
-#>  4 Connected 322    Federico Viticci host 
-#>  5 Connected 322    Myke Hurley      host 
-#>  6 Connected 322    Stephen Hackett  host 
-#>  7 Connected 321    Federico Viticci host 
-#>  8 Connected 321    Myke Hurley      host 
-#>  9 Connected 321    Stephen Hackett  host 
-#> 10 Connected 320    Federico Viticci host 
-#> # … with 959 more rows
+#>  1 Connected 429    Jason Snell      host 
+#>  2 Connected 428    Federico Viticci host 
+#>  3 Connected 428    Stephen Hackett  host 
+#>  4 Connected 428    Myke Hurley      host 
+#>  5 Connected 427    Federico Viticci host 
+#>  6 Connected 427    Stephen Hackett  host 
+#>  7 Connected 427    Myke Hurley      host 
+#>  8 Connected 426    Federico Viticci host 
+#>  9 Connected 426    Stephen Hackett  host 
+#> 10 Connected 426    Myke Hurley      host 
+#> # … with 1,275 more rows
 ```
