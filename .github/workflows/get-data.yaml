@@ -1,0 +1,65 @@
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'  # every day at midnight
+
+name: get-data
+
+jobs:
+  pkgdown:
+    runs-on: ubuntu-latest
+    # Only restrict concurrency for non-PR jobs
+    concurrency:
+      group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pins, local::.
+
+      - name: Get ATP data
+        run: |
+          library(poddr)
+          atp <- atp_get_episodes()
+          cache_podcast_data(atp, csv = FALSE)
+        shell: Rscript {0}
+
+      - name: Get Relay.fm data
+        run: |
+          library(poddr)
+          relay_shows <- relay_get_shows()
+          relay_episodes <- relay_get_episodes(relay_shows)
+          cache_podcast_data(relay_shows)
+          cache_podcast_data(relay_episodes)
+        shell: Rscript {0}
+
+      - name: Get The Incomparable data
+        run: |
+          library(poddr)
+          incomparable_shows <- incomparable_get_shows()
+          incomparable_episodes <- incomparable_get_episodes(incomparable_shows)
+          cache_podcast_data(incomparable_shows)
+          cache_podcast_data(incomparable_episodes)
+        shell: Rscript {0}
+
+
+      - uses: keithweaver/aws-s3-github-action@v1.0.0
+        name: Copy data to s3
+        with:
+          command: cp
+          source: ./data/
+          destination: s3://jemsudatasets/podcaststats/
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: eu-central-1
+          flags: --recursive
