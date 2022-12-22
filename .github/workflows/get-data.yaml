@@ -7,11 +7,11 @@ on:
 name: get-data
 
 jobs:
-  pkgdown:
+  get-data:
     runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
     concurrency:
-      group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
+      group: get-data-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -30,6 +30,8 @@ jobs:
       - name: Get ATP data
         run: |
           library(poddr)
+          dir.create("data")
+
           atp <- atp_get_episodes()
           cache_podcast_data(atp, csv = FALSE)
         shell: Rscript {0}
