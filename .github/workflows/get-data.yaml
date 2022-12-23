@@ -25,7 +25,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pins, local::.
+          extra-packages: any::pins, any::paws.storage, local::.
 
       - name: Get ATP data
         run: |
@@ -34,6 +34,12 @@ jobs:
 
           atp <- atp_get_episodes()
           cache_podcast_data(atp, csv = FALSE)
+
+          library(pins)
+          requireNamespace("paws.storage")
+
+          board <- board_s3("jemsudatasets", region = "eu-central-1", prefix = "podcaststats/")
+          pin_write(board, atp, "atp")
         shell: Rscript {0}
 
       - name: Get Relay.fm data
@@ -43,6 +49,13 @@ jobs:
           relay_episodes <- relay_get_episodes(relay_shows)
           cache_podcast_data(relay_shows)
           cache_podcast_data(relay_episodes)
+
+          library(pins)
+          requireNamespace("paws.storage")
+
+          board <- board_s3("jemsudatasets", region = "eu-central-1", prefix = "podcaststats/")
+          pin_write(board, relay_episodes, "relay_episodes")
+          pin_write(board, relay_shows, "relay_shows")
         shell: Rscript {0}
 
       - name: Get The Incomparable data
@@ -52,8 +65,14 @@ jobs:
           incomparable_episodes <- incomparable_get_episodes(incomparable_shows)
           cache_podcast_data(incomparable_shows)
           cache_podcast_data(incomparable_episodes)
-        shell: Rscript {0}
 
+          library(pins)
+          requireNamespace("paws.storage")
+
+          board <- board_s3("jemsudatasets", region = "eu-central-1", prefix = "podcaststats/")
+          pin_write(board, incomparable_shows, "incomparable_shows")
+          pin_write(board, incomparable_episodes, "incomparable_episodes")
+        shell: Rscript {0}
 
       - uses: keithweaver/aws-s3-github-action@v1.0.0
         name: Copy data to s3
