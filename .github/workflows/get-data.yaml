@@ -1,5 +1,5 @@
 on:
-  workflowe_dispatch:
+  workflow_dispatch:
   push:
   pull_request:
   schedule:
