@@ -1,3 +1,8 @@
+# poddr 0.2.5
+
+* [ATP] Fix error in page enumeration due to unnumbered member special episodes.
+* [Incomparable] Fix date parsing regex failing when topics included 4-digit number
+
 # poddr 0.2.4
 
 * [ATP] Ignore members-only posts rather than including them with missing data.

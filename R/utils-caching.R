@@ -1,7 +1,7 @@
 #' Cache episode data
 #'
 #' @param x Object to cache.
-#' @param dir `["data"]` Directory to save data to.
+#' @param dir `["data_cache"]` Directory to save data to.
 #' @param filename Optional filename, if not specified the name of `x` is used.
 #' @param csv If `TRUE` (default), also saves a CSV file with the same base name.
 #'
@@ -13,7 +13,7 @@
 #' atp_new <- atp_get_episodes(page_limit = 1)
 #' cache_podcast_data(atp_new, csv = FALSE)
 #' }
-cache_podcast_data <- function(x, dir = "data", filename = NULL, csv = TRUE) {
+cache_podcast_data <- function(x, dir = "data_cache", filename = NULL, csv = TRUE) {
   # Early return just in case the data is wrong and empty
   if (nrow(x) == 0) return(NULL)
 

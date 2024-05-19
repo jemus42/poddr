@@ -4,12 +4,12 @@
 \alias{cache_podcast_data}
 \title{Cache episode data}
 \usage{
-cache_podcast_data(x, dir = "data", filename = NULL, csv = TRUE)
+cache_podcast_data(x, dir = "data_cache", filename = NULL, csv = TRUE)
 }
 \arguments{
 \item{x}{Object to cache.}
 
-\item{dir}{\verb{["data"]} Directory to save data to.}
+\item{dir}{\verb{["data_cache"]} Directory to save data to.}
 
 \item{filename}{Optional filename, if not specified the name of \code{x} is used.}
 
