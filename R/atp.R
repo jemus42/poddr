@@ -120,7 +120,6 @@ atp_parse_page <- function(page) {
 atp_get_episodes <- function(page_limit = NULL) {
 
   if (is.null(page_limit)) page_limit <- Inf
-
   # Get the first page and scrape it
   session <- polite::bow(url = "https://atp.fm")
 
@@ -138,8 +137,10 @@ atp_get_episodes <- function(page_limit = NULL) {
     rvest::html_nodes("h2 a") |>
     rvest::html_text() |>
     stringr::str_extract("^\\d+") |>
-    as.numeric() |>
-    max()
+    as.integer() |>
+    max(na.rm = TRUE)
+
+  checkmate::assert_int(latest_ep_num)
 
   # First page has 5 episodes, 50 episodes per page afterwards
   total_pages <- ceiling((latest_ep_num - 5) / 50) + 1
