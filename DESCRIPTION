@@ -10,6 +10,7 @@ License: MIT + file LICENSE
 URL: https://github.com/jemus42/poddr
 BugReports: https://github.com/jemus42/poddr/issues
 Imports: 
+    checkmate,
     dplyr,
     glue,
     hms,
