@@ -34,7 +34,7 @@ jobs:
       - name: Get ATP data
         run: |
           library(poddr)
-          dir.create("data")
+          dir.create("data_cache")
 
           atp <- atp_get_episodes()
           cache_podcast_data(atp, csv = FALSE)
@@ -82,7 +82,7 @@ jobs:
         name: Copy data to s3
         with:
           command: cp
-          source: ./data/
+          source: ./data_cache/
           destination: s3://jemsudatasets/podcaststats/
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
