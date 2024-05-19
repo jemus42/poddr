@@ -137,7 +137,7 @@ incomparable_parse_archive <- function(archive_url) {
     date <- .x |>
       rvest::html_nodes(".episode-date") |>
       rvest::html_text() |>
-      stringr::str_extract("^[A-Za-z0-9\\s,]+,\\s+\\d{4}") |>
+      stringr::str_extract("^[A-Za-z0-9\\s,]+?,\\s+\\d{4}") |>
       lubridate::mdy()
 
     host <- .x |>
