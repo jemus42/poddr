@@ -59,7 +59,7 @@ Use sparingly to limit unnecessarily hammering the poor webserver!</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">incomparable_get_episodes</span><span class="op">(</span><span class="va">incomparable_shows</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">incomparable_get_episodes</span><span class="op">(</span><span class="va">incomparable_shows</span>, cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -67,6 +67,10 @@ Use sparingly to limit unnecessarily hammering the poor webserver!</p>
     <dl><dt>incomparable_shows</dt>
 <dd><p>Dataset of shows with title and URLs as returned by
 <code><a href="incomparable_get_shows.html">incomparable_get_shows()</a></code>.</p></dd>
+
+
+<dt>cache</dt>
+<dd><p>(<code>logical(1)</code>) Set to <code>FALSE</code> to disable caching.</p></dd>
 
 </dl></div>
     <div id="value">

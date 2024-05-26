@@ -53,7 +53,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">atp_get_episodes</span><span class="op">(</span>page_limit <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">atp_get_episodes</span><span class="op">(</span>page_limit <span class="op">=</span> <span class="cn">NULL</span>, cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -63,6 +63,10 @@
 Page 1 contains the 5 most recent episodes, and subsequent pages contain 50
 episodes per page. As of December 2020, there are 10 pages total.
 Pass <code>NULL</code> (default) to get all pages.</p></dd>
+
+
+<dt>cache</dt>
+<dd><p>(<code>logical(1)</code>) Set to <code>FALSE</code> to disable caching.</p></dd>
 
 </dl></div>
     <div id="value">
