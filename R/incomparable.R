@@ -4,6 +4,7 @@
 #' with corresponding URLs, which in turn can then be passed to
 #' `incomparable_parse_archive()` and `incomparable_parse_stats()` individually.
 #'
+#' @param cache (`logical(1)`) Set to `FALSE` to disable caching.
 #' @return A tibble with following columns:
 #' ```
 #' Columns: 4
@@ -18,9 +19,9 @@
 #' \dontrun{
 #' incomparable_get_shows()
 #' }
-incomparable_get_shows <- function() {
-  base_url <- "https://www.theincomparable.com"
-  show_index <- polite::bow(glue::glue("{base_url}/shows")) |>
+incomparable_get_shows <- function(cache = TRUE) {
+  base_url <- podcast_urls$incomparable$base
+  show_index <- polite::bow(podcast_urls$incomparable$shows) |>
     polite::scrape()
 
   shows <- show_index |>
@@ -57,7 +58,15 @@ incomparable_get_shows <- function() {
     status = "retired"
   )
 
-  dplyr::bind_rows(shows_active, shows_retired)
+  shows <- dplyr::bind_rows(shows_active, shows_retired)
+
+  checkmate::assert_data_frame(shows, min.rows = 15, ncols = 4)
+
+  if (cache) {
+    cache_podcast_data(shows, filename = "incomparable_shows")
+  }
+
+  shows
 }
 
 #' Parse a show's archive page on The Incomparable website
@@ -260,6 +269,7 @@ incomparable_parse_stats <- function(stats_url) {
 #' Use sparingly to limit unnecessarily hammering the poor webserver!
 #' @param incomparable_shows Dataset of shows with title and URLs as returned by
 #' `incomparable_get_shows()`.
+#' @inheritParams incomparable_get_shows
 #'
 #' @return A tibble with one row per episode.
 #' @export
@@ -269,13 +279,13 @@ incomparable_parse_stats <- function(stats_url) {
 #' incomparable_shows <- incomparable_get_shows()
 #' incomparable <- incomparable_get_episodes(incomparable_shows)
 #' }
-incomparable_get_episodes <- function(incomparable_shows) {
+incomparable_get_episodes <- function(incomparable_shows, cache = TRUE) {
   pb <- progress::progress_bar$new(
     format = "Getting :show :current/:total (:percent) ETA: :eta [:bar]",
     total = nrow(incomparable_shows)
   )
 
-  purrr::pmap_dfr(incomparable_shows, ~ {
+  episodes <- purrr::pmap_dfr(incomparable_shows, ~ {
     pb$tick(tokens = list(show = ..1))
 
     # Get the archive info, but drop duration (only HH:MM), and the
@@ -312,4 +322,12 @@ incomparable_get_episodes <- function(incomparable_shows) {
         "topic", "summary", "network"
       )
   })
+
+  checkmate::assert_data_frame(episodes, min.rows = 1, ncols = 14)
+
+  if (cache) {
+    cache_podcast_data(episodes, filename = "incomparable_episodes")
+  }
+
+  episodes
 }

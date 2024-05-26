@@ -4,7 +4,10 @@
 \alias{relay_get_shows}
 \title{Retrieve all relay.fm shows}
 \usage{
-relay_get_shows()
+relay_get_shows(cache = TRUE)
+}
+\arguments{
+\item{cache}{(\code{logical(1)}) Set to \code{FALSE} to disable caching.}
 }
 \value{
 A tibble with one row for each show

@@ -11,7 +11,7 @@ cache_podcast_data(x, dir = "data_cache", filename = NULL, csv = TRUE)
 
 \item{dir}{\verb{["data_cache"]} Directory to save data to.}
 
-\item{filename}{Optional filename, if not specified the name of \code{x} is used.}
+\item{filename}{Optional filename sans extension, if not specified the name of \code{x} is used.}
 
 \item{csv}{If \code{TRUE} (default), also saves a CSV file with the same base name.}
 }

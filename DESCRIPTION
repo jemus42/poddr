@@ -12,6 +12,7 @@ BugReports: https://github.com/jemus42/poddr/issues
 Imports: 
     checkmate,
     dplyr,
+    fs,
     glue,
     hms,
     lubridate,

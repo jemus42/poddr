@@ -4,10 +4,12 @@
 \alias{relay_get_episodes}
 \title{Retrieve all episodes for relay.fm shows}
 \usage{
-relay_get_episodes(relay_shows)
+relay_get_episodes(relay_shows, cache = TRUE)
 }
 \arguments{
 \item{relay_shows}{A tibble of shows, from \code{relay_get_shows()}.}
+
+\item{cache}{(\code{logical(1)}) Set to \code{FALSE} to disable caching.}
 }
 \value{
 A tibble.

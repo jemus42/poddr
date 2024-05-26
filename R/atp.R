@@ -103,6 +103,7 @@ atp_parse_page <- function(page) {
 #' Page 1 contains the 5 most recent episodes, and subsequent pages contain 50
 #' episodes per page. As of December 2020, there are 10 pages total.
 #' Pass `NULL` (default) to get all pages.
+#' @inheritParams incomparable_get_shows
 #' @return A tibble.
 #' @export
 #'
@@ -117,18 +118,18 @@ atp_parse_page <- function(page) {
 #' # Get all episodes (use wisely)
 #' atp_full <- atp_get_episodes()
 #' }
-atp_get_episodes <- function(page_limit = NULL) {
+atp_get_episodes <- function(page_limit = NULL, cache = TRUE) {
 
   if (is.null(page_limit)) page_limit <- Inf
   # Get the first page and scrape it
-  session <- polite::bow(url = "https://atp.fm")
+  session <- polite::bow(url = podcast_urls$atp$base)
 
   atp_pages <- list("1" = polite::scrape(session))
   next_page_num <- 2
 
   # Early return for first page only
   if (page_limit == 1) {
-    atp_parse_page(atp_pages[[1]])
+    return(atp_parse_page(atp_pages[[1]]))
   }
 
   # Find out how many pages there will be in total
@@ -143,7 +144,9 @@ atp_get_episodes <- function(page_limit = NULL) {
   checkmate::assert_int(latest_ep_num)
 
   # First page has 5 episodes, 50 episodes per page afterwards
-  total_pages <- ceiling((latest_ep_num - 5) / 50) + 1
+  # Undercounts due to unnumbered member episodes, off by at least 1
+  # as of 2024-05-25, so adding 1.
+  total_pages <- ceiling((latest_ep_num - 5) / 50) + 1 + 1
 
   pb <- progress::progress_bar$new(
     format = "Getting pages [:bar] :current/:total (:percent) ETA: :eta",
@@ -178,8 +181,16 @@ atp_get_episodes <- function(page_limit = NULL) {
     total = length(atp_pages)
   )
 
-  purrr::map_dfr(atp_pages, ~ {
+  episodes = purrr::map_dfr(atp_pages, ~ {
     pb$tick()
     atp_parse_page(.x)
   })
+
+  checkmate::assert_data_frame(episodes, min.rows = 1)
+
+  if (cache) {
+    cache_podcast_data(episodes, filename = "atp", csv = FALSE)
+  }
+
+  episodes
 }

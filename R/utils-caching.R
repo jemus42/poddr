@@ -2,7 +2,7 @@
 #'
 #' @param x Object to cache.
 #' @param dir `["data_cache"]` Directory to save data to.
-#' @param filename Optional filename, if not specified the name of `x` is used.
+#' @param filename Optional filename sans extension, if not specified the name of `x` is used.
 #' @param csv If `TRUE` (default), also saves a CSV file with the same base name.
 #'
 #' @return Nothing
@@ -22,11 +22,11 @@ cache_podcast_data <- function(x, dir = "data_cache", filename = NULL, csv = TRU
     filename <- deparse(substitute(x))
   }
 
-  path_rds <- paste0(file.path(dir, filename), ".rds")
+  path_rds <- fs::path(dir, filename, ext = "rds")
   saveRDS(x, path_rds)
 
   if (csv) {
-    path_csv <- paste0(file.path(dir, filename), ".csv")
+    path_csv <- fs::path(dir, filename, ext = "csv")
     readr::write_delim(x, path_csv, delim = ";")
   }
 }

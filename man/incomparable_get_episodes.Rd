@@ -4,11 +4,13 @@
 \alias{incomparable_get_episodes}
 \title{Retrieve all episodes for The Incomparable shows}
 \usage{
-incomparable_get_episodes(incomparable_shows)
+incomparable_get_episodes(incomparable_shows, cache = TRUE)
 }
 \arguments{
 \item{incomparable_shows}{Dataset of shows with title and URLs as returned by
 \code{incomparable_get_shows()}.}
+
+\item{cache}{(\code{logical(1)}) Set to \code{FALSE} to disable caching.}
 }
 \value{
 A tibble with one row per episode.

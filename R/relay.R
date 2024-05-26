@@ -4,6 +4,7 @@
 #' with corresponding feed URLs, which in turn can then be passed to
 #' `relay_parse_feed()` individually.
 #'
+#' @inheritParams incomparable_get_shows
 #' @return A tibble with one row for each show
 #' @export
 #'
@@ -11,8 +12,8 @@
 #' \dontrun{
 #' relay_get_shows()
 #' }
-relay_get_shows <- function() {
-  url <- "https://www.relay.fm/shows"
+relay_get_shows <- function(cache = TRUE) {
+  url <- podcast_urls$relay$shows
 
   relay_shows <- polite::bow(url) |>
     polite::scrape()
@@ -31,17 +32,26 @@ relay_get_shows <- function() {
     rvest::html_nodes(".subheader~ .entry .broadcast__name a") |>
     rvest::html_text()
 
-  tibble(
+  shows = tibble(
     show = shows,
     feed_url = feed_urls,
     show_status = ifelse(shows %in% retired_shows, "Retired", "Active")
   )
+
+  checkmate::assert_data_frame(shows, min.rows = 1, ncols = 3)
+
+  if (cache) {
+    cache_podcast_data(shows, filename = "relay_episodes")
+  }
+
+  shows
 }
 
 #' Parse a relay.fm show feed
 #'
 #' Parses a single feed and returns its content as a tibble.
 #' @param url A show's feed URL, e.g. `"https://www.relay.fm/ungeniused/feed"`.
+#'   Use `relay_get_shows()` to retrieve feed URLs.
 #'
 #' @return A tibble.
 #' @export
@@ -108,7 +118,7 @@ relay_parse_feed <- function(url) {
 #'
 #' Retrieves all episodes for one or more shows passed as a tibble.
 #' @param relay_shows A tibble of shows, from `relay_get_shows()`.
-#'
+#' @inheritParams incomparable_get_shows
 #' @return A tibble.
 #' @export
 #'
@@ -117,14 +127,22 @@ relay_parse_feed <- function(url) {
 #' relay_shows <- relay_get_shows()
 #' relay <- relay_get_episodes(relay_shows)
 #' }
-relay_get_episodes <- function(relay_shows) {
+relay_get_episodes <- function(relay_shows, cache = TRUE) {
   pb <- progress::progress_bar$new(
     format = "Getting :show :current/:total (:percent) ETA: :eta [:bar]",
     total = nrow(relay_shows)
   )
 
-  purrr::pmap_df(relay_shows, ~ {
+  episodes = purrr::pmap_df(relay_shows, ~ {
     pb$tick(tokens = list(show = ..1))
     relay_parse_feed(..2)
   })
+
+  checkmate::assert_data_frame(episodes, min.rows = 1)
+
+  if (cache) {
+    cache_podcast_data(episodes, filename = "relay_episodes")
+  }
+
+  episodes
 }

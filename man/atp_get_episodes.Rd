@@ -4,13 +4,15 @@
 \alias{atp_get_episodes}
 \title{Retrieve ATP episodes}
 \usage{
-atp_get_episodes(page_limit = NULL)
+atp_get_episodes(page_limit = NULL, cache = TRUE)
 }
 \arguments{
 \item{page_limit}{Number of pages to scrape, from newest to oldest episode.
 Page 1 contains the 5 most recent episodes, and subsequent pages contain 50
 episodes per page. As of December 2020, there are 10 pages total.
 Pass \code{NULL} (default) to get all pages.}
+
+\item{cache}{(\code{logical(1)}) Set to \code{FALSE} to disable caching.}
 }
 \value{
 A tibble.
