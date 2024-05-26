@@ -23,10 +23,12 @@ cache_podcast_data <- function(x, dir = "data_cache", filename = NULL, csv = TRU
   }
 
   path_rds <- fs::path(dir, filename, ext = "rds")
+  cli::cli_alert_info("Caching {.val {filename}} to {.file {path_rds}}")
   saveRDS(x, path_rds)
 
   if (csv) {
     path_csv <- fs::path(dir, filename, ext = "csv")
+    cli::cli_alert_info("Caching {.val {filename}} to {.file {path_csv}}")
     readr::write_delim(x, path_csv, delim = ";")
   }
 }
