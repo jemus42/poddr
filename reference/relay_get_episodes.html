@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -31,20 +31,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/jemus42/poddr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Retrieve all episodes for relay.fm shows</h1>
-    <small class="dont-index">Source: <a href="https://github.com/jemus42/poddr/blob/HEAD/R/relay.R" class="external-link"><code>R/relay.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/jemus42/poddr/blob/main/R/relay.R" class="external-link"><code>R/relay.R</code></a></small>
     <div class="hidden name"><code>relay_get_episodes.Rd</code></div>
     </div>
 
@@ -58,27 +58,27 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>relay_shows</dt>
+
+
+<dl><dt id="arg-relay-shows">relay_shows<a class="anchor" aria-label="anchor" href="#arg-relay-shows"></a></dt>
 <dd><p>A tibble of shows, from <code><a href="relay_get_shows.html">relay_get_shows()</a></code>.</p></dd>
 
 
-<dt>cache</dt>
+<dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
 <dd><p>(<code>logical(1)</code>) Set to <code>FALSE</code> to disable caching.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A tibble.</p>
+    <p>A tibble.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="va">relay_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="relay_get_shows.html">relay_get_shows</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">relay</span> <span class="op">&lt;-</span> <span class="fu">relay_get_episodes</span><span class="op">(</span><span class="va">relay_shows</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -93,15 +93,15 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

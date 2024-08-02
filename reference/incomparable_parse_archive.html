@@ -6,7 +6,7 @@ accurate episode durations."><meta name="twitter:card" content="summary_large_im
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -34,20 +34,20 @@ accurate episode durations."><meta name="twitter:card" content="summary_large_im
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/jemus42/poddr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Parse a show's archive page on The Incomparable website</h1>
-    <small class="dont-index">Source: <a href="https://github.com/jemus42/poddr/blob/HEAD/R/incomparable.R" class="external-link"><code>R/incomparable.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/jemus42/poddr/blob/main/R/incomparable.R" class="external-link"><code>R/incomparable.R</code></a></small>
     <div class="hidden name"><code>incomparable_parse_archive.Rd</code></div>
     </div>
 
@@ -64,18 +64,16 @@ accurate episode durations.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>archive_url</dt>
+
+
+<dl><dt id="arg-archive-url">archive_url<a class="anchor" aria-label="anchor" href="#arg-archive-url"></a></dt>
 <dd><p>E.g.
 <code>"https://www.theincomparable.com/theincomparable/archive/"</code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A tibble, with following format:</p>
-
-
+    <p>A tibble, with following format:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#&gt; dplyr::glimpse(incomparable_parse_archive(archive_url))</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a> Columns<span class="sc">:</span> <span class="dv">12</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a> <span class="sc">$</span> number   <span class="sc">&lt;</span>chr<span class="sc">&gt;</span></span>
@@ -90,16 +88,14 @@ accurate episode durations.</p>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a> <span class="er">$</span> topic    <span class="sc">&lt;</span>chr<span class="sc">&gt;</span></span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a> <span class="er">$</span> summary  <span class="sc">&lt;</span>chr<span class="sc">&gt;</span></span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a> <span class="er">$</span> network  <span class="sc">&lt;</span>chr<span class="sc">&gt;</span></span></code></pre><p></p></div>
-
-
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="va">archive_url</span> <span class="op">&lt;-</span> <span class="st">"https://www.theincomparable.com/gameshow/archive/"</span></span></span>
 <span class="r-in"><span><span class="fu">incomparable_parse_archive</span><span class="op">(</span><span class="va">archive_url</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -114,15 +110,15 @@ accurate episode durations.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
