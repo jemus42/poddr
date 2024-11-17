@@ -3,7 +3,7 @@ on:
   push:
     branches: main
   schedule:
-    - cron: '0 0 * * *'  # every day at midnight
+    - cron: '30 6 * * 2,5'  # every tuesday and friday at 6:30
 
 name: get-data
 
