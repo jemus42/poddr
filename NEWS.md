@@ -1,3 +1,7 @@
+# poddr 0.2.6
+
+* [ATP] Append (redundant) `Show` and `Network` column equal `"ATP"` for consistency with other podcasts.
+
 # poddr 0.2.5
 
 * [ATP] Fix error in page enumeration due to unnumbered member special episodes.
