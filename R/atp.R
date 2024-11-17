@@ -20,7 +20,7 @@ atp_parse_page <- function(page) {
 
       # Not much else to do with that
       if (is_memberpost) {
-        return(tibble::tibble())
+        return(tibble())
       }
 
       meta <- rvest::html_node(.x, ".metadata") |>
@@ -185,7 +185,7 @@ atp_get_episodes <- function(page_limit = NULL, cache = TRUE) {
     pb$tick()
     atp_parse_page(.x)
   }) |>
-    mutate(
+    dplyr::mutate(
       network = "ATP",
       show = "ATP"
     )

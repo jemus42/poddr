@@ -33,7 +33,7 @@ incomparable_get_shows <- function(cache = TRUE) {
     rvest::html_attr("href") |>
     stringr::str_replace_all("\\/", "")
 
-  shows_active <- tibble::tibble(
+  shows_active <- tibble(
     show = shows,
     # partial = show_partials,
     stats_url = glue::glue("{base_url}/{show_partials}/stats.txt"),
@@ -50,7 +50,7 @@ incomparable_get_shows <- function(cache = TRUE) {
     rvest::html_attr("href") |>
     stringr::str_replace_all("\\/", "")
 
-  shows_retired <- tibble::tibble(
+  shows_retired <- tibble(
     show = shows,
     # partial = show_partials,
     stats_url = glue::glue("{base_url}/{show_partials}/stats.txt"),
@@ -108,7 +108,7 @@ incomparable_parse_archive <- function(archive_url) {
 
   # Catch 500 error for archive pages, e.g. https://www.theincomparable.com/pod4ham/
   # 2022-07-31
-  if (is.null(archive_parsed)) return(tibble::tibble())
+  if (is.null(archive_parsed)) return(tibble())
 
   # One element per entry, iterate over this to ensure
   # each episode and respective elements can be matched correctly
@@ -175,7 +175,7 @@ incomparable_parse_archive <- function(archive_url) {
       topics <- NA_character_
     }
 
-    tibble::tibble(
+    tibble(
       number = epnums,
       title = titles,
       #duration = duration,
@@ -217,7 +217,7 @@ incomparable_get_subcategories <- function(archive_url = "https://www.theincompa
       link <- .x |> rvest::html_attr("href")
       link <- paste0("https://www.theincomparable.com", link)
 
-      tibble::tibble(
+      tibble(
         link = link,
         category = .x |> rvest::html_text()
       )
