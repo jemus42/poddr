@@ -9,26 +9,19 @@
 #' parse_duration("32:12")
 #' parse_duration("32:12:04")
 parse_duration <- function(x) {
-  parsed <- purrr::map_dbl(x, ~ {
+  seconds <- vapply(x, \(.x) {
     if (stringr::str_count(.x, ":") == 2) {
       xx <- as.numeric(unlist(stringr::str_split(.x, ":")))
-      hms::hms(
-        seconds = xx[3],
-        minutes = xx[2],
-        hours = xx[1]
-      )
+      xx[1] * 3600 + xx[2] * 60 + xx[3]
     } else if (stringr::str_count(.x, ":") == 1) {
       xx <- as.numeric(unlist(stringr::str_split(.x, ":")))
-      hms::hms(
-        seconds = xx[2],
-        minutes = xx[1]
-      )
+      xx[1] * 60 + xx[2]
     } else {
       stop("Unexpected input format ", .x)
     }
-  })
+  }, numeric(1))
 
-  hms::hms(seconds = parsed)
+  hms::hms(seconds = seconds)
 }
 
 #' Convenience function to display N
