@@ -155,7 +155,7 @@ atp_get_episodes <- function(page_limit = NULL, cache = TRUE) {
   pb$tick()
 
   # Iteratively get the next page until the limit is reached
-  # (or of there's no next page to retrieve)
+  # (or if there's no next page to retrieve)
   while (next_page_num <= page_limit) {
     pb$tick()
 
@@ -184,7 +184,11 @@ atp_get_episodes <- function(page_limit = NULL, cache = TRUE) {
   episodes = purrr::map_dfr(atp_pages, ~ {
     pb$tick()
     atp_parse_page(.x)
-  })
+  }) |>
+    mutate(
+      network = "ATP",
+      show = "ATP"
+    )
 
   checkmate::assert_data_frame(episodes, min.rows = 1)
 
