@@ -1,102 +1,3 @@
-#' Parse a single ATP page
-#'
-#' @param page Scraped page object, e.g. from `polite::scrape()`.
-#'
-#' @return A tibble.
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' session <- polite::bow(url = "https://atp.fm")
-#' page <- polite::scrape(session, query = list(page = 1))
-#' atp_parse_page(page)
-#' }
-atp_parse_page <- function(page) {
-  rvest::html_nodes(page, "article") |>
-    purrr::map_dfr(~ {
-
-      # Check if it's a members-only episode
-      is_memberpost <- !is.na(rvest::html_node(.x, ".membersonlypromo"))
-
-      # Not much else to do with that
-      if (is_memberpost) {
-        return(tibble())
-      }
-
-      meta <- rvest::html_node(.x, ".metadata") |>
-        rvest::html_text() |>
-        stringr::str_trim()
-
-      date <- meta |>
-        stringr::str_extract("^.*(?=\\\n)") |>
-        lubridate::mdy()
-
-      duration <- meta |>
-        stringr::str_extract("\\d{2}:\\d{2}:\\d{2}") |>
-        hms::as_hms()
-
-      number <- .x |>
-        rvest::html_nodes("h2 a") |>
-        rvest::html_text() |>
-        stringr::str_extract("^\\d+")
-
-      title <- .x |>
-        rvest::html_nodes("h2 a") |>
-        rvest::html_text() |>
-        stringr::str_remove("^\\d+:\\s")
-
-      # Get the sponsor links
-      links_sponsor <- .x |>
-        # Shownotes links are in the second <ul> element
-        rvest::html_nodes("ul~ ul li") |>
-        rvest::html_nodes("a")
-
-      link_text_sponsor <- links_sponsor |>
-        rvest::html_text()
-
-      link_href_sponsor <- links_sponsor |>
-        rvest::html_attr("href")
-
-      links_sponsor <- tibble(
-        link_text = link_text_sponsor,
-        link_url = link_href_sponsor,
-        link_type = "Sponsor"
-      )
-
-      # Get the regular shownotes links
-      links_regular <- .x |>
-        # Get the first <ul> element, then the listed links
-        # This avoids links in paragraphs and shownotes
-        rvest::html_node("ul") |>
-        rvest::html_nodes("li a")
-
-      link_text <- links_regular |>
-        rvest::html_text()
-
-      link_href <- links_regular |>
-        rvest::html_attr("href")
-
-      links_regular <- tibble(
-        link_text = link_text,
-        link_url = link_href,
-        link_type = "Shownotes"
-      )
-
-      # Piece it all together
-      tibble(
-        number = number,
-        title = title,
-        duration = duration,
-        date = date,
-        year = lubridate::year(date),
-        month = lubridate::month(date, abbr = FALSE, label = TRUE),
-        weekday = lubridate::wday(date, abbr = FALSE, label = TRUE),
-        links = list(dplyr::bind_rows(links_regular, links_sponsor)),
-        n_links = purrr::map_int(links, nrow)
-      )
-    })
-}
-
 #' Retrieve ATP episodes
 #'
 #' @param page_limit Number of pages to scrape, from newest to oldest episode.
@@ -119,7 +20,6 @@ atp_parse_page <- function(page) {
 #' atp_full <- atp_get_episodes()
 #' }
 atp_get_episodes <- function(page_limit = NULL, cache = TRUE) {
-
   if (is.null(page_limit)) page_limit <- Inf
   # Get the first page and scrape it
   session <- polite::bow(url = podcast_urls$atp$base)
@@ -181,10 +81,13 @@ atp_get_episodes <- function(page_limit = NULL, cache = TRUE) {
     total = length(atp_pages)
   )
 
-  episodes = purrr::map_dfr(atp_pages, ~ {
-    pb$tick()
-    atp_parse_page(.x)
-  }) |>
+  episodes = purrr::map_dfr(
+    atp_pages,
+    ~ {
+      pb$tick()
+      atp_parse_page(.x)
+    }
+  ) |>
     dplyr::mutate(
       network = "ATP",
       show = "ATP"
@@ -197,4 +100,104 @@ atp_get_episodes <- function(page_limit = NULL, cache = TRUE) {
   }
 
   episodes
+}
+
+#' Parse a single ATP page
+#'
+#' @param page Scraped page object, e.g. from `polite::scrape()`.
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' session <- polite::bow(url = "https://atp.fm")
+#' page <- polite::scrape(session, query = list(page = 1))
+#' atp_parse_page(page)
+#' }
+atp_parse_page <- function(page) {
+  rvest::html_nodes(page, "article") |>
+    purrr::map_dfr(
+      ~ {
+        # Check if it's a members-only episode
+        is_memberpost <- !is.na(rvest::html_node(.x, ".membersonlypromo"))
+
+        # Not much else to do with that
+        if (is_memberpost) {
+          return(tibble())
+        }
+
+        meta <- rvest::html_node(.x, ".metadata") |>
+          rvest::html_text() |>
+          stringr::str_trim()
+
+        date <- meta |>
+          stringr::str_extract("^.*(?=\\\n)") |>
+          lubridate::mdy()
+
+        duration <- meta |>
+          stringr::str_extract("\\d{2}:\\d{2}:\\d{2}") |>
+          hms::as_hms()
+
+        number <- .x |>
+          rvest::html_nodes("h2 a") |>
+          rvest::html_text() |>
+          stringr::str_extract("^\\d+")
+
+        title <- .x |>
+          rvest::html_nodes("h2 a") |>
+          rvest::html_text() |>
+          stringr::str_remove("^\\d+:\\s")
+
+        # Get the sponsor links
+        links_sponsor <- .x |>
+          # Shownotes links are in the second <ul> element
+          rvest::html_nodes("ul~ ul li") |>
+          rvest::html_nodes("a")
+
+        link_text_sponsor <- links_sponsor |>
+          rvest::html_text()
+
+        link_href_sponsor <- links_sponsor |>
+          rvest::html_attr("href")
+
+        links_sponsor <- tibble(
+          link_text = link_text_sponsor,
+          link_url = link_href_sponsor,
+          link_type = "Sponsor"
+        )
+
+        # Get the regular shownotes links
+        links_regular <- .x |>
+          # Get the first <ul> element, then the listed links
+          # This avoids links in paragraphs and shownotes
+          rvest::html_node("ul") |>
+          rvest::html_nodes("li a")
+
+        link_text <- links_regular |>
+          rvest::html_text()
+
+        link_href <- links_regular |>
+          rvest::html_attr("href")
+
+        links_regular <- tibble(
+          link_text = link_text,
+          link_url = link_href,
+          link_type = "Shownotes"
+        )
+
+        # Piece it all together
+        tibble(
+          number = number,
+          title = title,
+          duration = duration,
+          date = date,
+          year = lubridate::year(date),
+          month = lubridate::month(date, abbr = FALSE, label = TRUE),
+          weekday = lubridate::wday(date, abbr = FALSE, label = TRUE),
+          links = list(dplyr::bind_rows(links_regular, links_sponsor)),
+          n_links = purrr::map_int(links, nrow)
+        )
+      }
+    )
 }
