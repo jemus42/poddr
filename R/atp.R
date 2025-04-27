@@ -94,7 +94,13 @@ atp_get_episodes <- function(page_limit = NULL, cache = TRUE) {
     )
 
   checkmate::assert_data_frame(episodes, min.rows = 1)
+  oldest_episode <- as.integer(episodes$number[length(episodes$number)])
 
+  if (!oldest_episode == 1L) {
+    cli::cli_warn(
+      "Oldest episode in dataset is not 1 but {oldest_episode}, it's time to adjust the offset maybe?"
+    )
+  }
   if (cache) {
     cache_podcast_data(episodes, filename = "atp", csv = FALSE)
   }
