@@ -16,6 +16,7 @@ poddr_get <- function(
     ) |>
     httr2::req_retry(
       max_tries = 3,
+      # Extend httr2's default 429+503 to include common gateway/server errors.
       is_transient = \(resp) {
         httr2::resp_status(resp) %in% c(429, 500, 502, 503, 504)
       }
