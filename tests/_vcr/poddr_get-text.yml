@@ -1,0 +1,63 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://www.theincomparable.com/salvage/stats.txt
+  response:
+    status: 200
+    headers:
+      Server: nginx
+      Date: Sun, 24 May 2026 19:40:05 GMT
+      Content-Type: text/plain; charset=utf-8
+      Content-Length: '1401'
+      Connection: keep-alive
+      Last-Modified: Tue, 13 Jan 2026 02:18:48 GMT
+      ETag: '"1301-6483b9ca8817c-gzip"'
+      Accept-Ranges: bytes
+      Vary: Accept-Encoding
+      Content-Encoding: gzip
+    body:
+      string: |
+        41;20 Jan 2022;55:03;"Babylon's Ashes";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 6, Episode 6, Series Finale
+        40;14 Jan 2022;42:31;"Why We Fight";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 6, Episode 5
+        39;06 Jan 2022;34:24;"Redoubt";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 6, Episode 4
+        38;29 Dec 2021;32:54;"Force Projection";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 6, Episode 3
+        37;24 Dec 2021;38:18;"Azure Dragon";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 6, Episode 2
+        36;18 Dec 2021;36:36;"Strange Dogs";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 6, Episode 1
+        35;15 Feb 2021;45:31;"Nemesis Games";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 5, Episode 10
+        34;05 Feb 2021;32:42;"Winnipesaukee";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 5, Episode 9
+        33;30 Jan 2021;39:14;"Hard Vacuum";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 5, Episode 8
+        32;21 Jan 2021;35:33;"Oyedeng";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 5, Episode 7
+        31;16 Jan 2021;39:08;"Down and Out" and "Tribes";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 5, Episodes 5-6
+        30;31 Dec 2020;30:12;"Gaugamela";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 5, Episode 4
+        29;27 Dec 2020;38:07;"Exodus," "Churn," and "Mother";   Jen Burt, Kayti Burt, Chip Sudderth;;Season 5, Episodes 1-3
+        28;14 May 2020;51:12;"Cibola Burn";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 4, Episode 10
+        27;27 Apr 2020;32:13;"Saeculum";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 4, Episode 9
+        26;15 Apr 2020;44:32;"The One-Eyed Man";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 4, Episode 8
+        25;19 Mar 2020;35:48;"A Shot in the Dark";   Kayti Burt, Warren Frey, Jen Burt;;Season 4, Episode 7
+        24;03 Mar 2020;31:56;"Displacement";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 4, Episode 6
+        23;11 Feb 2020;41:49;"Oppressor";  Jen Burt, Warren Frey;;Season 4, Episode 5
+        22;24 Jan 2020;32:16;"Retrograde";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 4, Episode 4
+        21;19 Jan 2020;27:13;"Subduction";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 4, Episode 3
+        20;03 Jan 2020;45:26;"Jetsam";   Jen Burt, Kayti Burt, Chip Sudderth;;Season 4, Episode 2
+        19;23 Dec 2019;40:27;"New Terra";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 4, Episode 1
+        18;09 Dec 2019;51:42;"Congregation" and "Abaddon's Gate";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 3, Episodes 12-13
+        17;02 Dec 2019;47:47;"Dandelion Sky" and "Fallen World";   Chip Sudderth, Jen Burt, Kayti Burt;;Season 3, Episodes 10-11
+        16;26 Nov 2019;51:38;"It Reaches Out" and "Intransigence";   Kayti Burt, Jen Burt, Warren Frey;;Season 3, Episodes 8-9
+        15;18 Nov 2019;1:00:49;"Immolation" and "Delta-V";   Jen Burt, Chip Sudderth, Kayti Burt;;Season 3, Episodes 6-7
+        14;12 Nov 2019;49:46;"Reload" and "Triple Point";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 3, Episodes 4-5
+        13;04 Nov 2019;48:53;"IFF" and "Assured Destruction";   Jen Burt, Kayti Burt, Warren Frey;;Season 3, Episodes 2-3
+        12;28 Oct 2019;52:57;"Caliban's War" and "Fight or Flight";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 2, Episode 13 and Season 3, Episode 1
+        11;23 Oct 2019;56:15;"Here There Be Dragons" and "The Monster and the Rocket";   Kayti Burt, Chip Sudderth, Jen Burt;;Season 2, Episodes 11-12
+        10;15 Oct 2019;1:07:31;"The Weeping Somnambulist" and "Cascade";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 2, Episodes 9-10
+        9;07 Oct 2019;45:58;"The Seventh Man" and "Pyre";  Jen Burt, Chip Sudderth;;Season 2, Episodes 7-8
+        8;01 Oct 2019;1:00:39;"Home" and "Paradigm Shift";   Jen Burt, Kayti Burt, Warren Frey;;Season 2, Episodes 5-6
+        7;23 Sep 2019;54:47;"Static" and "Godspeed";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 2, Episodes 3-4
+        6;18 Sep 2019;1:00:10;"Safe" and "Doors and Corners";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;
+        5;08 Sep 2019;1:09:43;"Critical Mass" and "Leviathan Wakes";   Jen Burt, Kayti Burt, Chip Sudderth;;Season 1, Episodes 9-10
+        4;02 Sep 2019;1:09:10;"Windmills" and "Salvage";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 1, Episodes 7-8
+        3;26 Aug 2019;51:56;"Back to the Butcher" and "Rock Bottom";   Jen Burt, Kayti Burt, Chip Sudderth;;Season 1, Episodes 5-6
+        2;19 Aug 2019;1:06:08;"Remember the Cant" and "CQB";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 1, Episodes 3-4
+        1;12 Aug 2019;57:37;"Dulcinea" and "The Big Empty";    Chip Sudderth, Warren Frey, Kayti Burt, Jen Burt;;Season 1, Episodes 1-2
+        0;11 Aug 2019;1:10;Coming Soon: A Legitimate Salvage; Chip Sudderth;;Teaser trailer for The Incomparable's new THE EXPANSE podcast
+  recorded_at: 2026-05-24 19:40:06
+recorded_with: VCR-vcr/2.1.0
