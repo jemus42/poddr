@@ -5,13 +5,9 @@
 ^vignettes/articles$
 ^_pkgdown\.yml$
 ^docs$
-^pkgdown$
 ^\.github$
-^README_cache$
-^fiddle\.R$
-^data_cache$
-^attic$
 ^\.claude$
 ^\.DS_Store$
 ^\.Rhistory$
-^fiddle\.R$
+^Makefile$
+^docs/superpowers$

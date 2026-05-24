@@ -1,6 +1,6 @@
 Package: poddr
 Title: Collect Metadata for Selected Podcasts
-Version: 0.2.7
+Version: 0.3.0
 Authors@R:
     person("Lukas", "Burk", , "github@quantenbrot.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7528-3795"))
@@ -17,19 +17,23 @@ Imports:
     dplyr,
     fs,
     glue,
+    here,
     hms,
+    httr2,
     lubridate,
-    memoise,
-    polite,
     purrr,
     readr,
     rlang (>= 0.1.2),
+    robotstxt,
     rvest,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    xml2
 Suggests:
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    vcr (>= 2.0.0),
+    withr
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

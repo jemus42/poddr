@@ -4,6 +4,4 @@
 .Ruserdata
 docs/*
 !docs/superpowers/
-README_cache
-fiddle.R
 data_cache
