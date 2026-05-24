@@ -32,7 +32,7 @@ relay_get_shows <- function(cache = TRUE) {
     rvest::html_nodes(".subheader~ .entry .broadcast__name a") |>
     rvest::html_text()
 
-  shows = tibble(
+  shows <- tibble(
     show = shows,
     feed_url = feed_urls,
     show_status = ifelse(shows %in% retired_shows, "Retired", "Active")
@@ -41,7 +41,7 @@ relay_get_shows <- function(cache = TRUE) {
   checkmate::assert_data_frame(shows, min.rows = 1, ncols = 3)
 
   if (cache) {
-    cache_podcast_data(shows, filename = "relay_episodes")
+    cache_podcast_data(shows, filename = "relay_shows")
   }
 
   shows
@@ -128,15 +128,18 @@ relay_parse_feed <- function(url) {
 #' relay <- relay_get_episodes(relay_shows)
 #' }
 relay_get_episodes <- function(relay_shows, cache = TRUE) {
-  pb <- progress::progress_bar$new(
-    format = "Getting :show :current/:total (:percent) ETA: :eta [:bar]",
-    total = nrow(relay_shows)
+  cli::cli_progress_bar(
+    "Getting feeds",
+    total = nrow(relay_shows),
+    format = "{cli::pb_spin} {cli::pb_current}/{cli::pb_total} {show}"
   )
 
-  episodes = purrr::pmap_df(relay_shows, ~ {
-    pb$tick(tokens = list(show = ..1))
-    relay_parse_feed(..2)
-  })
+  episodes <- purrr::pmap(relay_shows, \(show, feed_url, ...) {
+    cli::cli_progress_update(set = NULL, status = show, force = TRUE)
+    relay_parse_feed(feed_url)
+  }) |>
+    purrr::list_rbind()
+  cli::cli_progress_done()
 
   checkmate::assert_data_frame(episodes, min.rows = 1)
 

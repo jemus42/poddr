@@ -108,7 +108,9 @@ incomparable_parse_archive <- function(archive_url) {
 
   # Catch 500 error for archive pages, e.g. https://www.theincomparable.com/pod4ham/
   # 2022-07-31
-  if (is.null(archive_parsed)) return(tibble())
+  if (is.null(archive_parsed)) {
+    return(tibble())
+  }
 
   # One element per entry, iterate over this to ensure
   # each episode and respective elements can be matched correctly
@@ -124,50 +126,47 @@ incomparable_parse_archive <- function(archive_url) {
 
   has_categories <- identical(subcat_header, "Subcategories")
 
-  # Iterate over list entries and return per-episode tbl to keep things together
-  purrr::map_dfr(entries, ~ {
+  purrr::map(entries, \(x) {
     # Treat episode numbers as character in case of letter suffixes
-    epnums <- .x |>
+    epnums <- x |>
       rvest::html_nodes(css = ".ep-num") |>
       rvest::html_text() |>
       as.character()
 
-    # Multiple paragraphs will result in multiple elements, hence the concatenation
-    summaries <- .x |>
+    summaries <- x |>
       rvest::html_nodes(css = "p") |>
       rvest::html_text() |>
       stringr::str_c(collapse = "")
 
-    titles <- .x |>
+    titles <- x |>
       rvest::html_nodes(css = "h5 a") |>
       rvest::html_text() |>
       stringr::str_remove_all("^\\d+\\w?[\\n\\s\\t]*")
 
-    date <- .x |>
+    date <- x |>
       rvest::html_nodes(".episode-date") |>
       rvest::html_text() |>
       stringr::str_extract("^[A-Za-z0-9\\s,]+?,\\s+\\d{4}") |>
       lubridate::mdy()
 
-    host <- .x |>
+    host <- x |>
       rvest::html_nodes(".hosts a:nth-child(1)") |>
       rvest::html_text()
 
-    guest <- .x |>
+    guest <- x |>
       rvest::html_nodes("a+ a") |>
       rvest::html_text() |>
       paste(collapse = ";")
 
-    # Only try to wrangle subcategory from image alt text if there are subcategories listed
     categories <- NA_character_
     if (has_categories) {
-      categories <- .x |>
+      categories <- x |>
         rvest::html_nodes("img") |>
         rvest::html_attr("alt") |>
         stringr::str_remove_all("(^.*\\s-\\s)|(\\scover\\sart)")
     }
 
-    topics <- .x |>
+    topics <- x |>
       rvest::html_nodes(".episode-subtitle") |>
       rvest::html_text()
 
@@ -178,7 +177,6 @@ incomparable_parse_archive <- function(archive_url) {
     tibble(
       number = epnums,
       title = titles,
-      #duration = duration,
       date = date,
       year = lubridate::year(date),
       month = lubridate::month(date, abbr = FALSE, label = TRUE),
@@ -190,7 +188,8 @@ incomparable_parse_archive <- function(archive_url) {
       summary = summaries,
       network = "The Incomparable"
     )
-  })
+  }) |>
+    purrr::list_rbind()
 }
 
 #' Extract subcategory index for given show
@@ -206,22 +205,22 @@ incomparable_parse_archive <- function(archive_url) {
 #' \dontrun{
 #' incomparable_get_subcategories("https://www.theincomparable.com/gameshow/archive/")
 #' }
-incomparable_get_subcategories <- function(archive_url = "https://www.theincomparable.com/gameshow/archive/") {
+incomparable_get_subcategories <- function(
+  archive_url = "https://www.theincomparable.com/gameshow/archive/"
+) {
   show_index <- polite::bow(archive_url) |>
     polite::scrape()
 
   show_index |>
     rvest::html_nodes("#recent aside a") |>
-    purrr::map_dfr(~{
-
-      link <- .x |> rvest::html_attr("href")
-      link <- paste0("https://www.theincomparable.com", link)
-
-      tibble(
-        link = link,
-        category = .x |> rvest::html_text()
+    purrr::map(\(x) {
+      link <- paste0(
+        "https://www.theincomparable.com",
+        rvest::html_attr(x, "href")
       )
-    })
+      tibble(link = link, category = rvest::html_text(x))
+    }) |>
+    purrr::list_rbind()
 }
 
 #' Parse The Incomparable stats.txt files
@@ -243,11 +242,17 @@ incomparable_get_subcategories <- function(archive_url = "https://www.theincompa
 #' incomparable_parse_stats("https://www.theincomparable.com/salvage/stats.txt")
 #' }
 incomparable_parse_stats <- function(stats_url) {
-  readr::read_delim(
+  polite_read_delim(
     stats_url,
-    delim = ";", quote = "",
+    delim = ";",
+    quote = "",
     col_names = c(
-      "number", "date", "duration", "title", "host", "guest"
+      "number",
+      "date",
+      "duration",
+      "title",
+      "host",
+      "guest"
     ),
     col_types = "cccccc",
     trim_ws = TRUE
@@ -256,9 +261,12 @@ incomparable_parse_stats <- function(stats_url) {
       duration = parse_duration(.data$duration),
       date = lubridate::dmy(.data$date)
     ) |>
-    dplyr::mutate(dplyr::across(c("host", "guest"), ~ {
-      stringr::str_replace_all(.x, "\\s*,\\s*", ";")
-    }))
+    dplyr::mutate(dplyr::across(
+      c("host", "guest"),
+      ~ {
+        stringr::str_replace_all(.x, "\\s*,\\s*", ";")
+      }
+    ))
 }
 
 #' Retrieve all episodes for The Incomparable shows
@@ -280,48 +288,60 @@ incomparable_parse_stats <- function(stats_url) {
 #' incomparable <- incomparable_get_episodes(incomparable_shows)
 #' }
 incomparable_get_episodes <- function(incomparable_shows, cache = TRUE) {
-  pb <- progress::progress_bar$new(
-    format = "Getting :show :current/:total (:percent) ETA: :eta [:bar]",
-    total = nrow(incomparable_shows)
+  cli::cli_progress_bar(
+    "Getting episodes",
+    total = nrow(incomparable_shows),
+    format = "{cli::pb_spin} {cli::pb_current}/{cli::pb_total} {show}"
   )
 
-  episodes <- purrr::pmap_dfr(incomparable_shows, ~ {
-    pb$tick(tokens = list(show = ..1))
+  episodes <- purrr::pmap(
+    incomparable_shows,
+    \(show, stats_url, archive_url, ...) {
+      cli::cli_progress_update(set = NULL, status = show, force = TRUE)
 
-    # Get the archive info, but drop duration (only HH:MM), and the
-    # slightly wonky host/guest info. Also, date is off, compared to
-    # stats.txt info, so not sure what to prefer
-    # Also drop title because it uses different quotes than stats.txt,
-    # which makes joining with stats.txt data weirder.
-    archived <- incomparable_parse_archive(..3)
+      # Archive includes topic/category/subtitle data not present in stats.txt.
+      # We drop archive's date/title/host/guest/duration in favor of stats.txt:
+      # stats.txt has full HH:MM:SS duration, consistent quoting, and the
+      # archive's host/guest parser is less reliable.
+      archived <- incomparable_parse_archive(archive_url)
 
-    # Return early/empty for broken archives, e.g. dwf
-    # "https://www.theincomparable.com/dwf/archive/"
-    # As of 2021-09-29
-    if (nrow(archived) == 0) {
-      message("\nEmpty archive page for ", ..1, " at ", ..3, "\n")
-      return(tibble())
+      # Some archive pages return empty (e.g. dwf as of 2021-09-29)
+      if (nrow(archived) == 0) {
+        cli::cli_alert_warning("Empty archive page for {show} at {archive_url}")
+        return(tibble())
+      }
+
+      archived <- archived |>
+        dplyr::mutate(show = show) |>
+        dplyr::select(
+          -dplyr::any_of(c("duration", "title", "host", "guest", "date"))
+        )
+
+      stats <- incomparable_parse_stats(stats_url) |>
+        dplyr::mutate(show = show)
+
+      stats |>
+        dplyr::full_join(archived, by = c("show", "number")) |>
+        dplyr::select(
+          "show",
+          "number",
+          "title",
+          "duration",
+          "date",
+          "year",
+          "month",
+          "weekday",
+          "host",
+          "guest",
+          "category",
+          "topic",
+          "summary",
+          "network"
+        )
     }
-
-    archived <- archived |>
-      dplyr::mutate(show = ..1) |>
-      dplyr::select(-dplyr::any_of(c("duration", "title", "host", "guest", "date")))
-
-    stats <- incomparable_parse_stats(..2) |>
-      dplyr::mutate(show = ..1)
-
-    stats |>
-      dplyr::full_join(
-        archived,
-        by = c("show", "number")
-      ) |>
-      dplyr::select(
-        "show", "number", "title", "duration", "date", "year", "month",
-        "weekday", "host", "guest",
-        "category",
-        "topic", "summary", "network"
-      )
-  })
+  ) |>
+    purrr::list_rbind()
+  cli::cli_progress_done()
 
   checkmate::assert_data_frame(episodes, min.rows = 1, ncols = 14)
 

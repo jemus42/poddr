@@ -1,3 +1,21 @@
+# poddr 0.2.7
+
+* Maintenance release.
+* `incomparable_parse_stats()` now fetches `stats.txt` through
+  `polite::politely()` so that requests respect `robots.txt` and a
+  per-host delay, matching the rest of the scrapers.
+* Switched progress bars from the `progress` package to `cli`, dropping
+  one direct dependency.
+* Replaced superseded `purrr::map_dfr()`/`pmap_dfr()` with
+  `purrr::map()`/`pmap()` + `purrr::list_rbind()`.
+* `relay_get_shows()` now caches to `relay_shows.rds` instead of
+  overwriting the episode cache.
+* Fixed deprecation warnings from `tidyselect` in `gather_people()`.
+* Added `testthat` tests for `parse_duration()`, `label_n()`,
+  `gather_people()`, and `atp_parse_page()`.
+* Declared `R (>= 4.1.0)` in `DESCRIPTION` to match use of `|>` and
+  `\(x)`.
+
 # poddr 0.2.6
 
 * [ATP] Append (redundant) `Show` and `Network` column equal `"ATP"` for consistency with other podcasts.

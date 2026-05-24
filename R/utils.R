@@ -9,17 +9,21 @@
 #' parse_duration("32:12")
 #' parse_duration("32:12:04")
 parse_duration <- function(x) {
-  seconds <- vapply(x, \(.x) {
-    if (stringr::str_count(.x, ":") == 2) {
-      xx <- as.numeric(unlist(stringr::str_split(.x, ":")))
-      xx[1] * 3600 + xx[2] * 60 + xx[3]
-    } else if (stringr::str_count(.x, ":") == 1) {
-      xx <- as.numeric(unlist(stringr::str_split(.x, ":")))
-      xx[1] * 60 + xx[2]
-    } else {
-      stop("Unexpected input format ", .x)
-    }
-  }, numeric(1))
+  seconds <- vapply(
+    x,
+    \(.x) {
+      if (stringr::str_count(.x, ":") == 2) {
+        xx <- as.numeric(unlist(stringr::str_split(.x, ":")))
+        xx[1] * 3600 + xx[2] * 60 + xx[3]
+      } else if (stringr::str_count(.x, ":") == 1) {
+        xx <- as.numeric(unlist(stringr::str_split(.x, ":")))
+        xx[1] * 60 + xx[2]
+      } else {
+        stop("Unexpected input format ", .x)
+      }
+    },
+    numeric(1)
+  )
 
   hms::hms(seconds = seconds)
 }
@@ -66,19 +70,17 @@ label_n <- function(x, brackets = FALSE) {
 #' incomparable_wide <- gather_people(incomparable)
 #' }
 gather_people <- function(episodes) {
-
-  # Get people cols, as relay doesn't have guests
-  people_cols <- names(episodes)[names(episodes) %in% c("host", "guest")]
+  people_cols <- intersect(names(episodes), c("host", "guest"))
 
   episodes |>
     tidyr::pivot_longer(
-      cols = people_cols,
-      names_to = "role", values_to = "person"
+      cols = dplyr::all_of(people_cols),
+      names_to = "role",
+      values_to = "person"
     ) |>
-    tidyr::separate_rows(.data$person, sep = ";") |>
-    # Just in case of superfluous whitespaces
+    tidyr::separate_rows("person", sep = ";") |>
     dplyr::mutate(person = stringr::str_trim(.data$person, side = "both")) |>
-    # hms gets converted to durations for some reason
+    # pivot_longer drops hms class on duration; restore it
     dplyr::mutate(dplyr::across(dplyr::any_of("duration"), hms::as_hms)) |>
     dplyr::filter(!is.na(.data$person))
 }

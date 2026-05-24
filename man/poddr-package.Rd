@@ -12,12 +12,18 @@ Collecting all the data, but just for The Incomparable, Relay.fm and ATP.
 Useful links:
 \itemize{
   \item \url{https://github.com/jemus42/poddr}
+  \item \url{https://jemus42.github.io/poddr/}
   \item Report bugs at \url{https://github.com/jemus42/poddr/issues}
 }
 
 }
 \author{
 \strong{Maintainer}: Lukas Burk \email{github@quantenbrot.de} (\href{https://orcid.org/0000-0001-7528-3795}{ORCID})
+
+Authors:
+\itemize{
+  \item Lukas Burk \email{github@quantenbrot.de} (\href{https://orcid.org/0000-0001-7528-3795}{ORCID})
+}
 
 }
 \keyword{internal}

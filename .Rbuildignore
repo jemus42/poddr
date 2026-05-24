@@ -11,3 +11,7 @@
 ^fiddle\.R$
 ^data_cache$
 ^attic$
+^\.claude$
+^\.DS_Store$
+^\.Rhistory$
+^fiddle\.R$

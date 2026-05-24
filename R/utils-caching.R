@@ -13,9 +13,16 @@
 #' atp_new <- atp_get_episodes(page_limit = 1)
 #' cache_podcast_data(atp_new, csv = FALSE)
 #' }
-cache_podcast_data <- function(x, dir = "data_cache", filename = NULL, csv = TRUE) {
+cache_podcast_data <- function(
+  x,
+  dir = "data_cache",
+  filename = NULL,
+  csv = TRUE
+) {
   # Early return just in case the data is wrong and empty
-  if (nrow(x) == 0) return(NULL)
+  if (nrow(x) == 0) {
+    return(NULL)
+  }
 
   # Get the filename from the data name
   if (is.null(filename)) {
