@@ -2,6 +2,7 @@ vcr::vcr_configure(
   dir = vcr::vcr_test_path("_vcr"),
   warn_on_empty_cassette = FALSE
 )
+vcr::check_cassette_names()
 
 # Per-test override of the httr2 cache so cassettes record the
 # real upstream response instead of a 304 short-circuit, and so
