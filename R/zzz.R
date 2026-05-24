@@ -12,10 +12,26 @@ podcast_urls <- list(
   )
 )
 
-# Rate-limited readr::read_delim wrapper. Built in .onLoad so the memoise
-# cache is fresh per session; polite::politely enforces robots.txt + delay.
-polite_read_delim <- NULL
+default_user_agent <- function() {
+  paste0(
+    "poddr/",
+    utils::packageVersion("poddr"),
+    " (+https://github.com/jemus42/poddr)"
+  )
+}
 
 .onLoad <- function(libname, pkgname) {
-  polite_read_delim <<- polite::politely(readr::read_delim, verbose = FALSE)
+  op <- options()
+  defaults <- list(
+    poddr_user_agent = default_user_agent(),
+    poddr_throttle_rate = 1 / 2,
+    poddr_cache_dir = tools::R_user_dir("poddr", "cache"),
+    poddr_cache_max_age = 7 * 86400,
+    poddr_cache_max_size = 100 * 1024^2
+  )
+  toset <- !(names(defaults) %in% names(op))
+  if (any(toset)) {
+    options(defaults[toset])
+  }
+  invisible()
 }
