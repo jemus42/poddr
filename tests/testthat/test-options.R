@@ -3,10 +3,9 @@ test_that(".onLoad sets package option defaults", {
   expect_equal(getOption("poddr_throttle_rate"), 1 / 2)
   expect_equal(getOption("poddr_cache_max_age"), 7 * 86400)
   expect_equal(getOption("poddr_cache_max_size"), 100 * 1024^2)
-  expect_match(
+  expect_equal(
     getOption("poddr_cache_dir"),
-    "poddr",
-    fixed = TRUE
+    tools::R_user_dir("poddr", "cache")
   )
 })
 
@@ -14,4 +13,14 @@ test_that("default_user_agent reports package version and URL", {
   ua <- default_user_agent()
   expect_match(ua, paste0("poddr/", utils::packageVersion("poddr")))
   expect_match(ua, "github.com/jemus42/poddr", fixed = TRUE)
+})
+
+test_that(".onLoad does not clobber a pre-existing option", {
+  withr::with_options(
+    list(poddr_throttle_rate = 99),
+    {
+      .onLoad(NULL, "poddr")
+      expect_equal(getOption("poddr_throttle_rate"), 99)
+    }
+  )
 })
