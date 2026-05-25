@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">poddr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -47,6 +47,23 @@
       <small>Source: <a href="https://github.com/jemus42/poddr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.2" id="poddr-032">poddr 0.3.2<a class="anchor" aria-label="anchor" href="#poddr-032"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-3-2">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-2"></a></h3>
+<ul><li><p><code><a href="../reference/incomparable_get_episodes.html">incomparable_get_episodes()</a></code> now fetches each per-episode page for episodes that appear in <code>stats.txt</code> but aren’t listed on the show’s archive page yet (the archive renders on a slower cadence than <code>stats.txt</code> updates, so the newest episode is typically missing from the archive for hours to weeks). This recovers <code>summary</code> for those episodes from the per-episode <code>og:description</code> meta tag. <code>topic</code> remains <code>NA</code> for newest-episode gaps unless the individual page happens to populate <code>.episode-subtitle</code>.</p></li>
+<li><p>New exported helper <code>incomparable_parse_episode(episode_url, cache)</code> returns a one-row tibble (<code>summary</code>, <code>topic</code>) for a given episode URL — exposed for direct use; called automatically by the orchestrator’s gap-fill.</p></li>
+<li><p>The gap-fill is lazy: zero extra HTTP requests when the archive is current. Worst case scales with the gap size (typically 0–1 episodes per show per scheduled run).</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.1" id="poddr-031">poddr 0.3.1<a class="anchor" aria-label="anchor" href="#poddr-031"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-1"></a></h3>
+<ul><li><p><code><a href="../reference/incomparable_get_episodes.html">incomparable_get_episodes()</a></code> no longer returns <code>NA</code> for <code>year</code>, <code>month</code>, <code>weekday</code>, and <code>network</code> on episodes that appear in <code>stats.txt</code> but haven’t been added to the archive page yet (the Incomparable site renders the two surfaces independently and <code>stats.txt</code> typically leads by hours-to-weeks for new episodes). These four columns are now derived from the canonical <code>stats.txt</code> date / a constant after the join, so any row that has a <code>date</code> also has <code>year</code>, <code>month</code>, <code>weekday</code>, and <code>network</code>. <code>category</code>, <code>topic</code>, and <code>summary</code> remain <code>NA</code> for episodes the archive hasn’t listed yet — those fields genuinely have no source to recover them from. Reported by the <a href="https://github.com/jemus42/podcasts.jemu.name" class="external-link">podcasts.jemu.name</a> consumer (2026-05-25).</p></li>
+<li><p>Same fix also protects against the historical join-key mismatch case where <code>stats.txt</code> and the archive page disagree on an episode number (e.g. legacy sub-indexed entries like <code>123a</code> / <code>123b</code>): derived columns are populated from the surviving <code>date</code> regardless of whether the archive row matched.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.0" id="poddr-030">poddr 0.3.0<a class="anchor" aria-label="anchor" href="#poddr-030"></a></h2>
 <div class="section level3">
