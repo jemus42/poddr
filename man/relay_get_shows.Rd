@@ -7,10 +7,10 @@
 relay_get_shows(cache = TRUE)
 }
 \arguments{
-\item{cache}{(\code{logical(1)}) Set to \code{FALSE} to disable caching.}
+\item{cache}{(\code{logical(1)}) Toggle the httr2 HTTP cache. Default \code{TRUE}.}
 }
 \value{
-A tibble with one row for each show
+A tibble with one row for each show.
 }
 \description{
 Parses the show overview page and returns a tibble of show names

@@ -9,13 +9,13 @@ relay_get_episodes(relay_shows, cache = TRUE)
 \arguments{
 \item{relay_shows}{A tibble of shows, from \code{relay_get_shows()}.}
 
-\item{cache}{(\code{logical(1)}) Set to \code{FALSE} to disable caching.}
+\item{cache}{(\code{logical(1)}) Toggle the httr2 HTTP cache. Default \code{TRUE}.}
 }
 \value{
 A tibble.
 }
 \description{
-Retrieves all episodes for one or more shows passed as a tibble.
+Retrieve all episodes for relay.fm shows
 }
 \examples{
 \dontrun{

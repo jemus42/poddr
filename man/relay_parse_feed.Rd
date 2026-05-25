@@ -4,11 +4,13 @@
 \alias{relay_parse_feed}
 \title{Parse a relay.fm show feed}
 \usage{
-relay_parse_feed(url)
+relay_parse_feed(url, cache = TRUE)
 }
 \arguments{
 \item{url}{A show's feed URL, e.g. \code{"https://www.relay.fm/ungeniused/feed"}.
 Use \code{relay_get_shows()} to retrieve feed URLs.}
+
+\item{cache}{(\code{logical(1)}) Toggle the httr2 HTTP cache. Default \code{TRUE}.}
 }
 \value{
 A tibble.

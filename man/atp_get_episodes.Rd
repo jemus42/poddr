@@ -9,10 +9,11 @@ atp_get_episodes(page_limit = NULL, cache = TRUE)
 \arguments{
 \item{page_limit}{Number of pages to scrape, from newest to oldest episode.
 Page 1 contains the 5 most recent episodes, and subsequent pages contain 50
-episodes per page. As of December 2020, there are 10 pages total.
-Pass \code{NULL} (default) to get all pages.}
+episodes per page. Pass \code{NULL} (default) to get all pages.}
 
-\item{cache}{(\code{logical(1)}) Set to \code{FALSE} to disable caching.}
+\item{cache}{(\code{logical(1)}) Toggle the httr2 HTTP cache. Default \code{TRUE}.
+Disk writes are not performed by this function; call
+\code{\link[=cache_podcast_data]{cache_podcast_data()}} explicitly if you want RDS/CSV artefacts.}
 }
 \value{
 A tibble.
@@ -22,13 +23,7 @@ Retrieve ATP episodes
 }
 \examples{
 \dontrun{
-# Only the first page with the newest 5 episodes
 atp_new <- atp_get_episodes(page_limit = 1)
-
-# The latest and then 50 more
-atp_latest <- atp_get_episodes(page_limit = 2)
-
-# Get all episodes (use wisely)
 atp_full <- atp_get_episodes()
 }
 }

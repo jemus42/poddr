@@ -4,40 +4,21 @@
 \alias{incomparable_parse_archive}
 \title{Parse a show's archive page on The Incomparable website}
 \usage{
-incomparable_parse_archive(archive_url)
+incomparable_parse_archive(archive_url, cache = TRUE)
 }
 \arguments{
-\item{archive_url}{E.g.
-\code{"https://www.theincomparable.com/theincomparable/archive/"}.}
+\item{archive_url}{E.g. \code{"https://www.theincomparable.com/theincomparable/archive/"}.}
+
+\item{cache}{(\code{logical(1)}) Toggle the httr2 HTTP cache. Default \code{TRUE}.}
 }
 \value{
-A tibble, with following format:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{#> dplyr::glimpse(incomparable_parse_archive(archive_url))
- Columns: 12
- $ number   <chr>
- $ title    <chr>
- $ date     <date>
- $ year     <dbl>
- $ month    <ord>
- $ weekday  <ord>
- $ host     <chr>
- $ guest    <chr>
- $ category <chr>
- $ topic    <chr>
- $ summary  <chr>
- $ network  <chr>
-}\if{html}{\out{</div>}}
+A tibble.
 }
 \description{
-Retrieves all episodes for one or more shows passed as a tibble.
-The archive page \emph{does not} include full duration information, as it is
-limited to hours and minutes. Use \code{incomparable_parse_stats()} for
-accurate episode durations.
+Parse a show's archive page on The Incomparable website
 }
 \examples{
 \dontrun{
-archive_url <- "https://www.theincomparable.com/gameshow/archive/"
-incomparable_parse_archive(archive_url)
+incomparable_parse_archive("https://www.theincomparable.com/gameshow/archive/")
 }
 }

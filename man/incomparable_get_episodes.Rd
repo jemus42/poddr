@@ -7,23 +7,19 @@
 incomparable_get_episodes(incomparable_shows, cache = TRUE)
 }
 \arguments{
-\item{incomparable_shows}{Dataset of shows with title and URLs as returned by
-\code{incomparable_get_shows()}.}
+\item{incomparable_shows}{Dataset of shows as returned by \code{incomparable_get_shows()}.}
 
-\item{cache}{(\code{logical(1)}) Set to \code{FALSE} to disable caching.}
+\item{cache}{(\code{logical(1)}) Toggle the httr2 HTTP cache. Default \code{TRUE}.}
 }
 \value{
-A tibble with one row per episode.
+A tibble.
 }
 \description{
-This combines \code{incomparable_parse_stats()} and \code{incomparable_parse_archive()}
-to retrieve full episode information including host/guest, durations
-including seconds, podcast subcategories and topics.
-Use sparingly to limit unnecessarily hammering the poor webserver!
+Retrieve all episodes for The Incomparable shows
 }
 \examples{
 \dontrun{
-incomparable_shows <- incomparable_get_shows()
-incomparable <- incomparable_get_episodes(incomparable_shows)
+shows <- incomparable_get_shows()
+incomparable_get_episodes(shows)
 }
 }
