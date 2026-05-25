@@ -1,0 +1,754 @@
+http_interactions:
+- request:
+    method: GET
+    uri: http://www.relay.fm/robots.txt
+  response:
+    status: 200
+    headers:
+      date: Mon, 25 May 2026 01:11:19 GMT
+      content-type: text/plain; charset=utf-8
+      transfer-encoding: chunked
+      connection: keep-alive
+      content-encoding: gzip
+      server: cloudflare
+      cf-ray: a010aa5c6bc7d3f4-AMS
+    body:
+      string: |+
+        # As a condition of accessing this website, you agree to abide by the following
+        # content signals:
+
+        # (a)  If a Content-Signal = yes, you may collect content for the corresponding
+        #      use.
+        # (b)  If a Content-Signal = no, you may not collect content for the
+        #      corresponding use.
+        # (c)  If the website operator does not include a Content-Signal for a
+        #      corresponding use, the website operator neither grants nor restricts
+        #      permission via Content-Signal with respect to the corresponding use.
+
+        # The content signals and their meanings are:
+
+        # search:   building a search index and providing search results (e.g., returning
+        #           hyperlinks and short excerpts from your website's contents). Search does not
+        #           include providing AI-generated search summaries.
+        # ai-input: inputting content into one or more AI models (e.g., retrieval
+        #           augmented generation, grounding, or other real-time taking of content for
+        #           generative AI search answers).
+        # ai-train: training or fine-tuning AI models.
+
+        # ANY RESTRICTIONS EXPRESSED VIA CONTENT SIGNALS ARE EXPRESS RESERVATIONS OF
+        # RIGHTS UNDER ARTICLE 4 OF THE EUROPEAN UNION DIRECTIVE 2019/790 ON COPYRIGHT
+        # AND RELATED RIGHTS IN THE DIGITAL SINGLE MARKET.
+
+        # BEGIN Cloudflare Managed content
+
+        User-agent: *
+        Content-Signal: search=yes,ai-train=no
+        Allow: /
+
+        User-agent: Amazonbot
+        Disallow: /
+
+        User-agent: Applebot-Extended
+        Disallow: /
+
+        User-agent: Bytespider
+        Disallow: /
+
+        User-agent: CCBot
+        Disallow: /
+
+        User-agent: ClaudeBot
+        Disallow: /
+
+        User-agent: CloudflareBrowserRenderingCrawler
+        Disallow: /
+
+        User-agent: Google-Extended
+        Disallow: /
+
+        User-agent: GPTBot
+        Disallow: /
+
+        User-agent: meta-externalagent
+        Disallow: /
+
+        # END Cloudflare Managed Content
+
+  recorded_at: 2026-05-25 01:11:19
+- request:
+    method: GET
+    uri: https://www.relay.fm/shows
+  response:
+    status: 200
+    headers:
+      alt-svc: h3=":443"; ma=86400
+      cache-control: max-age=0, private, must-revalidate
+      cf-cache-status: DYNAMIC
+      cf-ray: a010aa602e470bbd-AMS
+      content-encoding: gzip
+      content-type: text/html; charset=utf-8
+      date: Mon, 25 May 2026 01:11:20 GMT
+      nel: '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      referrer-policy: strict-origin-when-cross-origin
+      report-to: '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=P6yxO4Ik8fUV9WHQLdBLtsLAFLIjPPvLAEsXUeBgHzNjmQGUIwpmFfzHWR%2BsUm2LVk2KU9IyELNX0XiZPJ5fzFIyiDghqWci%2FhjnLguuxXi8RsTuBGG07BpPvC0PmFrAT2tDFcTN"}]}'
+      rndr-id: 659627ea-de8c-4c77
+      server: cloudflare
+      set-cookie: _neon_cms_session=Tk01ajhmOFlNbEV0dm9qckkrZGMvR29NNXZhMnJXTGY2eUZZa0lzeDhYWVAvbURyRzNtZGw0SkxQYW1rRzZQSS9scEIzQi9xWVZYVEpBR1Nla3Q3SkNoSW41MXdJMjhxTjVWNjdIR3UrUjMySDd1S2JLcmN3elNvcFM0cVZkSDFnaFplTlJSTkt4YW5KN1V5eVFxczVRT3VoOUpnN290Rzlqd2tWTnVxUnk0T2l5ZTF5bHBWNFdCZERRTFBRaXlSLS0wa0t4Y0poV1daOGVWRkREbGJPM2tnPT0%3D--1cd44c679bd5a294c2af3b4e0ed7c375f6c30034;
+        path=/; secure; httponly
+      strict-transport-security: max-age=63072000; includeSubDomains
+      vary:
+      - Accept
+      - Accept-Encoding
+      x-content-type-options: nosniff
+      x-download-options: noopen
+      x-frame-options: SAMEORIGIN
+      x-permitted-cross-domain-policies: none
+      x-render-origin-server: Render
+      x-request-id: e289f9af-32f2-4088-abc1-3ca56a82dcc3
+      x-runtime: '0.018192'
+      x-xss-protection: 1; mode=block
+    body:
+      string: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta
+        content=\"width=device-width, initial-scale=1.0, maximum-scale=1\" name=\"viewport\">\n<meta
+        content=\"#333f48\" name=\"theme-color\">\n<meta content=\"Relay FM, Relay,
+        relay\" name=\"keywords\">\n<meta content=\"Relay\" name=\"author\">\n<meta
+        content=\"Relay FM | Shows\" name=\"description\">\n<meta content=\"summary_card\"
+        name=\"twitter:card\">\n<meta content=\"@RelayFM\" name=\"twitter:site\">\n<meta
+        content=\"Shows - Relay\" name=\"twitter:title\">\n<meta content=\"Relay -
+        Shows\" name=\"twitter:description\">\n<meta content=\"https://relay.fm/assets/relayfm_master_thumbnail-b208901737a65fe5eab99a81503bbdf1fed51ecc5fb9fe8fe41a34fb688ea6a4.png\"
+        name=\"twitter:image:src\">\n<meta content=\"@RelayFM\" name=\"twitter:creator\">\n\n<meta
+        content=\"https://relay.fm/assets/relayfm_master_thumbnail-b208901737a65fe5eab99a81503bbdf1fed51ecc5fb9fe8fe41a34fb688ea6a4.png\"
+        property=\"og:image\">\n<meta content=\"Shows - Relay\" property=\"og:title\">\n<meta
+        content=\"Relay\" property=\"og:site_name\">\n<meta content=\"Relay - Shows\"
+        property=\"og:description\">\n\n<script src=\"https://www.googletagmanager.com/gtag/js?id=G-6D3NQY64N7\"
+        async=\"async\"></script>\n<script>\n  window.dataLayer = window.dataLayer
+        || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n
+        \ gtag('config', \"G-6D3NQY64N7\");\n</script>\n\n\n<title>Shows - Relay</title>\n<script
+        src=\"/assets/head-d18b7592b0b730dcf2ddb28d550dbed9fcb4e10346f11e268619540cfddedb31.js\"></script>\n<link
+        rel=\"icon\" type=\"image/x-icon\" href=\"/assets/favicon-808bd49017dd0472c42c6650100615db9b27fb3381648f2b663011320ab91683.ico\"
+        />\n<link rel=\"apple-touch-icon\" type=\"image/png\" href=\"/assets/apple-touch-icon-7ea4a0ae4fb03fe8f0b1700ca69aac732949f1ea8c37e0ade6d225473679a727.png\"
+        />\n<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Relay All-Network
+        Feed\" href=\"http://relay.fm/master/feed\" />\n<link rel=\"stylesheet\" href=\"/assets/application-f0182220b0f7c6001ada11f746fb53af152de20e7fc4a8b10de0ea39c29afb1c.css\"
+        media=\"screen\" />\n<meta name=\"csrf-param\" content=\"authenticity_token\"
+        />\n<meta name=\"csrf-token\" content=\"pfQuL0_xfW8x67C-KVQYRBwx6whEICC0FiNiMRAGz0WLIVcI5DCSQEcP50UY71JQeaGvreilwctu56eIvsfQnA\"
+        />\n\n</head>\n<body class=\"broadcasts index\">\n<div class=\"page-wrap\">\n\n<?xml
+        version=\"1.0\" encoding=\"utf-8\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG
+        1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n\n<svg display=\"none\"
+        version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"
+        width=\"80\" height=\"32\" viewBox=\"0 0 80 32\">\n<defs>\n<g id=\"icon-alpha\">\n\t<path
+        class=\"path1\" d=\"M9.529 14.003h3.452v-3.452h-3.452v3.452zM10.295 11.317h1.918v1.918h-1.918v-1.918z\"></path>\n\t<path
+        class=\"path2\" d=\"M9.529 19.168h3.452v-3.452h-3.452v3.452zM10.295 16.484h1.918v1.917h-1.918v-1.917z\"></path>\n\t<path
+        class=\"path3\" d=\"M14.707 11.317h7.765v1.918h-7.765v-1.918z\"></path>\n\t<path
+        class=\"path4\" d=\"M14.707 16.484h7.765v1.917h-7.765v-1.917z\"></path>\n\t<path
+        class=\"path5\" d=\"M9.529 24.327h3.452v-3.453h-3.452v3.453zM10.295 21.641h1.918v1.918h-1.918v-1.918z\"></path>\n\t<path
+        class=\"path6\" d=\"M14.707 21.641h7.765v1.918h-7.765v-1.918z\"></path>\n\t<path
+        class=\"path7\" d=\"M25.035 3.662h-1.403v-0.907c0-0.668-0.541-1.209-1.209-1.209s-1.209
+        0.541-1.209 1.209v0.907h-4.029v-0.907c0-0.668-0.541-1.209-1.209-1.209s-1.209
+        0.541-1.209 1.209v0.907h-4.005v-0.907c0-0.668-0.542-1.209-1.209-1.209s-1.209
+        0.541-1.209 1.209v0.907h-1.377c-1.385 0-2.507 1.123-2.507 2.507v21.048c0 1.384
+        1.122 2.506 2.507 2.506h18.069c1.384 0 2.506-1.122 2.506-2.506v-21.048c0-1.384-1.122-2.507-2.506-2.507zM25.067
+        27.006h-18.134v-20.649h1.41v0.831c0 0.667 0.541 1.209 1.209 1.209s1.209-0.542
+        1.209-1.209v-0.831h4.005v0.831c0 0.667 0.541 1.209 1.209 1.209s1.209-0.542
+        1.209-1.209v-0.831h4.029v0.831c0 0.667 0.541 1.209 1.209 1.209s1.209-0.542
+        1.209-1.209v-0.831h1.435v20.649z\"></path>\n</g>\n<g id=\"icon-chrono\">\n\t<path
+        class=\"path1\" d=\"M25.425 5.135v-1.577c0-1.552-0.979-2.479-2.62-2.479s-2.62
+        0.927-2.62 2.479v1.577h-1.775v-1.577c0-1.552-0.979-2.479-2.619-2.479s-2.62
+        0.927-2.62 2.479v1.577h-1.775v-1.577c0-1.552-0.979-2.479-2.62-2.479s-2.62
+        0.927-2.62 2.479v1.577h-3.008v25.253h25.253v-25.253h-2.975zM21.588 3.558c0-0.766
+        0.351-1.077 1.217-1.077s1.217 0.31 1.217 1.077v4.217c0 0.766-0.351 1.077-1.217
+        1.077s-1.217-0.311-1.217-1.077v-4.217zM14.573 3.558c0-0.766 0.351-1.077 1.217-1.077s1.217
+        0.31 1.217 1.077v4.217c0 0.766-0.351 1.077-1.217 1.077s-1.217-0.311-1.217-1.077v-4.217zM7.558
+        3.558c0-0.766 0.351-1.077 1.217-1.077s1.217 0.31 1.217 1.077v4.217c0 0.766-0.351
+        1.077-1.217 1.077s-1.217-0.311-1.217-1.077v-4.217zM26.296 28.284h-21.044v-17.537h21.044v17.537z\"></path>\n\t<path
+        class=\"path2\" d=\"M15.833 21.534c0-1.338-0.902-2.078-2.48-2.53v-0.032c1.417-0.483
+        2.19-1.257 2.19-2.464 0-1.224-1.208-2.191-3.285-2.191-0.983 0-2.014 0.129-2.883
+        0.532l0.241 1.771c0.661-0.322 1.37-0.531 2.095-0.531 1.127 0 1.433 0.386 1.433
+        0.966 0 0.838-0.806 1.209-2.175 1.305v1.772c1.981 0.113 2.626 0.532 2.626
+        1.546 0 0.741-0.709 1.305-1.804 1.305-0.903 0-1.611-0.129-2.465-0.451l-0.242
+        1.772c0.692 0.274 1.61 0.451 2.481 0.451 2.4 0 4.268-1.112 4.268-3.221z\"></path>\n\t<path
+        class=\"path3\" d=\"M19.52 17.104v7.49h2.159v-10.115h-1.079l-3.093 1.53 0.241
+        1.772z\"></path>\n</g>\n</defs>\n\n<g>\n\t<use xlink:href=\"#icon-alpha\"
+        transform=\"translate(0 0)\"></use>\n\t<use xlink:href=\"#icon-chrono\" transform=\"translate(48
+        0)\"></use>\n</g>\n\n</svg>\n\n\n<nav class=\"navbar navbar-inverse navbar-fixed-top\"
+        role=\"navigation\">\n  <div class=\"container\">\n      <div class=\"collapse
+        search-collapse clearfix\" id=\"search-collapse-1\">\n          <div class=\"input-group
+        col-md-4 pull-right\">\n            <form action=\"https://duckduckgo.com/\"
+        id=\"searchForm\">\n              <input id=\"searchField\" type=\"text\"
+        name=\"q\" class=\"form-control\" placeholder=\"Search\" aria-describedby=\"sizing-addon2\">\n
+        \             <input type=\"hidden\" name=\"sites\" value=\"relay.fm\">\n
+        \           </form>\n          </div>\n      </div>\n\n      <!-- Brand and
+        toggle get grouped for better mobile display -->\n      <div class=\"navbar-header\">\n
+        \         <button type=\"button\"\n                  class=\"navbar-toggle
+        nav-toggle\"\n                  data-toggle=\"collapse\"\n                  data-target=\"#bs-example-navbar-collapse-1\">\n
+        \             <span class=\"sr-only\">Toggle navigation</span>\n              <i
+        class=\"fa fa-bars\"></i>\n          </button>\n          <button type=\"button\"\n
+        \                 class=\"navbar-toggle search-toggle\"\n                  data-toggle=\"collapse\"\n
+        \                 data-target=\"#search-collapse-1\">\n              <span
+        class=\"sr-only\">Toggle search</span>\n              <i class=\"fa fa-search\"></i>\n
+        \         </button>\n          <a class=\"navbar-brand\" href=\"/\"><div id=\"logo\"></div></a>\n
+        \     </div>\n\n      <!-- Collect the nav links, forms, and other content
+        for toggling -->\n      <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n
+        \         <ul class=\"nav navbar-nav navbar-right\">\n              <li><a
+        href=\"/about\">About</a></li>\n              <li><a href=\"/shows\">Shows</a></li>\n
+        \             <li><a href=\"/people\">People</a></li>\n              <li><a
+        href=\"https://cottonbureau.com/people/relay#/shop\">Store</a></li>\n              <li><a
+        href=\"/blog\">Blog</a></li>\n              <li><a href=\"/membership\">Membership</a></li>\n
+        \             <li><a href=\"/live\">Live</a></li>\n              <li><a href=\"/sponsor\">Sponsor</a></li>\n
+        \             <li class=\"hidden-xs\">\n                <a href=\"#\" data-toggle=\"collapse\"
+        data-target=\"#search-collapse-1\">\n                  <i class=\"fa fa-search\"></i>\n
+        \               </a>\n              </li>\n          </ul>\n      </div>\n
+        \     <!-- /.navbar-collapse -->\n  </div>\n  <!-- /.container -->\n</nav>\n\n\n\n<header
+        id=\"header\">\n<div class=\"jumbotron\" style=\"background-color: #34657F;\">\n<div
+        class=\"container\">\n<div class=\"row\">\n<div class=\"col-xl-4 col-lg-4
+        col-sm-5\"></div>\n<div class=\"col-xl-8 col-lg-8 col-md-7 col-sm-7 col-xs-12
+        main-content\">\n<div class=\"animated\" data-emergence=\"hidden\">\n<h1>Shows</h1>\n<h3>With
+        podcasts covering technology and creativity, Relay brings together some of
+        the most influential and unique voices on the internet to create powerful
+        content each and every week.</h3>\n</div>\n</div>\n</div>\n</div>\n</div>\n</header>\n\n<div
+        class=\"container content\">\n<div class=\"row\">\n<div class=\"col-lg-4 col-md-5
+        col-sm-5 show-sidebar has-show-image\">\n<div class=\"latest-container\">\n<div
+        class=\"show-art\">\n<a href=\"/master/feed\"><img class=\"img-responsive
+        img-shadow img-zoom\" src=\"/assets/relayfm_master_thumbnail-b208901737a65fe5eab99a81503bbdf1fed51ecc5fb9fe8fe41a34fb688ea6a4.png\"
+        />\n</a></div>\n<div class=\"latest-episode\">\n<h3 class=\"broadcast__name\">Relay
+        All-Network Feed</h3>\n<h5>Hosted by Relay Hosts.</h5>\n<p>Get all active
+        Relay shows in one amazing feed.</p>\n</div>\n</div>\n<h2 class=\"subscribe-title\">Subscribe</h2>\n<a
+        class=\"subscribe-link\" title=\"Subscribe in Apple Podcasts\" data-toggle=\"tooltip\"
+        href=\"https://itunes.apple.com/us/podcast/id909109573\"><img src=\"/assets/itunes-69341c6473e2a05201754ed1bdf1599bce0b649ca9fd5a4ffb4bcd650ac84188.svg\"
+        /></a>\n<a class=\"subscribe-link\" title=\"Add to Overcast\" data-toggle=\"tooltip\"
+        href=\"https://overcast.fm/itunes909109573/relay-fm-master-feed\"><img src=\"/assets/overcast-ca8fd83740644891a1850939fa6feb3ce28117cc33a18e775d3a7f10cba22c52.svg\"
+        /></a>\n<a class=\"subscribe-link\" title=\"Add to Pocket Casts\" data-toggle=\"tooltip\"
+        href=\"http://pca.st/J5Em\"><img src=\"/assets/pocketcasts-8c1622d84db2b481a6e79881f23753499cb89a4659b9fbe717c47629474af591.svg\"
+        /></a>\n<a class=\"subscribe-link\" title=\"Listen on Spotify\" data-toggle=\"tooltip\"
+        href=\"https://open.spotify.com/show/3hdmA5WvN2LbmUeoiIyraH?si=fqyyEgnKS5KjRqzpM3MmxQ\"><img
+        src=\"/assets/spotify-77756b04fd282bf392c903ec4f823f031523cc6619c145183ef611f7b8b588df.svg\"
+        /></a>\n<a class=\"subscribe-link\" title=\"Subscribe via RSS\" data-toggle=\"tooltip\"
+        href=\"/master/feed\"><img src=\"/assets/rss-f5e75b6065309d11e5196b5c7e577187b502cd19e0866f91f7f8aa98d7d34064.svg\"
+        /></a>\n<div class=\"hidden-xs\"><div class=\"promo\">\n<h3>Retro Relay Merch!</h3>\n<p><p><strong><a
+        href=\"https://cottonbureau.com/people/relay\">These stickers and shirts</a></strong>
+        explore an alternative timeline in which Relay dominated the early decades
+        of computing. <br>\n<picture><br>\n  <source srcset=\"https://s3.amazonaws.com/relayfm/assets/retro-relay.webp\"
+        type=\"image/webp\"><br>\n  <img src=\"https://s3.amazonaws.com/relayfm/assets/retro-relay.gif\"
+        alt=\"Retro Relay\"><br>\n</picture></p>\n</p>\n</div>\n<div class=\"promo\">\n<h3>Become
+        a Member</h3>\n<p><p>Support your favorite podcasts directly. <a href=\"https://www.relay.fm/membership\">Join
+        today</a> to get access to ad-free, longer episodes of your favorite podcasts,
+        as well as access to members-only podcasts and our Discord community!</p>\n</p>\n</div>\n</div>\n\n</div>\n<div
+        class=\"col-lg-8 col-md-7 col-sm-7 main-content\" id=\"main-event\">\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/analogue\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/8/analogue_artwork_f5eeacbc-446a-4b22-9533-97cb83b4e44b.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/8/analogue_artwork_9efcbb80-2097-445e-8500-5109a377041c.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/8/analogue_artwork_ca8cfdb0-4672-4691-ba40-07115338ca5f.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/analogue\">Analog(ue)</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/caseyliss\">Casey Liss</a> and <a href=\"/people/mykehurley\">Myke
+        Hurley</a>.</h5>\n<p>So many podcasts are about our digital devices. Analog(ue)
+        is a show about how these devices make us feel and how they change our lives
+        for the better, but also for the worse.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/bonanza\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/13/bonanza_artwork_78fd2c5e-ce05-4373-a4fb-82960971ee23.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/13/bonanza_artwork_116248e9-5ba1-473d-9029-411adc897309.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/13/bonanza_artwork_2174aab0-361d-40c2-8918-b0a92f9a444c.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/bonanza\">BONANZA</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/Mattalexander\">Matt
+        Alexander</a> and <a href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>BONANZA
+        has long been considered an important show about nothing in particular.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/b-sides\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/10/b-sides_artwork_07ff0a71-7266-4a21-a53a-f26a4c96525e.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/10/b-sides_artwork_19595857-179e-48d0-a977-c1c1082219c0.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/10/b-sides_artwork_54371404-8589-42c1-8ef1-172e4c99f178.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/b-sides\">B-Sides</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/relayfm-hosts\">Relay
+        Hosts</a>.</h5>\n<p>A mix of behind-the-scenes content and audio from before
+        and after the shows.</p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/clockwise\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/12/clockwise_artwork_c562b8d8-d1c4-4549-97a3-86a86f518dad.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/12/clockwise_artwork_e2c7cab1-3a79-4743-b1f3-276c3f970222.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/12/clockwise_artwork_6670fb23-51f2-4778-ac66-28db8f60194e.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/clockwise\">Clockwise</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/danmoren\">Dan Moren</a> and <a href=\"/people/msargent\">Mikah
+        Sargent</a>.</h5>\n<p>Clockwise is a rapid-fire discussion of current technology
+        issues hosted by Dan Moren and Mikah Sargent and featuring two special guests
+        each week. Four people, four topics--and because we&#39;re always watching
+        the clock, no episode is longer than 30 minutes.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/conduit\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/62/conduit_artwork_eab1dc6c-1032-4484-bd4c-231832d0a263.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/62/conduit_artwork_1c5d2807-e1cc-4b25-9841-813b50f4ccca.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/62/conduit_artwork_a27bf440-ca64-4940-8fa5-05a400c2cb6a.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/conduit\">Conduit</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/kathy\">Kathy
+        Campbell</a> and <a href=\"/people/jaymiller\">Jay Miller</a>.</h5>\n<p>Conduit
+        is providing the connection between what we should be doing and what ultimately
+        gets done. Our hosts celebrate that they &quot;Can&quot; do it and explore
+        the unique ways others do it as well.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/connected\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/5/connected_artwork_0055b631-c94d-4200-bb28-f237ba883097.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/5/connected_artwork_1c7916a8-5b54-439e-8209-deeedd963200.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/5/connected_artwork_9ea5fbe0-5f77-4a59-8fbe-02cd13aae7d5.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/connected\">Connected</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/federicoviticci\">Federico Viticci</a>, <a href=\"/people/stephenhackett\">Stephen
+        Hackett</a>, and <a href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>Connected
+        is a weekly panel discussion on Apple and the impact of technology on our
+        lives. With each co-host having a unique background — and accent — Connected
+        provides a perspective that no other show can.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/cortex\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/17/cortex_artwork_52f0a243-f3cc-4335-991f-4b5afbc0e967.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/17/cortex_artwork_10b8512d-acfc-43e5-a330-c53f65b77519.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/17/cortex_artwork_b55617fc-63f9-4d8b-8772-9bcedae30f2b.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/cortex\">Cortex</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/Cgpgrey\">CGP
+        Grey</a> and <a href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>Cortex
+        is a show that explores how creative people think about their work — and how
+        they get it done. Each episode dives into the workflows they follow, the apps
+        and devices they depend on, and the habits that keep projects moving.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/departures\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/48/departures_artwork_e4c9d92c-ccc1-41a1-a954-3803755deca7.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/48/departures_artwork_75df0cda-8f0f-42b9-b3af-0951f5424981.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/48/departures_artwork_99806f8f-2f2d-4175-a04d-35b747952223.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/departures\">Departures</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/relayfm-hosts\">Relay Hosts</a>.</h5>\n<p>A feed of our
+        special events.</p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/focused\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/34/focused_artwork_45271641-4c41-4288-875e-566d4278b4c6.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/34/focused_artwork_226af9b1-f997-486e-b69d-1e841a3e597f.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/34/focused_artwork_db39a059-4090-4f4d-85a8-e544e26b5754.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/focused\">Focused</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/Davidsparks\">David
+        Sparks</a> and <a href=\"/people/mikeschmitz\">Mike Schmitz</a>.</h5>\n<p>David
+        Sparks and Mike Schmitz are not nearly as productive as they’d like to be.
+        Join these fellow travelers (and a bunch of special guests) as they share
+        the best ways to get focused, and talk through their successes and failures
+        along the way.</p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/mpu\"><img class=\"home-artwork
+        img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/16/mpu_artwork_831b8b6c-3b90-4a41-ae4c-9cbf3dbe5a8e.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/16/mpu_artwork_e725ba2a-46a1-4b23-8ae4-1e7e0c8aa0dd.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/16/mpu_artwork_da6e59b4-5905-4dd6-8d6e-f8b20e433d62.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/mpu\">Mac Power Users</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/Davidsparks\">David Sparks</a> and <a href=\"/people/stephenrobles\">Stephen
+        Robles</a>.</h5>\n<p>Learn about getting the most from your Apple technology
+        with focused topics and workflow guests. Creating Mac Power Users since 2009,
+        one conversation at a time.</p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/material\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/19/material_artwork_025ca0a5-22ba-4341-96fd-f651328f6e68.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/19/material_artwork_2f35a345-d2aa-4121-8a26-a9033309f3fd.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/19/material_artwork_1dfb2e2d-e3f1-49ec-b36d-863baef8ee03.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/material\">Material</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a
+        href=\"/people/andyi\">Andy Ihnatko</a> and <a href=\"/people/floion\">Florence
+        Ion</a>.</h5>\n<p>Material is a weekly discussion about the Google and Android
+        universe. Your intrepid hosts try to answer the question, “What holds up the
+        digital world?” The answer, so far, is that it’s Google all the way down.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/paperplaces\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/71/paperplaces_artwork_ed611c86-4290-407d-9e70-73fdf17e7f17.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/71/paperplaces_artwork_05ab722b-bf51-4c09-9e58-c13884da82ed.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/71/paperplaces_artwork_e4780ebc-f827-4c5f-ae79-1098a19f4609.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/paperplaces\">Paper Places</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/kerryprovenzano\">Kerry Provenzano</a>.</h5>\n<p>Paper
+        Places is the podcast that demystifies the journey to becoming a professional
+        writer. Each episode, columnist-turned-author Kerry Provenzano sits down with
+        an acclaimed writer who shares where their words have taken them.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/rd\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/18/rd_artwork_340cd17f-bab0-4d11-badf-59e180503688.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/18/rd_artwork_6e706b0c-91a8-4a39-8085-c80a7ce4982f.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/18/rd_artwork_ab1a75b2-450a-4671-9e4d-d09cb61b238e.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/rd\">Reconcilable Differences</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/merlinmann\">Merlin Mann</a> and <a href=\"/people/siracusa\">John
+        Siracusa</a>.</h5>\n<p>John Siracusa and Merlin Mann try to figure out exactly
+        how they got this way.</p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/roboism\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/40/roboism_artwork_b0e2fda5-c4fe-428d-a7af-439bcff796d0.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/40/roboism_artwork_4f2b4b39-fc6f-4d01-b5bc-cc334ef7554d.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/40/roboism_artwork_4590d64a-3884-4793-9ba3-22a100ac38a2.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/roboism\">Roboism</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/kathy\">Kathy
+        Campbell</a> and <a href=\"/people/alexcox\">Alex Cox</a>.</h5>\n<p>Roboism
+        is a show mostly about robots. We are exploring how artificial intelligence,
+        machine learning, and digital assistants are affecting our culture. Come explore
+        the humanity behind the bots that are quickly becoming a part of every day
+        life.</p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div class=\"row\">\n<div
+        class=\"col-md-3 col-xs-4\">\n<a href=\"/backmarkers\"><img class=\"home-artwork
+        img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/64/backmarkers_artwork_66e684c7-1002-4658-bd04-760db3cc4ab3.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/64/backmarkers_artwork_1d079401-de5c-4a77-910a-6770b6354d32.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/64/backmarkers_artwork_2de5b184-8c87-42d4-9be6-02fbaad891e9.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/backmarkers\">The Backmarkers</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/austinevans\">Austin Evans</a> and <a href=\"/people/mykehurley\">Myke
+        Hurley</a>.</h5>\n<p>An F1 Podcast for new fans, by new fans. Austin and Myke
+        may not have decades of experience with the sport, but they have a lot of
+        heart – just like those at the back of the pack. Listen to their LIVE reactions
+        to each and every race of the F1 season.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/penaddict\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/9/penaddict_artwork_2b970b6e-3cb8-4c27-8af2-535cece4e47c.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/9/penaddict_artwork_95457e35-82fb-4898-ba50-a2b16eff7f83.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/9/penaddict_artwork_a3c6230d-6065-49a2-a6f4-0d05f472dad8.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/penaddict\">The Pen Addict</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/braddowdy\">Brad Dowdy</a> and <a href=\"/people/mykehurley\">Myke
+        Hurley</a>.</h5>\n<p>The Pen Addict is a weekly fix for all things stationery.
+        Pens, pencils, paper, ink – you name it, and Brad Dowdy and Myke Hurley are
+        into it. Join as they geek out over the analog tools they love so dearly.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/tc\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/22/tc_artwork_7895c0ca-063a-4528-a0a9-1be7896dd918.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/22/tc_artwork_344c3a16-63c9-4014-950c-030572413971.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/22/tc_artwork_b6bffdd0-68ec-4ab5-b488-862984d1bb76.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/tc\">Thoroughly Considered</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/Danprovost\">Dan Provost</a>, <a href=\"/people/Tomgerhardt\">Tom
+        Gerhardt</a>, and <a href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>A
+        show about entrepreneurship, product design, and the ups and downs of running
+        a small indie business.</p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/upgrade\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/11/upgrade_artwork_abde0e5e-33a5-44d6-92c3-245a2961cb68.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/11/upgrade_artwork_d4436f58-b4aa-4b2e-98c1-9fad906c7daa.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/11/upgrade_artwork_43bdbebf-f503-418f-94a3-fde073cfde5b.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/upgrade\">Upgrade</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/Jasonsnell\">Jason
+        Snell</a> and <a href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>Upgrade
+        looks at how technology shapes our lives, from the devices in our hands and
+        pockets to the streaming services that keep us entertained.</p>\n\n</div>\n</div>\n</article>\n\n<h3
+        class=\"subheader\">Retired Shows</h3>\n<article class=\"entry\">\n<div class=\"row\">\n<div
+        class=\"col-md-3 col-xs-4\">\n<a href=\"/20macs\"><img class=\"home-artwork
+        img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/58/20macs_artwork_805346a5-78dd-40c6-b5c8-d9c1d8ae9cc0.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/58/20macs_artwork_6e57dc17-8025-4a05-93a6-2caa45e27040.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/58/20macs_artwork_0d55179b-b3a3-4598-ba71-eb6e0c424cda.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/20macs\">20 Macs</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/Jasonsnell\">Jason
+        Snell</a>.</h5>\n<p>Jason Snell and a collection of long-time Mac watchers
+        discuss the most notable parts of Macintosh history.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/adapt\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/47/adapt_artwork_fd21efe9-ef11-4e98-8015-7424f7afd912.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/47/adapt_artwork_fa5c2d4d-faea-4359-bc5a-eb2d0f5ae238.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/47/adapt_artwork_0fa613f7-9ca1-4442-92ce-6af3d4e8aa83.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/adapt\">Adapt</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/federicoviticci\">Federico
+        Viticci</a> and <a href=\"/people/ryanchristoffel\">Ryan Christoffel</a>.</h5>\n<p>Adapt
+        was a show all about the iPad, where two iPad-first users challenge each other
+        to explore new ways of doing things with their favorite device.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/automators\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/44/automators_artwork_bf9e121f-17f8-4616-9154-bdcd68d52115.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/44/automators_artwork_f16e88e9-a7a8-42d4-b722-6bc835831ce4.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/44/automators_artwork_4c7b8dbd-6c99-48dc-8885-fad7560b3e43.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/automators\">Automators</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/Davidsparks\">David Sparks</a> and <a href=\"/people/rose-orchard\">Rosemary
+        Orchard</a>.</h5>\n<p>Automation makes your life easier and everyone can do
+        it. </p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div class=\"row\">\n<div
+        class=\"col-md-3 col-xs-4\">\n<a href=\"/bionic\"><img class=\"home-artwork
+        img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/31/bionic_artwork_6729d72f-fa51-4b7d-b7a3-837234179acb.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/31/bionic_artwork_affec0b1-46cc-48db-9534-ec12a6c981af.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/31/bionic_artwork_edcb51d5-d9ef-426f-bfca-c31e123b9a3f.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/bionic\">Bionic</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/Mattalexander\">Matt
+        Alexander</a> and <a href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>The
+        podcast that came before BONANZA!, Bionic started as a show covering various
+        technology and media ecosystems before... taking a turn starting at Episode
+        51. (There was no point in preserving the earlier ones. Trust us.)</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/canvas\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/25/canvas_artwork_a1dc5566-bcf5-44ec-9e53-a6dcf20ff636.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/25/canvas_artwork_3bd78d30-09b7-465d-82b1-eb2f84a6fdd9.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/25/canvas_artwork_cef814c1-c4f1-4291-8c03-29817968aaec.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/canvas\">Canvas</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/federicoviticci\">Federico
+        Viticci</a> and <a href=\"/people/fraserspeirs\">Fraser Speirs</a>.</h5>\n<p>Canvas
+        was a podcast all about mobile productivity. Armed with iOS, Federico and
+        Fraser  walked through workflows, explored the best apps for the iPad and
+        iPhone, and helped users solve problems.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/cmdspace\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/32/cmdspace_artwork_1e60cefa-9259-46e6-b0b8-1e9b672bc2a9.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/32/cmdspace_artwork_2a3748d4-b821-49f7-a745-aa819c3d215c.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/32/cmdspace_artwork_8bba8a20-3e0d-47eb-aac9-0a63875601ac.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/cmdspace\">CMD Space</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a
+        href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>CMD+SPACE was an interview
+        show by Myke Hurley that puts a spotlight on the people behind awesome projects.
+        It predated Inquisitive. </p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/disruption\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/27/disruption_artwork_e0d30ca1-d88f-4904-aac7-62c6c8d1197c.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/27/disruption_artwork_068672af-ea20-48dc-9072-e1449a1c63fd.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/27/disruption_artwork_de9c8d02-70c5-4af7-889d-c8e9928d0425.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/disruption\">Disruption</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/Briannawu\">Brianna Wu</a>, <a href=\"/people/georgiadow\">Georgia
+        Dow</a>, <a href=\"/people/Stevelubitz\">Steve Lubitz</a>, and <a href=\"/people/msargent\">Mikah
+        Sargent</a>.</h5>\n<p>Listening to this weekly show about technology and culture
+        may have caused the following symptoms: uncontrollable laughter, onset confusion,
+        chronic empathy, and heightened awareness.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/download\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/38/download_artwork_cfbbca27-6a00-4d41-8cde-309afc0c8a00.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/38/download_artwork_3a74a98b-8cee-474b-b803-b782b0382a60.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/38/download_artwork_a92d6426-ffaf-4ac0-8697-e56c1e5aa4cf.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/download\">Download</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a
+        href=\"/people/Jasonsnell\">Jason Snell</a> and <a href=\"/people/stephenhackett\">Stephen
+        Hackett</a>.</h5>\n<p>From products and companies to services and trends,
+        Download’s weekly panel of experts analyzed the biggest topics in tech … and
+        a few you may have missed.</p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/downstream\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/63/downstream_artwork_d60bc956-430d-4018-92ea-729cc61dd821.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/63/downstream_artwork_f93b803f-0fbb-4619-b6b8-9ffb130d7298.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/63/downstream_artwork_b72bd626-e577-438a-a6d9-96d052d2d0d7.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/downstream\">Downstream</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/Jasonsnell\">Jason Snell</a>.</h5>\n<p>Jason Snell and a
+        rotating group of experts break down the present and future of television.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/flashback\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/50/flashback_artwork_191cf921-a8c1-4d39-a255-34991702698f.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/50/flashback_artwork_c76ef550-4384-420a-a425-5fc21eaf4061.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/50/flashback_artwork_d7cbce86-f974-4d96-8b31-cda86dab932e.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/flashback\">Flashback</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/q\">Quinn Nelson</a> and <a href=\"/people/stephenhackett\">Stephen
+        Hackett</a>.</h5>\n<p>Not all tech products succeed once on the market, and
+        some are killed off with little warning. Flashback looked back at failed tech
+        products to see what we can learn by studying their demises.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/inquisitive\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/6/inquisitive_artwork_ceab7bd9-4191-412d-af67-270350ade9bf.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/6/inquisitive_artwork_f4102df0-e1ca-4b0d-af17-fa7d702061b9.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/6/inquisitive_artwork_bd7066aa-c8ca-4df5-9c6f-cbdfb0d9f709.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/inquisitive\">Inquisitive</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>Inquisitive was
+        a show for the naturally curious. Each week, Myke Hurley spoke to creative
+        people to tried and understand what made them who they were.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/isometric\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/15/isometric_artwork_df8d9a35-65bd-4eef-860e-391f00c4602d.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/15/isometric_artwork_c5b19219-88d6-4189-8996-556e186f4ace.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/15/isometric_artwork_c7fe2ae2-c49d-4a1e-9f8d-eb0b2aac6b9a.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/isometric\">Isometric</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/georgiadow\">Georgia Dow</a>, <a href=\"/people/Stevelubitz\">Steve
+        Lubitz</a>, <a href=\"/people/Briannawu\">Brianna Wu</a>, and <a href=\"/people/Maddymyers\">Maddy
+        Myers</a>.</h5>\n<p>Game developer Brianna Wu, technology journalists Georgia
+        Dow and Mikah Sargent, and game enthusiast Steve Lubitz analyzed the week’s
+        biggest stories in the video game industry from different perspectives.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/ltoe\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/24/ltoe_artwork_19cd940e-dd64-46ba-9be9-4ac5eabe9f8a.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/24/ltoe_artwork_630cd8c6-7168-43de-863c-49fa4c3c2aa0.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/24/ltoe_artwork_299c5bc5-0156-4df0-b9c9-db52b5ffa4cd.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/ltoe\">Less Than or Equal</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/aleen\">Aleen Simms</a>.</h5>\n<p>Less Than or Equal
+        was a podcast dedicated to celebrating the accomplishments and contributions
+        of geeks facing inequality in their industries.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/liftoff\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/20/liftoff_artwork_f81e7776-b90a-422b-9c33-c350b32cb0d2.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/20/liftoff_artwork_8a9b72bf-89e4-4cee-b5da-9d3112261ac4.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/20/liftoff_artwork_6330683e-a197-4256-a523-84f808962ff8.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/liftoff\">Liftoff</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/Jasonsnell\">Jason
+        Snell</a> and <a href=\"/people/stephenhackett\">Stephen Hackett</a>.</h5>\n<p>Liftoff
+        was a podcast about space, the universe, and everything. You don’t need to
+        be a rocket scientist to understand the major developments as explained by
+        enthusiastic space fans Stephen Hackett and Jason Snell.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/makedo\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/46/makedo_artwork_da7a94f1-d1b1-458f-baf5-617433702892.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/46/makedo_artwork_9101eb6c-3539-496e-b0d2-1fdd1b505ee1.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/46/makedo_artwork_9e68bdea-ef7d-4e13-a54b-9550e2753632.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/makedo\">Make Do</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/tiffanyarment\">Tiff
+        Arment</a> and <a href=\"/people/Juliaskott\">Julia Skott</a>.</h5>\n<p>On
+        Make Do, Tiff Arment and Julia Skott spoke about art and making.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/mixedfeelings\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/36/mixedfeelings_artwork_737dc636-609e-47ce-a1b4-64806d74232a.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/36/mixedfeelings_artwork_ef55ccf7-fbad-4aa5-807e-62b243cfdf05.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/36/mixedfeelings_artwork_2f1a4a29-2d4e-42a5-acdb-d84edc71941b.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/mixedfeelings\">Mixed Feelings</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/gillianparker\">Gillian Parker</a> and <a href=\"/people/quinnrose\">Quinn
+        Rose</a>.</h5>\n<p>Every episode, your hosts spoke about their favorite news
+        stories of the week … and probably at least one random current event that
+        has nothing to do with anything.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/originality\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/39/originality_artwork_f101451a-f0c3-439d-8093-ecf2c07e5ecb.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/39/originality_artwork_36d1ad04-383a-411d-b394-f1f62a92ebde.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/39/originality_artwork_573e2b67-6b94-4094-9ede-1e9cb2fb6d5d.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/originality\">Originality</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/aleen\">Aleen Simms</a> and <a href=\"/people/ktempestbradford\">K
+        Tempest Bradford</a>.</h5>\n<p>The most common question creative people get
+        asked is, &quot;Where do you get your ideas?&quot; That&#39;s what Originality
+        was all about: exploring the wheres, hows, and whys of creative genius.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/parallel\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/45/parallel_artwork_a1b70c1a-218a-4b87-bc20-651b1149e1b9.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/45/parallel_artwork_159f8cdb-c394-43ed-b91d-d841d2d76be5.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/45/parallel_artwork_0948d171-82bb-47c5-9829-03a4e339584d.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/parallel\">Parallel</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a
+        href=\"/people/shellybrisbin\">Shelly Brisbin</a>.</h5>\n<p>Why don’t the
+        worlds of mainstream tech and accessibility tech ever seem to collide? Shelly
+        Brisbin, who keeps one foot in each, wants to know. She and her guests from
+        both worlds chew over the news and trends of the day, mixing in an accessibility
+        perspective. </p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/pictorial\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/49/pictorial_artwork_8adbf781-bd83-40b0-8b32-367ffd3b2da0.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/49/pictorial_artwork_01f41b18-8d2c-4b79-ad43-969805dabdab.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/49/pictorial_artwork_08b3ea0f-acec-45ef-aa7c-f75d477b8486.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/pictorial\">Pictorial</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/betty-chen\">Betty Chen</a> and <a href=\"/people/quinnrose\">Quinn
+        Rose</a>.</h5>\n<p>Quinn and Betty are two non-professional art enthusiasts
+        who love art and want to learn more about it. They took turns researching
+        interesting parts of art history and culture, and sharing those stories with
+        each other.</p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/playingforfun\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/43/playingforfun_artwork_c5d3c552-5ba2-43b0-b2d0-5b20f7ef0664.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/43/playingforfun_artwork_e8621337-0d7e-42dd-803c-e88e6c74bdee.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/43/playingforfun_artwork_a86c0233-8a84-4beb-a269-b2d5f77958f9.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/playingforfun\">Playing for Fun</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/tiffanyarment\">Tiff Arment</a> and <a href=\"/people/mykehurley\">Myke
+        Hurley</a>.</h5>\n<p>Listen to two friends as they talked about a video game
+        they loved. </p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/presentable\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/29/presentable_artwork_a8b51eb3-f7f2-4ad6-a62c-d8d2245572ce.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/29/presentable_artwork_7d00272d-b003-4dd3-96a3-859987b97430.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/29/presentable_artwork_692a08fb-a672-4770-96f6-20ce71e0ec37.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/presentable\">Presentable</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/jeffveen\">Jeff Veen</a>.</h5>\n<p>Presentable focused
+        on how we design and build the products that are shaping our digital future.
+        In each episode, Jeff brought over two decades of experience as a designer,
+        developer, entrepreneur, and investor as he chatted with guests about how
+        design is changing the world.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/query\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/41/query_artwork_cc3a6486-9b9d-4941-84ff-d4d8c91fa615.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/41/query_artwork_77ba6431-24d0-4aa0-8b35-cb66e12f10eb.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/41/query_artwork_722a7ac6-756c-4ab5-b06c-d0bad1390775.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/query\">Query</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/stephenhackett\">Stephen
+        Hackett</a> and <a href=\"/people/msargent\">Mikah Sargent</a>.</h5>\n<p>Query
+        was like that one smart nerd in your family who gets stuck fixing everyone&#39;s
+        computers and phones during holiday get-togethers. </p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/remaster\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/26/remaster_artwork_599410f4-fe41-4bcd-b943-9fbc910b1c6e.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/26/remaster_artwork_b958fdba-92bf-43b7-afa9-272296460f29.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/26/remaster_artwork_51c636d4-03af-45ff-9345-db1ed125783b.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/remaster\">Remaster</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a
+        href=\"/people/federicoviticci\">Federico Viticci</a>, <a href=\"/people/ShahidKamalAhmad\">Shahid
+        Kamal Ahmad</a>, and <a href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>A
+        show about playing games and making games. Federico and Myke have long been
+        thoughtful observers of the games industry, an industry Shahid has been a
+        part of for over 30 years. </p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/rocket\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/14/rocket_artwork_c62a3285-490a-4787-8562-1f97e2652cdb.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/14/rocket_artwork_22442c42-b711-4f42-a159-cc4890a30ac3.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/14/rocket_artwork_d9ff7dff-12de-40e6-92cd-601c63a5b23e.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/rocket\">Rocket</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/christinawarren\">Christina
+        Warren</a>, <a href=\"/people/Briannawu\">Brianna Wu</a>, and <a href=\"/people/simonederochefort\">Simone
+        De Rochefort</a>.</h5>\n<p>Countdown to excitement! Every week Christina Warren,
+        Brianna Wu and Simone de Rochefort had accelerated geek conversation. Tech,
+        comics, movies, games and books, no galaxy is off limits!</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/prompt\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/33/prompt_artwork_e29dec33-f990-4dfd-b110-c95742296363.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/33/prompt_artwork_6d777bea-858f-4418-bb50-cb0802306826.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/33/prompt_artwork_5e5c47a8-3654-476c-a285-e3ad767d3123.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/prompt\">The Prompt</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a
+        href=\"/people/federicoviticci\">Federico Viticci</a>, <a href=\"/people/stephenhackett\">Stephen
+        Hackett</a>, and <a href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>The
+        Prompt was a weekly panel discussion on technology, and the culture surrounding
+        Apple and related companies. It evolved into Connected in 2014.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/testdrivers\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/51/testdrivers_artwork_942f4408-91c9-46ff-9158-f371561744c2.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/51/testdrivers_artwork_3df511b4-ee63-42f2-bd1f-1fa22c5a42c6.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/51/testdrivers_artwork_43666990-d407-4246-8a1b-027615113497.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/testdrivers\">The Test Drivers</a>\n</h3>\n<h5 class=\"size-xs\">Hosted
+        by <a href=\"/people/austinevans\">Austin Evans</a> and <a href=\"/people/mykehurley\">Myke
+        Hurley</a>.</h5>\n<p>New or old, loved or hated — The Test Drivers put tech
+        through its paces; no matter if it’s the absolute cutting edge or collecting
+        dust in the bargain bin. From smartphones to laptops, software to gaming consoles
+        — anything could be a daily driver.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/topfour\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/21/topfour_artwork_13e914cd-4c50-44fb-800e-1743c5d65359.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/21/topfour_artwork_4118d03e-63d8-4bb0-b170-a51359602b74.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/21/topfour_artwork_a4b660e1-477e-4684-977f-a1c4378bbfd2.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/topfour\">Top Four</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a
+        href=\"/people/marcoarment\">Marco Arment</a> and <a href=\"/people/tiffanyarment\">Tiff
+        Arment</a>.</h5>\n<p>An opinionated podcast by opinionated people.</p>\n\n</div>\n</div>\n</article>\n<article
+        class=\"entry\">\n<div class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a
+        href=\"/radar\"><img class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/23/radar_artwork_d73cddc8-510b-43b3-a8b9-fefd9f7878d2.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/23/radar_artwork_a2112c38-10da-4020-9264-0686849d7293.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/23/radar_artwork_f9088067-e589-4764-ad98-ab139fb8481e.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/radar\">Under the Radar</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/marcoarment\">Marco Arment</a> and <a href=\"/people/Davidsmith\">David
+        Smith</a>.</h5>\n<p>From development and design to marketing and support,
+        Under the Radar was all about independent app development. It was rarely longer
+        than 30 minutes. </p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/ungeniused\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/28/ungeniused_artwork_37ff72a7-c7ae-42d9-afb0-59d64b497296.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/28/ungeniused_artwork_0b34a80d-2a18-4c30-ab48-63745bf5b8ef.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/28/ungeniused_artwork_86093fbe-6baa-4192-be57-3ffbd386131d.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/ungeniused\">Ungeniused</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by
+        <a href=\"/people/stephenhackett\">Stephen Hackett</a> and <a href=\"/people/mykehurley\">Myke
+        Hurley</a>.</h5>\n<p>Ungeniused is a show dedicated to covering the weirdest
+        articles found on Wikipedia and sharing knowledge you&#39;ll (probably) never
+        be able to use in real life.</p>\n\n</div>\n</div>\n</article>\n<article class=\"entry\">\n<div
+        class=\"row\">\n<div class=\"col-md-3 col-xs-4\">\n<a href=\"/virtual\"><img
+        class=\"home-artwork img-responsive\" srcset=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_2x/7/virtual_artwork_d7a3cc43-a9b1-490d-809a-a6387a48cb34.png
+        700w,\n                       https://relayfm.s3.amazonaws.com/uploads/broadcast/image_3x/7/virtual_artwork_7d68bba6-afed-45f7-b461-ba78722e658d.png
+        1400w\" sizes=\"40vw\" src=\"https://relayfm.s3.amazonaws.com/uploads/broadcast/image_1x/7/virtual_artwork_717f6b49-b0de-4ead-b907-83857cc6d6ed.png\"
+        />\n<img id=\"all-shows-retired-badge\" src=\"/assets/retired-badge-cf19e3842d9c5d0bf5e1e02e31954c1de4555c32078e26e2f544e7d7b62d5697.png\"
+        />\n</a></div>\n<div class=\"col-md-9 col-xs-8\">\n<h3 class=\"broadcast__name\">\n<a
+        href=\"/virtual\">Virtual</a>\n</h3>\n<h5 class=\"size-xs\">Hosted by <a href=\"/people/federicoviticci\">Federico
+        Viticci</a> and <a href=\"/people/mykehurley\">Myke Hurley</a>.</h5>\n<p>A
+        show about games, gamers, game makers and the surrounding culture. Virtual
+        focused on the titles that laid the foundations of gaming as we know it today.</p>\n\n</div>\n</div>\n</article>\n\n</div>\n<div
+        class=\"show-sidebar page-sidebar visible-xs\">\n<div class=\"promo\">\n<h3>Retro
+        Relay Merch!</h3>\n<p><p><strong><a href=\"https://cottonbureau.com/people/relay\">These
+        stickers and shirts</a></strong> explore an alternative timeline in which
+        Relay dominated the early decades of computing. <br>\n<picture><br>\n  <source
+        srcset=\"https://s3.amazonaws.com/relayfm/assets/retro-relay.webp\" type=\"image/webp\"><br>\n
+        \ <img src=\"https://s3.amazonaws.com/relayfm/assets/retro-relay.gif\" alt=\"Retro
+        Relay\"><br>\n</picture></p>\n</p>\n</div>\n<div class=\"promo\">\n<h3>Become
+        a Member</h3>\n<p><p>Support your favorite podcasts directly. <a href=\"https://www.relay.fm/membership\">Join
+        today</a> to get access to ad-free, longer episodes of your favorite podcasts,
+        as well as access to members-only podcasts and our Discord community!</p>\n</p>\n</div>\n\n</div>\n</div>\n</div>\n\n</div>\n<footer>\n<div
+        class=\"row full-width\">\n<div class=\"container\">\n<div class=\"row\">\n<div
+        class=\"col-sm-8 col-md-8 footer-links\">\n<h6><a href=\"https://podcasts.apple.com/us/artist/relay-fm/908489268\">Apple
+        Podcasts</a></h6>\n|\n<h6><a rel=\"me\" href=\"https://relayfm.social/@relay\">Mastodon</a></h6>\n|\n<h6><a
+        href=\"/codes\">Sponsors</a></h6>\n|\n<h6><a href=\"/privacy\">Privacy</a></h6>\n</div>\n<div
+        class=\"col-sm-4 col-md-4 copyright\">\n<h6>Copyright © 2026 Relay FM, LLC.</h6>\n</div>\n</div>\n</div>\n</div>\n</footer>\n<script
+        src=\"/assets/application-be6b0364f43de56ad4d4afcdd504e1eaefbadbf6bf9bb431b6a62b9f15746d95.js\"></script>\n<script
+        src=\"/assets/emergence.min-c65cdf73c5daa827ccdaf1148183b54703007f251a08a8520378eea3cfc99e73.js\"></script>\n<script>\n
+        \ emergence.init();\n</script>\n\n\n</body>\n</html>\n"
+  recorded_at: 2026-05-25 01:11:20
+recorded_with: VCR-vcr/2.1.0

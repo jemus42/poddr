@@ -51,7 +51,11 @@ poddr_get <- function(
 }
 
 assert_scrapable <- function(url) {
-  ok <- robotstxt::paths_allowed(paths = url, bot = "poddr")
+  ok <- robotstxt::paths_allowed(
+    paths = url,
+    bot = "poddr",
+    use_futures = FALSE
+  )
   if (!isTRUE(ok)) {
     cli::cli_abort(c(
       "robots.txt disallows scraping {.url {url}} for user-agent {.val poddr}.",

@@ -5,7 +5,7 @@
 #' `relay_parse_feed()` individually.
 #'
 #' @inheritParams incomparable_get_shows
-#' @return A tibble with one row for each show
+#' @return A tibble with one row for each show.
 #' @export
 #'
 #' @examples
@@ -13,10 +13,9 @@
 #' relay_get_shows()
 #' }
 relay_get_shows <- function(cache = TRUE) {
-  url <- podcast_urls$relay$shows
+  assert_scrapable(podcast_urls$relay$shows)
 
-  relay_shows <- polite::bow(url) |>
-    polite::scrape()
+  relay_shows <- poddr_get(podcast_urls$relay$shows, as = "html", cache = cache)
 
   shows <- relay_shows |>
     rvest::html_nodes(".broadcast__name a") |>
@@ -39,11 +38,6 @@ relay_get_shows <- function(cache = TRUE) {
   )
 
   checkmate::assert_data_frame(shows, min.rows = 1, ncols = 3)
-
-  if (cache) {
-    cache_podcast_data(shows, filename = "relay_shows")
-  }
-
   shows
 }
 
@@ -52,6 +46,7 @@ relay_get_shows <- function(cache = TRUE) {
 #' Parses a single feed and returns its content as a tibble.
 #' @param url A show's feed URL, e.g. `"https://www.relay.fm/ungeniused/feed"`.
 #'   Use `relay_get_shows()` to retrieve feed URLs.
+#' @param cache (`logical(1)`) Toggle the httr2 HTTP cache. Default `TRUE`.
 #'
 #' @return A tibble.
 #' @export
@@ -60,10 +55,13 @@ relay_get_shows <- function(cache = TRUE) {
 #' \dontrun{
 #' relay_parse_feed(url = "https://www.relay.fm/ungeniused/feed")
 #' }
-relay_parse_feed <- function(url) {
-  feed <- polite::bow(url) |>
-    polite::scrape(accept = "html", content = "text/html; charset=utf-8")
+relay_parse_feed <- function(url, cache = TRUE) {
+  feed <- poddr_get(url, as = "xml", cache = cache)
+  parse_relay_feed_xml(feed)
+}
 
+# Inner parser, testable offline against synthetic XML fixtures.
+parse_relay_feed_xml <- function(feed) {
   show <- feed |>
     rvest::html_node("channel") |>
     rvest::html_node("title") |>
@@ -79,26 +77,34 @@ relay_parse_feed <- function(url) {
     stringr::str_replace(":", "") |>
     as.character()
 
-  duration <- feed |>
-    rvest::html_nodes("duration") |>
-    rvest::html_text() |>
+  # Use local-name() XPath so the selectors work for both plain RSS
+  # (synthetic test fixtures) and namespaced itunes:* elements (real feeds).
+  duration <- xml2::xml_find_all(feed, ".//*[local-name()='duration']") |>
+    xml2::xml_text() |>
     as.numeric()
 
-  pubdate <- feed |>
-    rvest::html_nodes("pubdate") |>
-    rvest::html_text() |>
+  pubdate <- xml2::xml_find_all(feed, ".//*[local-name()='pubDate']") |>
+    xml2::xml_text() |>
     stringr::str_replace("^.{5}", "") |>
     lubridate::parse_date_time("%d %b %Y %H:%M:%S", tz = "GMT") |>
     lubridate::as_date()
-  pubdate <- pubdate[-1]
 
-  people <- feed |>
-    rvest::html_nodes("author") |>
-    rvest::html_text() |>
+  people <- xml2::xml_find_all(feed, ".//*[local-name()='author']") |>
+    xml2::xml_text() |>
     stringr::str_replace_all(",? and ", ";") |>
     stringr::str_replace_all(",\\s*", ";") |>
     stringr::str_replace_all("\\s+", " ")
-  people <- people[-1]
+
+  # The channel-level <title>, <pubdate>, and <author> elements appear
+  # before per-item ones; drop the first hit when the channel emitted
+  # one. Detect by length mismatch: items count vs. pubdate count.
+  n_items <- length(titles)
+  if (length(pubdate) == n_items + 1) {
+    pubdate <- pubdate[-1]
+  }
+  if (length(people) == n_items + 1) {
+    people <- people[-1]
+  }
 
   tibble(
     show = show,
@@ -106,9 +112,9 @@ relay_parse_feed <- function(url) {
     title = stringr::str_remove(titles, "^\\d+:\\s"),
     duration = hms::hms(seconds = duration),
     date = pubdate,
-    year = lubridate::year(date),
-    month = lubridate::month(date, abbr = FALSE, label = TRUE),
-    weekday = lubridate::wday(date, abbr = FALSE, label = TRUE),
+    year = lubridate::year(pubdate),
+    month = lubridate::month(pubdate, abbr = FALSE, label = TRUE),
+    weekday = lubridate::wday(pubdate, abbr = FALSE, label = TRUE),
     host = people,
     network = "relay.fm"
   )
@@ -116,7 +122,6 @@ relay_parse_feed <- function(url) {
 
 #' Retrieve all episodes for relay.fm shows
 #'
-#' Retrieves all episodes for one or more shows passed as a tibble.
 #' @param relay_shows A tibble of shows, from `relay_get_shows()`.
 #' @inheritParams incomparable_get_shows
 #' @return A tibble.
@@ -128,24 +133,20 @@ relay_parse_feed <- function(url) {
 #' relay <- relay_get_episodes(relay_shows)
 #' }
 relay_get_episodes <- function(relay_shows, cache = TRUE) {
-  cli::cli_progress_bar(
+  pb_id <- cli::cli_progress_bar(
     "Getting feeds",
     total = nrow(relay_shows),
-    format = "{cli::pb_spin} {cli::pb_current}/{cli::pb_total} {show}"
+    format = "{cli::pb_spin} {cli::pb_current}/{cli::pb_total} {show}",
+    .auto_close = FALSE
   )
 
   episodes <- purrr::pmap(relay_shows, \(show, feed_url, ...) {
-    cli::cli_progress_update(set = NULL, status = show, force = TRUE)
-    relay_parse_feed(feed_url)
+    cli::cli_progress_update(id = pb_id, status = show, force = TRUE)
+    relay_parse_feed(feed_url, cache = cache)
   }) |>
     purrr::list_rbind()
-  cli::cli_progress_done()
+  cli::cli_progress_done(id = pb_id)
 
   checkmate::assert_data_frame(episodes, min.rows = 1)
-
-  if (cache) {
-    cache_podcast_data(episodes, filename = "relay_episodes")
-  }
-
   episodes
 }
