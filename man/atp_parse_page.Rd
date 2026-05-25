@@ -7,7 +7,7 @@
 atp_parse_page(page)
 }
 \arguments{
-\item{page}{Scraped page object, e.g. from \code{polite::scrape()}.}
+\item{page}{Scraped page object (\code{xml_document}).}
 }
 \value{
 A tibble.
@@ -17,8 +17,7 @@ Parse a single ATP page
 }
 \examples{
 \dontrun{
-session <- polite::bow(url = "https://atp.fm")
-page <- polite::scrape(session, query = list(page = 1))
-atp_parse_page(page)
+html <- poddr:::poddr_get("https://atp.fm", as = "html", query = list(page = 1))
+atp_parse_page(html)
 }
 }

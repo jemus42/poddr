@@ -2,8 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-docs/*
-!docs/superpowers/
-README_cache
-fiddle.R
+docs
 data_cache
+README_cache

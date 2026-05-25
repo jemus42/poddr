@@ -2,28 +2,35 @@
 % Please edit documentation in R/utils-caching.R
 \name{cache_podcast_data}
 \alias{cache_podcast_data}
-\title{Cache episode data}
+\title{Cache episode data to disk}
 \usage{
-cache_podcast_data(x, dir = "data_cache", filename = NULL, csv = TRUE)
+cache_podcast_data(
+  x,
+  dir = here::here("data_cache"),
+  filename = NULL,
+  csv = TRUE
+)
 }
 \arguments{
 \item{x}{Object to cache.}
 
-\item{dir}{\verb{["data_cache"]} Directory to save data to.}
+\item{dir}{Directory to save data to. Default: \code{here::here("data_cache")}.}
 
-\item{filename}{Optional filename sans extension, if not specified the name of \code{x} is used.}
+\item{filename}{Optional filename sans extension; defaults to \code{deparse(substitute(x))}.}
 
 \item{csv}{If \code{TRUE} (default), also saves a CSV file with the same base name.}
 }
 \value{
-Nothing
+Invisibly returns the path(s) written, or \code{NULL} for empty input.
 }
 \description{
-Cache episode data
+Writes a tibble to RDS (and optionally CSV) in \code{dir}. Default \code{dir} is
+resolved with \code{\link[here:here]{here::here()}} so the path is anchored to the project
+root rather than the current working directory.
 }
 \examples{
 \dontrun{
-atp_new <- atp_get_episodes(page_limit = 1)
-cache_podcast_data(atp_new, csv = FALSE)
+atp <- atp_get_episodes(page_limit = 1)
+cache_podcast_data(atp, csv = FALSE)
 }
 }

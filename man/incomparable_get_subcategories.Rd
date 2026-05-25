@@ -5,18 +5,20 @@
 \title{Extract subcategory index for given show}
 \usage{
 incomparable_get_subcategories(
-  archive_url = "https://www.theincomparable.com/gameshow/archive/"
+  archive_url = "https://www.theincomparable.com/gameshow/archive/",
+  cache = TRUE
 )
 }
 \arguments{
-\item{archive_url}{E.g.
-\code{"https://www.theincomparable.com/theincomparable/archive/"}.}
+\item{archive_url}{E.g. \code{"https://www.theincomparable.com/theincomparable/archive/"}.}
+
+\item{cache}{(\code{logical(1)}) Toggle the httr2 HTTP cache. Default \code{TRUE}.}
 }
 \value{
-A tibble with subcategory links \code{link} and category name \code{category}
+A tibble with subcategory links and category names.
 }
 \description{
-Not actively used in other functions but could come in handy.
+Extract subcategory index for given show
 }
 \examples{
 \dontrun{

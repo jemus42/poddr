@@ -3,14 +3,13 @@ on:
   push:
     branches: main
   schedule:
-    - cron: '30 6 * * 2,5'  # every tuesday and friday at 6:30
+    - cron: '30 6 * * 2,5'  # every Tuesday and Friday at 06:30
 
 name: get-data
 
 jobs:
   get-data:
     runs-on: ubuntu-latest
-    # Only restrict concurrency for non-PR jobs
     concurrency:
       group: get-data-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
@@ -19,7 +18,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-pandoc@v2
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -28,29 +27,23 @@ jobs:
         with:
           extra-packages: any::pins, any::paws.storage, local::.
 
-      - name: Get ATP data
-        run: |
-          library(poddr)
-          dir.create("data_cache")
-          atp_get_episodes()
-        shell: Rscript {0}
+      - name: Restore poddr httr2 cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/R/poddr
+          key: ${{ runner.os }}-poddr-http-${{ hashFiles('.github/workflows/get-data.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-poddr-http-
 
-      - name: Get Relay.fm data
+      - name: Fetch and cache all podcast data
         run: |
           library(poddr)
-          relay_shows <- relay_get_shows()
-          relay_get_episodes(relay_shows)
-        shell: Rscript {0}
-
-      - name: Get The Incomparable data
-        run: |
-          library(poddr)
-          incomparable_shows <- incomparable_get_shows()
-          incomparable_get_episodes(incomparable_shows)
+          dir.create("data_cache", showWarnings = FALSE)
+          update_cached_data(dir = "data_cache")
         shell: Rscript {0}
 
       - uses: keithweaver/aws-s3-github-action@v1.0.0
-        name: Copy data to s3
+        name: Copy data to S3
         with:
           command: cp
           source: ./data_cache/

@@ -7,22 +7,13 @@
 incomparable_get_shows(cache = TRUE)
 }
 \arguments{
-\item{cache}{(\code{logical(1)}) Set to \code{FALSE} to disable caching.}
+\item{cache}{(\code{logical(1)}) Toggle the httr2 HTTP cache. Default \code{TRUE}.}
 }
 \value{
-A tibble with following columns:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{Columns: 4
-$ show        <chr>
-$ stats_url   <glue>
-$ archive_url <glue>
-$ status      <chr>
-}\if{html}{\out{</div>}}
+A tibble with columns \code{show}, \code{stats_url}, \code{archive_url}, \code{status}.
 }
 \description{
-Parses the show overview page and returns a tibble of show names
-with corresponding URLs, which in turn can then be passed to
-\code{incomparable_parse_archive()} and \code{incomparable_parse_stats()} individually.
+Retrieve all The Incomparable shows
 }
 \examples{
 \dontrun{
