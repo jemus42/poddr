@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">poddr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -74,52 +74,45 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of poddr is to collect podcast data so I can display it at <a href="https://podcasts.jemu.name/" class="external-link">podcasts.jemu.name</a>. It’s not intended to be a real package for real people.</p>
+<p>The goal of poddr is to scrape episode metadata from The Incomparable, relay.fm, and ATP and feed it to <a href="https://podcasts.jemu.name/" class="external-link">podcasts.jemu.name</a>. It’s a personal project — not aimed at a wider audience — but the code is open in case anyone wants to peek under the hood.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the released version of poddr from here with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jemus42/poddr"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"jemus42/poddr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="how-it-works">How it works<a class="anchor" aria-label="anchor" href="#how-it-works"></a>
 </h2>
-<p>Here’s the bulk of what’s inside the tin:</p>
+<p>Each podcast source has a small family of functions: one to list the shows, one to fetch episodes for a given show (or show list), and a few parsers exposed for direct use. All network requests go through a single internal helper that handles per-host throttling, retries on transient failures, and on-disk HTTP caching, so repeated calls and scheduled runs don’t hammer upstream servers.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jemus42/poddr" class="external-link">poddr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="the-incomparable">The Incomparable<a class="anchor" aria-label="anchor" href="#the-incomparable"></a>
 </h3>
-<p>The basic workflow is simple:</p>
-<ol style="list-style-type: decimal">
-<li>Get a list of all the shows on the network, including the relevant URLs for further parsing.</li>
-<li>Get all the episodes of the shows selected. To not bother the webserver too much, I’m limiting the selection to a single show.</li>
-</ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">incomparable_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/incomparable_get_shows.html">incomparable_get_shows</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  www.theincomparable.com</span></span>
 <span><span class="va">incomparable_shows</span></span>
-<span><span class="co">#&gt; # A tibble: 55 × 4</span></span>
-<span><span class="co">#&gt;    show                                   stats_url               archi…¹ status</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;                                  &lt;glue&gt;                  &lt;glue&gt;  &lt;chr&gt; </span></span>
-<span><span class="co">#&gt;  1 A Complicated Profession               https://www.theincompa… https:… active</span></span>
-<span><span class="co">#&gt;  2 Agents of SMOOCH                       https://www.theincompa… https:… active</span></span>
-<span><span class="co">#&gt;  3 Beginner's Puck                        https://www.theincompa… https:… active</span></span>
-<span><span class="co">#&gt;  4 Biff!                                  https://www.theincompa… https:… active</span></span>
-<span><span class="co">#&gt;  5 Defocused                              https://www.theincompa… https:… active</span></span>
-<span><span class="co">#&gt;  6 Doctor Who Flashcast                   https://www.theincompa… https:… active</span></span>
-<span><span class="co">#&gt;  7 Dragonmount: The Wheel of Time Podcast https://www.theincompa… https:… active</span></span>
-<span><span class="co">#&gt;  8 Football is Life                       https://www.theincompa… https:… active</span></span>
-<span><span class="co">#&gt;  9 Game Show                              https://www.theincompa… https:… active</span></span>
-<span><span class="co">#&gt; 10 I Want My M(CU)TV                      https://www.theincompa… https:… active</span></span>
-<span><span class="co">#&gt; # … with 45 more rows, and abbreviated variable name ¹​archive_url</span></span>
+<span><span class="co">#&gt; # A tibble: 58 × 4</span></span>
+<span><span class="co">#&gt;    show                                   stats_url           archive_url status</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                                  &lt;glue&gt;              &lt;glue&gt;      &lt;chr&gt; </span></span>
+<span><span class="co">#&gt;  1 A Complicated Profession               https://www.theinc… https://ww… active</span></span>
+<span><span class="co">#&gt;  2 Agents of SMOOCH                       https://www.theinc… https://ww… active</span></span>
+<span><span class="co">#&gt;  3 Biff!                                  https://www.theinc… https://ww… active</span></span>
+<span><span class="co">#&gt;  4 Defocused                              https://www.theinc… https://ww… active</span></span>
+<span><span class="co">#&gt;  5 Doctor Who Flashcast                   https://www.theinc… https://ww… active</span></span>
+<span><span class="co">#&gt;  6 Dragonmount: The Wheel of Time Podcast https://www.theinc… https://ww… active</span></span>
+<span><span class="co">#&gt;  7 Free the Squee                         https://www.theinc… https://ww… active</span></span>
+<span><span class="co">#&gt;  8 Game Show                              https://www.theinc… https://ww… active</span></span>
+<span><span class="co">#&gt;  9 Incomparable Radio Theater             https://www.theinc… https://ww… active</span></span>
+<span><span class="co">#&gt; 10 Lazy Doctor Who                        https://www.theinc… https://ww… active</span></span>
+<span><span class="co">#&gt; # ℹ 48 more rows</span></span>
 <span></span>
-<span><span class="va">incomparable_episodes</span> <span class="op">&lt;-</span> <span class="va">incomparable_shows</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">==</span> <span class="st">"Unjustly Maligned"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/incomparable_get_episodes.html">incomparable_get_episodes</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">incomparable_episodes</span></span>
+<span><span class="fu"><a href="reference/incomparable_get_episodes.html">incomparable_get_episodes</a></span><span class="op">(</span></span>
+<span>  <span class="va">incomparable_shows</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">==</span> <span class="st">"Unjustly Maligned"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 87 × 14</span></span>
 <span><span class="co">#&gt;    show         number title duration date        year month weekday host  guest</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt; &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt; &lt;chr&gt;</span></span>
@@ -133,127 +126,107 @@
 <span><span class="co">#&gt;  8 Unjustly Ma… 80     "\"N… 01:24:24 2017-06-19  2017 June  Monday  Anto… Matt…</span></span>
 <span><span class="co">#&gt;  9 Unjustly Ma… 79     "\"S… 01:15:33 2017-06-05  2017 June  Monday  Anto… Pete…</span></span>
 <span><span class="co">#&gt; 10 Unjustly Ma… 78     "\"E… 01:16:40 2017-05-22  2017 May   Monday  Anto… Rich…</span></span>
-<span><span class="co">#&gt; # … with 77 more rows, and 4 more variables: category &lt;chr&gt;, topic &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   summary &lt;chr&gt;, network &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 77 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables: category &lt;chr&gt;, topic &lt;chr&gt;, summary &lt;chr&gt;, network &lt;chr&gt;</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="relayfm">Relay.fm<a class="anchor" aria-label="anchor" href="#relayfm"></a>
+<h3 id="relayfm">relay.fm<a class="anchor" aria-label="anchor" href="#relayfm"></a>
 </h3>
-<p>Same procedure as before, also with one show.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">relay_shows</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/relay_get_shows.html">relay_get_shows</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  www.relay.fm</span></span>
 <span><span class="va">relay_shows</span></span>
-<span><span class="co">#&gt; # A tibble: 49 × 3</span></span>
-<span><span class="co">#&gt;    show       feed_url                             show_status</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;                                &lt;chr&gt;      </span></span>
-<span><span class="co">#&gt;  1 Analog(ue) https://www.relay.fm/analogue/feed   Active     </span></span>
-<span><span class="co">#&gt;  2 Automators https://www.relay.fm/automators/feed Active     </span></span>
-<span><span class="co">#&gt;  3 BONANZA    https://www.relay.fm/bonanza/feed    Active     </span></span>
-<span><span class="co">#&gt;  4 B-Sides    https://www.relay.fm/b-sides/feed    Active     </span></span>
-<span><span class="co">#&gt;  5 Clockwise  https://www.relay.fm/clockwise/feed  Active     </span></span>
-<span><span class="co">#&gt;  6 Conduit    https://www.relay.fm/conduit/feed    Active     </span></span>
-<span><span class="co">#&gt;  7 Connected  https://www.relay.fm/connected/feed  Active     </span></span>
-<span><span class="co">#&gt;  8 Cortex     https://www.relay.fm/cortex/feed     Active     </span></span>
-<span><span class="co">#&gt;  9 Departures https://www.relay.fm/departures/feed Active     </span></span>
-<span><span class="co">#&gt; 10 Downstream https://www.relay.fm/downstream/feed Active     </span></span>
-<span><span class="co">#&gt; # … with 39 more rows</span></span>
+<span><span class="co">#&gt; # A tibble: 48 × 3</span></span>
+<span><span class="co">#&gt;    show            feed_url                             show_status</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;                                &lt;chr&gt;      </span></span>
+<span><span class="co">#&gt;  1 Analog(ue)      https://www.relay.fm/analogue/feed   Active     </span></span>
+<span><span class="co">#&gt;  2 BONANZA         https://www.relay.fm/bonanza/feed    Active     </span></span>
+<span><span class="co">#&gt;  3 B-Sides         https://www.relay.fm/b-sides/feed    Active     </span></span>
+<span><span class="co">#&gt;  4 Clockwise       https://www.relay.fm/clockwise/feed  Active     </span></span>
+<span><span class="co">#&gt;  5 Conduit         https://www.relay.fm/conduit/feed    Active     </span></span>
+<span><span class="co">#&gt;  6 Connected       https://www.relay.fm/connected/feed  Active     </span></span>
+<span><span class="co">#&gt;  7 Cortex          https://www.relay.fm/cortex/feed     Active     </span></span>
+<span><span class="co">#&gt;  8 Departures      https://www.relay.fm/departures/feed Active     </span></span>
+<span><span class="co">#&gt;  9 Focused         https://www.relay.fm/focused/feed    Active     </span></span>
+<span><span class="co">#&gt; 10 Mac Power Users https://www.relay.fm/mpu/feed        Active     </span></span>
+<span><span class="co">#&gt; # ℹ 38 more rows</span></span>
 <span></span>
-<span><span class="va">relay_episodes</span> <span class="op">&lt;-</span> <span class="va">relay_shows</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">==</span> <span class="st">"Connected"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/relay_get_episodes.html">relay_get_episodes</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">relay_episodes</span></span>
-<span><span class="co">#&gt; # A tibble: 429 × 10</span></span>
+<span><span class="fu"><a href="reference/relay_get_episodes.html">relay_get_episodes</a></span><span class="op">(</span><span class="va">relay_shows</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">==</span> <span class="st">"Connected"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 604 × 10</span></span>
 <span><span class="co">#&gt;    show      number title  duration date        year month weekday host  network</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt; &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt;  1 Connected 429    Lucy'… 00:58:56 2022-12-21  2022 Dece… Wednes… Jaso… relay.…</span></span>
-<span><span class="co">#&gt;  2 Connected 428    Timer… 01:27:25 2022-12-15  2022 Dece… Thursd… Fede… relay.…</span></span>
-<span><span class="co">#&gt;  3 Connected 427    Thera… 01:01:37 2022-12-07  2022 Dece… Wednes… Fede… relay.…</span></span>
-<span><span class="co">#&gt;  4 Connected 426    Just … 01:23:18 2022-11-30  2022 Nove… Wednes… Fede… relay.…</span></span>
-<span><span class="co">#&gt;  5 Connected 425    Inden… 00:56:00 2022-11-23  2022 Nove… Wednes… Fede… relay.…</span></span>
-<span><span class="co">#&gt;  6 Connected 424    The C… 01:28:02 2022-11-16  2022 Nove… Wednes… Fede… relay.…</span></span>
-<span><span class="co">#&gt;  7 Connected 423    I Kno… 01:39:22 2022-11-09  2022 Nove… Wednes… Fede… relay.…</span></span>
-<span><span class="co">#&gt;  8 Connected 422    Rearr… 01:19:41 2022-11-02  2022 Nove… Wednes… Fede… relay.…</span></span>
-<span><span class="co">#&gt;  9 Connected 421    The S… 01:32:51 2022-10-26  2022 Octo… Wednes… Fede… relay.…</span></span>
-<span><span class="co">#&gt; 10 Connected 420    2 Reg… 01:30:49 2022-10-19  2022 Octo… Wednes… Fede… relay.…</span></span>
-<span><span class="co">#&gt; # … with 419 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt;  1 Connected 604    The F… 01:17:56 2026-05-21  2026 May   Thursd… Fede… relay.…</span></span>
+<span><span class="co">#&gt;  2 Connected 603    Ungra… 01:05:52 2026-05-14  2026 May   Thursd… Fede… relay.…</span></span>
+<span><span class="co">#&gt;  3 Connected 602    Compu… 01:23:46 2026-05-07  2026 May   Thursd… Fede… relay.…</span></span>
+<span><span class="co">#&gt;  4 Connected 601    I Lov… 01:49:35 2026-04-30  2026 April Thursd… Fede… relay.…</span></span>
+<span><span class="co">#&gt;  5 Connected 600    Tommy… 01:33:13 2026-04-23  2026 April Thursd… Fede… relay.…</span></span>
+<span><span class="co">#&gt;  6 Connected 599    Then … 01:27:33 2026-04-16  2026 April Thursd… Fede… relay.…</span></span>
+<span><span class="co">#&gt;  7 Connected 598    8TB o… 01:37:30 2026-04-09  2026 April Thursd… Fede… relay.…</span></span>
+<span><span class="co">#&gt;  8 Connected 597    S-Tie… 01:01:52 2026-04-02  2026 April Thursd… Fede… relay.…</span></span>
+<span><span class="co">#&gt;  9 Connected 596    Somet… 01:03:23 2026-03-26  2026 March Thursd… Fede… relay.…</span></span>
+<span><span class="co">#&gt; 10 Connected 595    Feder… 01:06:44 2026-03-19  2026 March Thursd… Fede… relay.…</span></span>
+<span><span class="co">#&gt; # ℹ 594 more rows</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="atp">ATP<a class="anchor" aria-label="anchor" href="#atp"></a>
 </h3>
-<p>Since there’s only one show, there’s no reason to select one specifically, obviously. However, the website doesn’t show a list of <em>all</em> episodes on one page, so we’ll have to either parse all pages (there’s currently 10 total as of December 2020), or select a limit, like <code>1</code>, to only get episodes from the first page. The first page shows the 5 most recent episodes, and subsequent pages show 50 episodes each.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">atp</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/atp_get_episodes.html">atp_get_episodes</a></span><span class="op">(</span>page_limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">atp</span></span>
-<span><span class="co">#&gt; # A tibble: 5 × 9</span></span>
-<span><span class="co">#&gt;   number title          duration date        year month weekday links    n_links</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;          &lt;time&gt;   &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;   &lt;list&gt;     &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 514    My Immense So… 01:45:25 2022-12-22  2022 Dece… Thursd… &lt;tibble&gt;      26</span></span>
-<span><span class="co">#&gt; 2 513    Scribble on t… 02:09:32 2022-12-15  2022 Dece… Thursd… &lt;tibble&gt;      30</span></span>
-<span><span class="co">#&gt; 3 512    Owned With a P 01:56:33 2022-12-08  2022 Dece… Thursd… &lt;tibble&gt;      24</span></span>
-<span><span class="co">#&gt; 4 511    Moving to Ant… 01:50:29 2022-12-01  2022 Dece… Thursd… &lt;tibble&gt;      29</span></span>
-<span><span class="co">#&gt; 5 510    It's Occupied… 02:09:12 2022-11-22  2022 Nove… Tuesday &lt;tibble&gt;      45</span></span>
-<span></span>
-<span><span class="co"># Looking at the links</span></span>
+<span><span class="co">#&gt; atp.fm</span></span>
+<span><span class="co">#&gt; Warning in request_handler_handler(request = request, handler = on_not_found, :</span></span>
+<span><span class="co">#&gt; Event: on_not_found</span></span>
+<span><span class="co">#&gt; Warning in request_handler_handler(request = request, handler =</span></span>
+<span><span class="co">#&gt; on_file_type_mismatch, : Event: on_file_type_mismatch</span></span>
+<span><span class="co">#&gt; Warning in request_handler_handler(request = request, handler =</span></span>
+<span><span class="co">#&gt; on_suspect_content, : Event: on_suspect_content</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="va">atp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">links</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">number</span>, <span class="va">title</span>, <span class="va">link_text</span>, <span class="va">link_url</span>, <span class="va">link_type</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 154 × 5</span></span>
-<span><span class="co">#&gt;    number title               link_text                          link_…¹ link_…²</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;               &lt;chr&gt;                              &lt;chr&gt;   &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt;  1 514    My Immense Softness x2 and k56flex                     https:… Showno…</span></span>
-<span><span class="co">#&gt;  2 514    My Immense Softness Superbad                           https:… Showno…</span></span>
-<span><span class="co">#&gt;  3 514    My Immense Softness DIVX                               https:… Showno…</span></span>
-<span><span class="co">#&gt;  4 514    My Immense Softness Colima                             https:… Showno…</span></span>
-<span><span class="co">#&gt;  5 514    My Immense Softness Apple is considering dropping the… https:… Showno…</span></span>
-<span><span class="co">#&gt;  6 514    My Immense Softness Blink                              https:… Showno…</span></span>
-<span><span class="co">#&gt;  7 514    My Immense Softness Gecko                              https:… Showno…</span></span>
-<span><span class="co">#&gt;  8 514    My Immense Softness SR-71                              https:… Showno…</span></span>
-<span><span class="co">#&gt;  9 514    My Immense Softness Trident II D5                      https:… Showno…</span></span>
-<span><span class="co">#&gt; 10 514    My Immense Softness Inertial Navigation System         https:… Showno…</span></span>
-<span><span class="co">#&gt; # … with 144 more rows, and abbreviated variable names ¹​link_url, ²​link_type</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 166 × 5</span></span>
+<span><span class="co">#&gt;    number title            link_text                          link_url link_type</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;                              &lt;chr&gt;    &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt;  1 692    A Thinking Hitch ATP Member                         https:/… Shownotes</span></span>
+<span><span class="co">#&gt;  2 692    A Thinking Hitch ATP Movie Club: Her                https:/… Shownotes</span></span>
+<span><span class="co">#&gt;  3 692    A Thinking Hitch Real Madrid: The Weight of Greatn… https:/… Shownotes</span></span>
+<span><span class="co">#&gt;  4 692    A Thinking Hitch tcsh                               https:/… Shownotes</span></span>
+<span><span class="co">#&gt;  5 692    A Thinking Hitch John’s Terminal settings Window t… https:/… Shownotes</span></span>
+<span><span class="co">#&gt;  6 692    A Thinking Hitch John’s Terminal settings Tab tab   https:/… Shownotes</span></span>
+<span><span class="co">#&gt;  7 692    A Thinking Hitch Escape sequence extended tooltip   https:/… Shownotes</span></span>
+<span><span class="co">#&gt;  8 692    A Thinking Hitch .cshrc                             https:/… Shownotes</span></span>
+<span><span class="co">#&gt;  9 692    A Thinking Hitch Starship                           https:/… Shownotes</span></span>
+<span><span class="co">#&gt; 10 692    A Thinking Hitch KornShell                          https:/… Shownotes</span></span>
+<span><span class="co">#&gt; # ℹ 156 more rows</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="for-all-the-nice-people">For all the nice people<a class="anchor" aria-label="anchor" href="#for-all-the-nice-people"></a>
+<h3 id="caching-what-you-fetched">Caching what you fetched<a class="anchor" aria-label="anchor" href="#caching-what-you-fetched"></a>
 </h3>
-<p>The regular episode data contains one row per episode, with associated people in a single cell with names separated by <code>;</code>. In some cases we’re interested in per-person data, for example the total number of appearances of a person on The Incomparable mothership, so we’ll longify the data with a helper function that performs the <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">tidyr::pivot_longer()</a></code> and <code><a href="https://tidyr.tidyverse.org/reference/separate_rows.html" class="external-link">tidyr::separate_rows()</a></code> steps consistently.</p>
-<p>Note that relay.fm data only includes “hosts”, as there’s no separate guest information, so the host/guest distinction is redundant in that case.</p>
+<p>The orchestrators return tibbles and don’t touch disk. If you want RDS/CSV files written to a directory, call <code><a href="reference/cache_podcast_data.html">cache_podcast_data()</a></code> explicitly:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">incomparable_episodes</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">atp</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/cache_podcast_data.html">cache_podcast_data</a></span><span class="op">(</span>dir <span class="op">=</span> <span class="st">"data_cache"</span>, filename <span class="op">=</span> <span class="st">"atp"</span>, csv <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="reference/update_cached_data.html">update_cached_data()</a></code> is a convenience that fetches everything and writes everything; it’s what the scheduled GitHub Action uses.</p>
+</div>
+<div class="section level3">
+<h3 id="per-person-view">Per-person view<a class="anchor" aria-label="anchor" href="#per-person-view"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/relay_get_episodes.html">relay_get_episodes</a></span><span class="op">(</span><span class="va">relay_shows</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">show</span> <span class="op">==</span> <span class="st">"Connected"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/gather_people.html">gather_people</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">show</span>, <span class="va">number</span>, <span class="va">person</span>, <span class="va">role</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 176 × 4</span></span>
-<span><span class="co">#&gt;    show              number person            role </span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;  &lt;chr&gt;             &lt;chr&gt;</span></span>
-<span><span class="co">#&gt;  1 Unjustly Maligned 87     Tony Sindelar     host </span></span>
-<span><span class="co">#&gt;  2 Unjustly Maligned 87     Antony Johnston   guest</span></span>
-<span><span class="co">#&gt;  3 Unjustly Maligned 86     Antony Johnston   host </span></span>
-<span><span class="co">#&gt;  4 Unjustly Maligned 86     Andy Ihnatko      guest</span></span>
-<span><span class="co">#&gt;  5 Unjustly Maligned 85     Antony Johnston   host </span></span>
-<span><span class="co">#&gt;  6 Unjustly Maligned 85     Eddy Webb         guest</span></span>
-<span><span class="co">#&gt;  7 Unjustly Maligned 84     Antony Johnston   host </span></span>
-<span><span class="co">#&gt;  8 Unjustly Maligned 84     Jessica Sliwinski guest</span></span>
-<span><span class="co">#&gt;  9 Unjustly Maligned 83     Antony Johnston   host </span></span>
-<span><span class="co">#&gt; 10 Unjustly Maligned 83     Marcos Huerta     guest</span></span>
-<span><span class="co">#&gt; # … with 166 more rows</span></span>
-<span></span>
-<span><span class="va">relay_episodes</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/gather_people.html">gather_people</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">show</span>, <span class="va">number</span>, <span class="va">person</span>, <span class="va">role</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1,285 × 4</span></span>
+<span><span class="co">#&gt; # A tibble: 1,800 × 4</span></span>
 <span><span class="co">#&gt;    show      number person           role </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;</span></span>
-<span><span class="co">#&gt;  1 Connected 429    Jason Snell      host </span></span>
-<span><span class="co">#&gt;  2 Connected 428    Federico Viticci host </span></span>
-<span><span class="co">#&gt;  3 Connected 428    Stephen Hackett  host </span></span>
-<span><span class="co">#&gt;  4 Connected 428    Myke Hurley      host </span></span>
-<span><span class="co">#&gt;  5 Connected 427    Federico Viticci host </span></span>
-<span><span class="co">#&gt;  6 Connected 427    Stephen Hackett  host </span></span>
-<span><span class="co">#&gt;  7 Connected 427    Myke Hurley      host </span></span>
-<span><span class="co">#&gt;  8 Connected 426    Federico Viticci host </span></span>
-<span><span class="co">#&gt;  9 Connected 426    Stephen Hackett  host </span></span>
-<span><span class="co">#&gt; 10 Connected 426    Myke Hurley      host </span></span>
-<span><span class="co">#&gt; # … with 1,275 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt;  1 Connected 604    Federico Viticci host </span></span>
+<span><span class="co">#&gt;  2 Connected 604    Stephen Hackett  host </span></span>
+<span><span class="co">#&gt;  3 Connected 604    Myke Hurley      host </span></span>
+<span><span class="co">#&gt;  4 Connected 603    Federico Viticci host </span></span>
+<span><span class="co">#&gt;  5 Connected 603    Stephen Hackett  host </span></span>
+<span><span class="co">#&gt;  6 Connected 603    Myke Hurley      host </span></span>
+<span><span class="co">#&gt;  7 Connected 602    Federico Viticci host </span></span>
+<span><span class="co">#&gt;  8 Connected 602    Stephen Hackett  host </span></span>
+<span><span class="co">#&gt;  9 Connected 602    Myke Hurley      host </span></span>
+<span><span class="co">#&gt; 10 Connected 601    Federico Viticci host </span></span>
+<span><span class="co">#&gt; # ℹ 1,790 more rows</span></span></code></pre></div>
 </div>
 </div>
 </div>

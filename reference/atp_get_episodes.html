@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">poddr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -63,12 +63,13 @@
 <dl><dt id="arg-page-limit">page_limit<a class="anchor" aria-label="anchor" href="#arg-page-limit"></a></dt>
 <dd><p>Number of pages to scrape, from newest to oldest episode.
 Page 1 contains the 5 most recent episodes, and subsequent pages contain 50
-episodes per page. As of December 2020, there are 10 pages total.
-Pass <code>NULL</code> (default) to get all pages.</p></dd>
+episodes per page. Pass <code>NULL</code> (default) to get all pages.</p></dd>
 
 
 <dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
-<dd><p>(<code>logical(1)</code>) Set to <code>FALSE</code> to disable caching.</p></dd>
+<dd><p>(<code>logical(1)</code>) Toggle the httr2 HTTP cache. Default <code>TRUE</code>.
+Disk writes are not performed by this function; call
+<code><a href="cache_podcast_data.html">cache_podcast_data()</a></code> explicitly if you want RDS/CSV artefacts.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -79,13 +80,7 @@ Pass <code>NULL</code> (default) to get all pages.</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Only the first page with the newest 5 episodes</span></span></span>
 <span class="r-in"><span><span class="va">atp_new</span> <span class="op">&lt;-</span> <span class="fu">atp_get_episodes</span><span class="op">(</span>page_limit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The latest and then 50 more</span></span></span>
-<span class="r-in"><span><span class="va">atp_latest</span> <span class="op">&lt;-</span> <span class="fu">atp_get_episodes</span><span class="op">(</span>page_limit <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Get all episodes (use wisely)</span></span></span>
 <span class="r-in"><span><span class="va">atp_full</span> <span class="op">&lt;-</span> <span class="fu">atp_get_episodes</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
