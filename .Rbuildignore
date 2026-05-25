@@ -12,4 +12,5 @@
 ^Makefile$
 ^docs/superpowers$
 ^data_cache$
+^README_cache$
 ^attic$
