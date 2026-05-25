@@ -69,17 +69,18 @@ atp_get_episodes <- function(page_limit = NULL, cache = TRUE) {
   }
   cli::cli_progress_done()
 
-  cli::cli_progress_bar("Parsing pages", total = length(atp_pages))
-  episodes <- purrr::map(atp_pages, \(x) {
-    cli::cli_progress_update()
-    atp_parse_page(x)
-  }) |>
+  # purrr's own .progress arg avoids the cli env-scoping bug that fires
+  # when cli_progress_update() is called from inside a purrr::map lambda.
+  episodes <- purrr::map(
+    atp_pages,
+    atp_parse_page,
+    .progress = "Parsing pages"
+  ) |>
     purrr::list_rbind() |>
     dplyr::mutate(
       network = "ATP",
       show = "ATP"
     )
-  cli::cli_progress_done()
 
   checkmate::assert_data_frame(episodes, min.rows = 1)
   oldest_episode <- as.integer(episodes$number[length(episodes$number)])
