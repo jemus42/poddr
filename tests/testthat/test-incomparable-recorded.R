@@ -67,5 +67,15 @@ test_that("incomparable_get_episodes works on a single-show input", {
   )
   expect_s3_class(out, "tbl_df")
   expect_gt(nrow(out), 0)
+  # Derived columns and the network constant must be populated for every
+  # row — even if a future re-record catches a stats/archive lag (see
+  # combine_incomparable_episodes()). For Unjustly Maligned specifically
+  # the show is retired so no lag is possible, but the assertions are
+  # cheap and document the contract.
+  expect_false(any(is.na(out$year)))
+  expect_false(any(is.na(out$month)))
+  expect_false(any(is.na(out$weekday)))
+  expect_false(any(is.na(out$network)))
+  expect_true(all(out$network == "The Incomparable"))
   expect_snapshot(glimpse_schema(out))
 })

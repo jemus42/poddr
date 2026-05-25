@@ -208,6 +208,60 @@ parse_incomparable_stats_text <- function(text) {
     ))
 }
 
+# Join stats and archive tibbles for one show. Date-derived columns
+# (year/month/weekday) and the constant `network` are recomputed AFTER
+# the join from the canonical stats.date, so they stay populated even
+# when the archive page lags behind stats.txt (e.g. the day a new
+# episode lands and the archive hasn't been re-rendered yet) or when
+# the join key mismatches (e.g. historical sub-indexed numbers like
+# `123a`). `category`, `topic`, `summary` still come from the archive
+# row — they're genuinely unrecoverable when archive lacks the entry.
+combine_incomparable_episodes <- function(show, stats, archived) {
+  archived <- archived |>
+    dplyr::mutate(show = show) |>
+    dplyr::select(
+      -dplyr::any_of(c(
+        "duration",
+        "title",
+        "host",
+        "guest",
+        "date",
+        "year",
+        "month",
+        "weekday",
+        "network"
+      ))
+    )
+
+  stats <- stats |>
+    dplyr::mutate(show = show)
+
+  stats |>
+    dplyr::full_join(archived, by = c("show", "number")) |>
+    dplyr::mutate(
+      year = lubridate::year(.data$date),
+      month = lubridate::month(.data$date, abbr = FALSE, label = TRUE),
+      weekday = lubridate::wday(.data$date, abbr = FALSE, label = TRUE),
+      network = "The Incomparable"
+    ) |>
+    dplyr::select(
+      "show",
+      "number",
+      "title",
+      "duration",
+      "date",
+      "year",
+      "month",
+      "weekday",
+      "host",
+      "guest",
+      "category",
+      "topic",
+      "summary",
+      "network"
+    )
+}
+
 #' Retrieve all episodes for The Incomparable shows
 #'
 #' @param incomparable_shows Dataset of shows as returned by `incomparable_get_shows()`.
@@ -239,33 +293,8 @@ incomparable_get_episodes <- function(incomparable_shows, cache = TRUE) {
         return(tibble())
       }
 
-      archived <- archived |>
-        dplyr::mutate(show = show) |>
-        dplyr::select(
-          -dplyr::any_of(c("duration", "title", "host", "guest", "date"))
-        )
-
-      stats <- incomparable_parse_stats(stats_url, cache = cache) |>
-        dplyr::mutate(show = show)
-
-      stats |>
-        dplyr::full_join(archived, by = c("show", "number")) |>
-        dplyr::select(
-          "show",
-          "number",
-          "title",
-          "duration",
-          "date",
-          "year",
-          "month",
-          "weekday",
-          "host",
-          "guest",
-          "category",
-          "topic",
-          "summary",
-          "network"
-        )
+      stats <- incomparable_parse_stats(stats_url, cache = cache)
+      combine_incomparable_episodes(show, stats, archived)
     }
   ) |>
     purrr::list_rbind()

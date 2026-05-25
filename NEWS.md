@@ -1,3 +1,27 @@
+# poddr 0.3.1
+
+## Bug fixes
+
+* `incomparable_get_episodes()` no longer returns `NA` for `year`,
+  `month`, `weekday`, and `network` on episodes that appear in
+  `stats.txt` but haven't been added to the archive page yet (the
+  Incomparable site renders the two surfaces independently and
+  `stats.txt` typically leads by hours-to-weeks for new episodes).
+  These four columns are now derived from the canonical
+  `stats.txt` date / a constant after the join, so any row that
+  has a `date` also has `year`, `month`, `weekday`, and `network`.
+  `category`, `topic`, and `summary` remain `NA` for episodes the
+  archive hasn't listed yet — those fields genuinely have no source
+  to recover them from. Reported by the
+  [podcasts.jemu.name](https://github.com/jemus42/podcasts.jemu.name)
+  consumer (2026-05-25).
+
+* Same fix also protects against the historical join-key mismatch
+  case where `stats.txt` and the archive page disagree on an episode
+  number (e.g. legacy sub-indexed entries like `123a` / `123b`):
+  derived columns are populated from the surviving `date` regardless
+  of whether the archive row matched.
+
 # poddr 0.3.0
 
 ## Breaking changes
