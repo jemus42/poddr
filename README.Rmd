@@ -22,19 +22,25 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/jemus42/poddr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jemus42/poddr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of poddr is to collect podcast data so I can display it at [podcasts.jemu.name](https://podcasts.jemu.name/). It's not intended to be a real package for real people.
+The goal of poddr is to scrape episode metadata from The Incomparable,
+relay.fm, and ATP and feed it to [podcasts.jemu.name](https://podcasts.jemu.name/).
+It's a personal project — not aimed at a wider audience — but the code
+is open in case anyone wants to peek under the hood.
 
 ## Installation
 
-You can install the released version of poddr from here with:
-
 ``` r
-remotes::install_github("jemus42/poddr")
+pak::pak("jemus42/poddr")
 ```
 
-## Example
+## How it works
 
-Here's the bulk of what's inside the tin:
+Each podcast source has a small family of functions: one to list the
+shows, one to fetch episodes for a given show (or show list), and a few
+parsers exposed for direct use. All network requests go through a
+single internal helper that handles per-host throttling, retries on
+transient failures, and on-disk HTTP caching, so repeated calls and
+scheduled runs don't hammer upstream servers.
 
 ```{r setup}
 library(dplyr, warn.conflicts = FALSE)
@@ -43,66 +49,50 @@ library(poddr)
 
 ### The Incomparable
 
-The basic workflow is simple: 
-
-1. Get a list of all the shows on the network, including the relevant URLs for further parsing.
-2. Get all the episodes of the shows selected. To not bother the webserver too much, I'm limiting the selection to a single show.
-
 ```{r incomparable}
 incomparable_shows <- incomparable_get_shows()
 incomparable_shows
 
-incomparable_episodes <- incomparable_shows |>
-  filter(show == "Unjustly Maligned") |>
-  incomparable_get_episodes()
-
-incomparable_episodes
+incomparable_get_episodes(
+  incomparable_shows |> filter(show == "Unjustly Maligned")
+)
 ```
 
-
-### Relay.fm
-
-Same procedure as before, also with one show.
+### relay.fm
 
 ```{r relay}
 relay_shows <- relay_get_shows()
 relay_shows
 
-relay_episodes <- relay_shows |>
-  filter(show == "Connected") |>
-  relay_get_episodes()
-
-relay_episodes
+relay_get_episodes(relay_shows |> filter(show == "Connected"))
 ```
-
 
 ### ATP
 
-Since there's only one show, there's no reason to select one specifically, obviously. However, the website doesn't show a list of *all* episodes on one page, so we'll have to either parse all pages (there's currently 10 total as of December 2020), or select a limit, like `1`, to only get episodes from the first page.
-The first page shows the 5 most recent episodes, and subsequent pages show 50 episodes each.
-
 ```{r atp}
 atp <- atp_get_episodes(page_limit = 1)
-atp
-
-# Looking at the links
 atp |>
   tidyr::unnest(links) |>
   select(number, title, link_text, link_url, link_type)
 ```
 
-### For all the nice people
+### Caching what you fetched
 
-The regular episode data contains one row per episode, with associated people in a single cell with names separated by `;`. In some cases we're interested in per-person data, for example the total number of appearances of a person on The Incomparable mothership, so we'll longify the data with a helper function that performs the `tidyr::pivot_longer()` and `tidyr::separate_rows()` steps consistently.
+The orchestrators return tibbles and don't touch disk. If you want
+RDS/CSV files written to a directory, call `cache_podcast_data()`
+explicitly:
 
-Note that relay.fm data only includes "hosts", as there's no separate guest information, so the host/guest distinction is redundant in that case.
+```{r cache, eval = FALSE}
+atp |> cache_podcast_data(dir = "data_cache", filename = "atp", csv = TRUE)
+```
 
-```{r gathering}
-incomparable_episodes |>
-  gather_people() |>
-  select(show, number, person, role)
+`update_cached_data()` is a convenience that fetches everything and
+writes everything; it's what the scheduled GitHub Action uses.
 
-relay_episodes |>
+### Per-person view
+
+```{r people}
+relay_get_episodes(relay_shows |> filter(show == "Connected")) |>
   gather_people() |>
   select(show, number, person, role)
 ```

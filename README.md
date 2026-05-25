@@ -8,21 +8,26 @@
 [![R-CMD-check](https://github.com/jemus42/poddr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jemus42/poddr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of poddr is to collect podcast data so I can display it at
-[podcasts.jemu.name](https://podcasts.jemu.name/). It’s not intended to
-be a real package for real people.
+The goal of poddr is to scrape episode metadata from The Incomparable,
+relay.fm, and ATP and feed it to
+[podcasts.jemu.name](https://podcasts.jemu.name/). It’s a personal
+project — not aimed at a wider audience — but the code is open in case
+anyone wants to peek under the hood.
 
 ## Installation
 
-You can install the released version of poddr from here with:
-
 ``` r
-remotes::install_github("jemus42/poddr")
+pak::pak("jemus42/poddr")
 ```
 
-## Example
+## How it works
 
-Here’s the bulk of what’s inside the tin:
+Each podcast source has a small family of functions: one to list the
+shows, one to fetch episodes for a given show (or show list), and a few
+parsers exposed for direct use. All network requests go through a single
+internal helper that handles per-host throttling, retries on transient
+failures, and on-disk HTTP caching, so repeated calls and scheduled runs
+don’t hammer upstream servers.
 
 ``` r
 library(dplyr, warn.conflicts = FALSE)
@@ -31,36 +36,28 @@ library(poddr)
 
 ### The Incomparable
 
-The basic workflow is simple:
-
-1.  Get a list of all the shows on the network, including the relevant
-    URLs for further parsing.
-2.  Get all the episodes of the shows selected. To not bother the
-    webserver too much, I’m limiting the selection to a single show.
-
 ``` r
 incomparable_shows <- incomparable_get_shows()
+#>  www.theincomparable.com
 incomparable_shows
-#> # A tibble: 55 × 4
-#>    show                                   stats_url               archi…¹ status
-#>    <chr>                                  <glue>                  <glue>  <chr> 
-#>  1 A Complicated Profession               https://www.theincompa… https:… active
-#>  2 Agents of SMOOCH                       https://www.theincompa… https:… active
-#>  3 Beginner's Puck                        https://www.theincompa… https:… active
-#>  4 Biff!                                  https://www.theincompa… https:… active
-#>  5 Defocused                              https://www.theincompa… https:… active
-#>  6 Doctor Who Flashcast                   https://www.theincompa… https:… active
-#>  7 Dragonmount: The Wheel of Time Podcast https://www.theincompa… https:… active
-#>  8 Football is Life                       https://www.theincompa… https:… active
-#>  9 Game Show                              https://www.theincompa… https:… active
-#> 10 I Want My M(CU)TV                      https://www.theincompa… https:… active
-#> # … with 45 more rows, and abbreviated variable name ¹​archive_url
+#> # A tibble: 58 × 4
+#>    show                                   stats_url           archive_url status
+#>    <chr>                                  <glue>              <glue>      <chr> 
+#>  1 A Complicated Profession               https://www.theinc… https://ww… active
+#>  2 Agents of SMOOCH                       https://www.theinc… https://ww… active
+#>  3 Biff!                                  https://www.theinc… https://ww… active
+#>  4 Defocused                              https://www.theinc… https://ww… active
+#>  5 Doctor Who Flashcast                   https://www.theinc… https://ww… active
+#>  6 Dragonmount: The Wheel of Time Podcast https://www.theinc… https://ww… active
+#>  7 Free the Squee                         https://www.theinc… https://ww… active
+#>  8 Game Show                              https://www.theinc… https://ww… active
+#>  9 Incomparable Radio Theater             https://www.theinc… https://ww… active
+#> 10 Lazy Doctor Who                        https://www.theinc… https://ww… active
+#> # ℹ 48 more rows
 
-incomparable_episodes <- incomparable_shows |>
-  filter(show == "Unjustly Maligned") |>
-  incomparable_get_episodes()
-
-incomparable_episodes
+incomparable_get_episodes(
+  incomparable_shows |> filter(show == "Unjustly Maligned")
+)
 #> # A tibble: 87 × 14
 #>    show         number title duration date        year month weekday host  guest
 #>    <chr>        <chr>  <chr> <time>   <date>     <dbl> <ord> <ord>   <chr> <chr>
@@ -74,141 +71,110 @@ incomparable_episodes
 #>  8 Unjustly Ma… 80     "\"N… 01:24:24 2017-06-19  2017 June  Monday  Anto… Matt…
 #>  9 Unjustly Ma… 79     "\"S… 01:15:33 2017-06-05  2017 June  Monday  Anto… Pete…
 #> 10 Unjustly Ma… 78     "\"E… 01:16:40 2017-05-22  2017 May   Monday  Anto… Rich…
-#> # … with 77 more rows, and 4 more variables: category <chr>, topic <chr>,
-#> #   summary <chr>, network <chr>
+#> # ℹ 77 more rows
+#> # ℹ 4 more variables: category <chr>, topic <chr>, summary <chr>, network <chr>
 ```
 
-### Relay.fm
-
-Same procedure as before, also with one show.
+### relay.fm
 
 ``` r
 relay_shows <- relay_get_shows()
+#>  www.relay.fm
 relay_shows
-#> # A tibble: 49 × 3
-#>    show       feed_url                             show_status
-#>    <chr>      <chr>                                <chr>      
-#>  1 Analog(ue) https://www.relay.fm/analogue/feed   Active     
-#>  2 Automators https://www.relay.fm/automators/feed Active     
-#>  3 BONANZA    https://www.relay.fm/bonanza/feed    Active     
-#>  4 B-Sides    https://www.relay.fm/b-sides/feed    Active     
-#>  5 Clockwise  https://www.relay.fm/clockwise/feed  Active     
-#>  6 Conduit    https://www.relay.fm/conduit/feed    Active     
-#>  7 Connected  https://www.relay.fm/connected/feed  Active     
-#>  8 Cortex     https://www.relay.fm/cortex/feed     Active     
-#>  9 Departures https://www.relay.fm/departures/feed Active     
-#> 10 Downstream https://www.relay.fm/downstream/feed Active     
-#> # … with 39 more rows
+#> # A tibble: 48 × 3
+#>    show            feed_url                             show_status
+#>    <chr>           <chr>                                <chr>      
+#>  1 Analog(ue)      https://www.relay.fm/analogue/feed   Active     
+#>  2 BONANZA         https://www.relay.fm/bonanza/feed    Active     
+#>  3 B-Sides         https://www.relay.fm/b-sides/feed    Active     
+#>  4 Clockwise       https://www.relay.fm/clockwise/feed  Active     
+#>  5 Conduit         https://www.relay.fm/conduit/feed    Active     
+#>  6 Connected       https://www.relay.fm/connected/feed  Active     
+#>  7 Cortex          https://www.relay.fm/cortex/feed     Active     
+#>  8 Departures      https://www.relay.fm/departures/feed Active     
+#>  9 Focused         https://www.relay.fm/focused/feed    Active     
+#> 10 Mac Power Users https://www.relay.fm/mpu/feed        Active     
+#> # ℹ 38 more rows
 
-relay_episodes <- relay_shows |>
-  filter(show == "Connected") |>
-  relay_get_episodes()
-
-relay_episodes
-#> # A tibble: 429 × 10
+relay_get_episodes(relay_shows |> filter(show == "Connected"))
+#> # A tibble: 604 × 10
 #>    show      number title  duration date        year month weekday host  network
 #>    <chr>     <chr>  <chr>  <time>   <date>     <dbl> <ord> <ord>   <chr> <chr>  
-#>  1 Connected 429    Lucy'… 00:58:56 2022-12-21  2022 Dece… Wednes… Jaso… relay.…
-#>  2 Connected 428    Timer… 01:27:25 2022-12-15  2022 Dece… Thursd… Fede… relay.…
-#>  3 Connected 427    Thera… 01:01:37 2022-12-07  2022 Dece… Wednes… Fede… relay.…
-#>  4 Connected 426    Just … 01:23:18 2022-11-30  2022 Nove… Wednes… Fede… relay.…
-#>  5 Connected 425    Inden… 00:56:00 2022-11-23  2022 Nove… Wednes… Fede… relay.…
-#>  6 Connected 424    The C… 01:28:02 2022-11-16  2022 Nove… Wednes… Fede… relay.…
-#>  7 Connected 423    I Kno… 01:39:22 2022-11-09  2022 Nove… Wednes… Fede… relay.…
-#>  8 Connected 422    Rearr… 01:19:41 2022-11-02  2022 Nove… Wednes… Fede… relay.…
-#>  9 Connected 421    The S… 01:32:51 2022-10-26  2022 Octo… Wednes… Fede… relay.…
-#> 10 Connected 420    2 Reg… 01:30:49 2022-10-19  2022 Octo… Wednes… Fede… relay.…
-#> # … with 419 more rows
+#>  1 Connected 604    The F… 01:17:56 2026-05-21  2026 May   Thursd… Fede… relay.…
+#>  2 Connected 603    Ungra… 01:05:52 2026-05-14  2026 May   Thursd… Fede… relay.…
+#>  3 Connected 602    Compu… 01:23:46 2026-05-07  2026 May   Thursd… Fede… relay.…
+#>  4 Connected 601    I Lov… 01:49:35 2026-04-30  2026 April Thursd… Fede… relay.…
+#>  5 Connected 600    Tommy… 01:33:13 2026-04-23  2026 April Thursd… Fede… relay.…
+#>  6 Connected 599    Then … 01:27:33 2026-04-16  2026 April Thursd… Fede… relay.…
+#>  7 Connected 598    8TB o… 01:37:30 2026-04-09  2026 April Thursd… Fede… relay.…
+#>  8 Connected 597    S-Tie… 01:01:52 2026-04-02  2026 April Thursd… Fede… relay.…
+#>  9 Connected 596    Somet… 01:03:23 2026-03-26  2026 March Thursd… Fede… relay.…
+#> 10 Connected 595    Feder… 01:06:44 2026-03-19  2026 March Thursd… Fede… relay.…
+#> # ℹ 594 more rows
 ```
 
 ### ATP
 
-Since there’s only one show, there’s no reason to select one
-specifically, obviously. However, the website doesn’t show a list of
-*all* episodes on one page, so we’ll have to either parse all pages
-(there’s currently 10 total as of December 2020), or select a limit,
-like `1`, to only get episodes from the first page. The first page shows
-the 5 most recent episodes, and subsequent pages show 50 episodes each.
-
 ``` r
 atp <- atp_get_episodes(page_limit = 1)
-atp
-#> # A tibble: 5 × 9
-#>   number title          duration date        year month weekday links    n_links
-#>   <chr>  <chr>          <time>   <date>     <dbl> <ord> <ord>   <list>     <int>
-#> 1 514    My Immense So… 01:45:25 2022-12-22  2022 Dece… Thursd… <tibble>      26
-#> 2 513    Scribble on t… 02:09:32 2022-12-15  2022 Dece… Thursd… <tibble>      30
-#> 3 512    Owned With a P 01:56:33 2022-12-08  2022 Dece… Thursd… <tibble>      24
-#> 4 511    Moving to Ant… 01:50:29 2022-12-01  2022 Dece… Thursd… <tibble>      29
-#> 5 510    It's Occupied… 02:09:12 2022-11-22  2022 Nove… Tuesday <tibble>      45
-
-# Looking at the links
+#> atp.fm
+#> Warning in request_handler_handler(request = request, handler = on_not_found, :
+#> Event: on_not_found
+#> Warning in request_handler_handler(request = request, handler =
+#> on_file_type_mismatch, : Event: on_file_type_mismatch
+#> Warning in request_handler_handler(request = request, handler =
+#> on_suspect_content, : Event: on_suspect_content
+#> 
 atp |>
   tidyr::unnest(links) |>
   select(number, title, link_text, link_url, link_type)
-#> # A tibble: 154 × 5
-#>    number title               link_text                          link_…¹ link_…²
-#>    <chr>  <chr>               <chr>                              <chr>   <chr>  
-#>  1 514    My Immense Softness x2 and k56flex                     https:… Showno…
-#>  2 514    My Immense Softness Superbad                           https:… Showno…
-#>  3 514    My Immense Softness DIVX                               https:… Showno…
-#>  4 514    My Immense Softness Colima                             https:… Showno…
-#>  5 514    My Immense Softness Apple is considering dropping the… https:… Showno…
-#>  6 514    My Immense Softness Blink                              https:… Showno…
-#>  7 514    My Immense Softness Gecko                              https:… Showno…
-#>  8 514    My Immense Softness SR-71                              https:… Showno…
-#>  9 514    My Immense Softness Trident II D5                      https:… Showno…
-#> 10 514    My Immense Softness Inertial Navigation System         https:… Showno…
-#> # … with 144 more rows, and abbreviated variable names ¹​link_url, ²​link_type
+#> # A tibble: 166 × 5
+#>    number title            link_text                          link_url link_type
+#>    <chr>  <chr>            <chr>                              <chr>    <chr>    
+#>  1 692    A Thinking Hitch ATP Member                         https:/… Shownotes
+#>  2 692    A Thinking Hitch ATP Movie Club: Her                https:/… Shownotes
+#>  3 692    A Thinking Hitch Real Madrid: The Weight of Greatn… https:/… Shownotes
+#>  4 692    A Thinking Hitch tcsh                               https:/… Shownotes
+#>  5 692    A Thinking Hitch John’s Terminal settings Window t… https:/… Shownotes
+#>  6 692    A Thinking Hitch John’s Terminal settings Tab tab   https:/… Shownotes
+#>  7 692    A Thinking Hitch Escape sequence extended tooltip   https:/… Shownotes
+#>  8 692    A Thinking Hitch .cshrc                             https:/… Shownotes
+#>  9 692    A Thinking Hitch Starship                           https:/… Shownotes
+#> 10 692    A Thinking Hitch KornShell                          https:/… Shownotes
+#> # ℹ 156 more rows
 ```
 
-### For all the nice people
+### Caching what you fetched
 
-The regular episode data contains one row per episode, with associated
-people in a single cell with names separated by `;`. In some cases we’re
-interested in per-person data, for example the total number of
-appearances of a person on The Incomparable mothership, so we’ll longify
-the data with a helper function that performs the
-`tidyr::pivot_longer()` and `tidyr::separate_rows()` steps consistently.
-
-Note that relay.fm data only includes “hosts”, as there’s no separate
-guest information, so the host/guest distinction is redundant in that
-case.
+The orchestrators return tibbles and don’t touch disk. If you want
+RDS/CSV files written to a directory, call `cache_podcast_data()`
+explicitly:
 
 ``` r
-incomparable_episodes |>
-  gather_people() |>
-  select(show, number, person, role)
-#> # A tibble: 176 × 4
-#>    show              number person            role 
-#>    <chr>             <chr>  <chr>             <chr>
-#>  1 Unjustly Maligned 87     Tony Sindelar     host 
-#>  2 Unjustly Maligned 87     Antony Johnston   guest
-#>  3 Unjustly Maligned 86     Antony Johnston   host 
-#>  4 Unjustly Maligned 86     Andy Ihnatko      guest
-#>  5 Unjustly Maligned 85     Antony Johnston   host 
-#>  6 Unjustly Maligned 85     Eddy Webb         guest
-#>  7 Unjustly Maligned 84     Antony Johnston   host 
-#>  8 Unjustly Maligned 84     Jessica Sliwinski guest
-#>  9 Unjustly Maligned 83     Antony Johnston   host 
-#> 10 Unjustly Maligned 83     Marcos Huerta     guest
-#> # … with 166 more rows
+atp |> cache_podcast_data(dir = "data_cache", filename = "atp", csv = TRUE)
+```
 
-relay_episodes |>
+`update_cached_data()` is a convenience that fetches everything and
+writes everything; it’s what the scheduled GitHub Action uses.
+
+### Per-person view
+
+``` r
+relay_get_episodes(relay_shows |> filter(show == "Connected")) |>
   gather_people() |>
   select(show, number, person, role)
-#> # A tibble: 1,285 × 4
+#> # A tibble: 1,800 × 4
 #>    show      number person           role 
 #>    <chr>     <chr>  <chr>            <chr>
-#>  1 Connected 429    Jason Snell      host 
-#>  2 Connected 428    Federico Viticci host 
-#>  3 Connected 428    Stephen Hackett  host 
-#>  4 Connected 428    Myke Hurley      host 
-#>  5 Connected 427    Federico Viticci host 
-#>  6 Connected 427    Stephen Hackett  host 
-#>  7 Connected 427    Myke Hurley      host 
-#>  8 Connected 426    Federico Viticci host 
-#>  9 Connected 426    Stephen Hackett  host 
-#> 10 Connected 426    Myke Hurley      host 
-#> # … with 1,275 more rows
+#>  1 Connected 604    Federico Viticci host 
+#>  2 Connected 604    Stephen Hackett  host 
+#>  3 Connected 604    Myke Hurley      host 
+#>  4 Connected 603    Federico Viticci host 
+#>  5 Connected 603    Stephen Hackett  host 
+#>  6 Connected 603    Myke Hurley      host 
+#>  7 Connected 602    Federico Viticci host 
+#>  8 Connected 602    Stephen Hackett  host 
+#>  9 Connected 602    Myke Hurley      host 
+#> 10 Connected 601    Federico Viticci host 
+#> # ℹ 1,790 more rows
 ```

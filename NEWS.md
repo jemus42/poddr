@@ -1,3 +1,53 @@
+# poddr 0.3.0
+
+## Breaking changes
+
+* HTTP layer migrated from `polite` to `httr2`. The `cache` argument on
+  `atp_get_episodes()`, `relay_get_episodes()`, `relay_get_shows()`,
+  `incomparable_get_episodes()`, `incomparable_get_shows()`,
+  `incomparable_parse_archive()`, `incomparable_parse_stats()`,
+  `incomparable_get_subcategories()`, and `relay_parse_feed()` now
+  controls the httr2 HTTP cache *only*. None of these functions write
+  RDS/CSV files as a side effect any more.
+
+* Callers that need disk artefacts must invoke `cache_podcast_data()`
+  explicitly, or use `update_cached_data()` which bundles fetch + write.
+
+* `cache_podcast_data(dir = …)` defaults to `here::here("data_cache")`
+  instead of the literal relative path `"data_cache"`.
+
+## New features
+
+* New internal request helper centralises user-agent, per-host
+  throttling (default 1 req / 2 s), transient retries (429/5xx), and
+  cross-session HTTP caching via `tools::R_user_dir("poddr", "cache")`.
+
+* New package options for tuning the request layer:
+  `poddr_user_agent`, `poddr_throttle_rate`, `poddr_cache_dir`,
+  `poddr_cache_max_age`, `poddr_cache_max_size`.
+
+* `robotstxt::paths_allowed()` is now checked once per host at
+  orchestrator entry (i.e. inside `*_get_shows()` and effectively by
+  the per-show parsers fired from `*_get_episodes()`).
+
+## Testing
+
+* Added vcr cassettes for the network-touching functions, covering
+  `atp_get_episodes()`, `relay_get_shows()`, `relay_parse_feed()`,
+  `relay_get_episodes()`, `incomparable_get_shows()`,
+  `incomparable_parse_archive()`, `incomparable_parse_stats()`, and
+  `incomparable_get_episodes()`. Cassettes re-record after 30 days.
+
+* Parser logic for relay and Incomparable was factored into inner
+  private functions taking already-parsed XML / HTML / text, so the
+  parsing layer is tested offline against synthetic fixtures.
+
+## Dependencies
+
+* Removed: `polite`, `memoise`.
+* Added: `httr2`, `xml2`, `robotstxt`, `here`.
+* Suggests: `vcr`, `withr`.
+
 # poddr 0.2.7
 
 * Maintenance release.
