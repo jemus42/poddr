@@ -1,133 +1,87 @@
 #' Retrieve all The Incomparable shows
 #'
-#' Parses the show overview page and returns a tibble of show names
-#' with corresponding URLs, which in turn can then be passed to
-#' `incomparable_parse_archive()` and `incomparable_parse_stats()` individually.
-#'
-#' @param cache (`logical(1)`) Set to `FALSE` to disable caching.
-#' @return A tibble with following columns:
-#' ```
-#' Columns: 4
-#' $ show        <chr>
-#' $ stats_url   <glue>
-#' $ archive_url <glue>
-#' $ status      <chr>
-#' ```
+#' @param cache (`logical(1)`) Toggle the httr2 HTTP cache. Default `TRUE`.
+#' @return A tibble with columns `show`, `stats_url`, `archive_url`, `status`.
 #' @export
-#'
 #' @examples
 #' \dontrun{
 #' incomparable_get_shows()
 #' }
 incomparable_get_shows <- function(cache = TRUE) {
+  assert_scrapable(podcast_urls$incomparable$shows)
   base_url <- podcast_urls$incomparable$base
-  show_index <- polite::bow(podcast_urls$incomparable$shows) |>
-    polite::scrape()
-
-  shows <- show_index |>
-    rvest::html_nodes("#recent h5 a") |>
-    rvest::html_text()
-
-  show_partials <- show_index |>
-    rvest::html_nodes("#recent h5 a") |>
-    rvest::html_attr("href") |>
-    stringr::str_replace_all("\\/", "")
-
-  shows_active <- tibble(
-    show = shows,
-    # partial = show_partials,
-    stats_url = glue::glue("{base_url}/{show_partials}/stats.txt"),
-    archive_url = glue::glue("{base_url}/{show_partials}/archive/"),
-    status = "active"
+  show_index <- poddr_get(
+    podcast_urls$incomparable$shows,
+    as = "html",
+    cache = cache
   )
 
-  shows <- show_index |>
-    rvest::html_nodes("#retired h5 a") |>
-    rvest::html_text()
-
-  show_partials <- show_index |>
-    rvest::html_nodes("#retired h5 a") |>
-    rvest::html_attr("href") |>
-    stringr::str_replace_all("\\/", "")
-
-  shows_retired <- tibble(
-    show = shows,
-    # partial = show_partials,
-    stats_url = glue::glue("{base_url}/{show_partials}/stats.txt"),
-    archive_url = glue::glue("{base_url}/{show_partials}/archive/"),
-    status = "retired"
+  shows_active <- extract_incomparable_shows(
+    show_index,
+    "#recent",
+    "active",
+    base_url
+  )
+  shows_retired <- extract_incomparable_shows(
+    show_index,
+    "#retired",
+    "retired",
+    base_url
   )
 
   shows <- dplyr::bind_rows(shows_active, shows_retired)
-
   checkmate::assert_data_frame(shows, min.rows = 15, ncols = 4)
-
-  if (cache) {
-    cache_podcast_data(shows, filename = "incomparable_shows")
-  }
-
   shows
+}
+
+extract_incomparable_shows <- function(show_index, css_root, status, base_url) {
+  names <- show_index |>
+    rvest::html_nodes(paste0(css_root, " h5 a")) |>
+    rvest::html_text()
+  partials <- show_index |>
+    rvest::html_nodes(paste0(css_root, " h5 a")) |>
+    rvest::html_attr("href") |>
+    stringr::str_replace_all("\\/", "")
+
+  tibble(
+    show = names,
+    stats_url = glue::glue("{base_url}/{partials}/stats.txt"),
+    archive_url = glue::glue("{base_url}/{partials}/archive/"),
+    status = status
+  )
 }
 
 #' Parse a show's archive page on The Incomparable website
 #'
-#' Retrieves all episodes for one or more shows passed as a tibble.
-#' The archive page *does not* include full duration information, as it is
-#' limited to hours and minutes. Use `incomparable_parse_stats()` for
-#' accurate episode durations.
-#' @param archive_url E.g.
-#' `"https://www.theincomparable.com/theincomparable/archive/"`.
-#'
-#' @return A tibble, with following format:
-#' ```
-#' #> dplyr::glimpse(incomparable_parse_archive(archive_url))
-#'  Columns: 12
-#'  $ number   <chr>
-#'  $ title    <chr>
-#'  $ date     <date>
-#'  $ year     <dbl>
-#'  $ month    <ord>
-#'  $ weekday  <ord>
-#'  $ host     <chr>
-#'  $ guest    <chr>
-#'  $ category <chr>
-#'  $ topic    <chr>
-#'  $ summary  <chr>
-#'  $ network  <chr>
-#' ```
+#' @param archive_url E.g. `"https://www.theincomparable.com/theincomparable/archive/"`.
+#' @inheritParams incomparable_get_shows
+#' @return A tibble.
 #' @export
-#'
 #' @examples
 #' \dontrun{
-#' archive_url <- "https://www.theincomparable.com/gameshow/archive/"
-#' incomparable_parse_archive(archive_url)
+#' incomparable_parse_archive("https://www.theincomparable.com/gameshow/archive/")
 #' }
-incomparable_parse_archive <- function(archive_url) {
-  archive_parsed <- polite::bow(archive_url) |>
-    polite::scrape()
+incomparable_parse_archive <- function(archive_url, cache = TRUE) {
+  archive_parsed <- poddr_get(archive_url, as = "html", cache = cache)
+  parse_incomparable_archive_html(archive_parsed)
+}
 
-  # Catch 500 error for archive pages, e.g. https://www.theincomparable.com/pod4ham/
-  # 2022-07-31
+parse_incomparable_archive_html <- function(archive_parsed) {
+  # NULL guard preserves the contract that callers can iterate over
+  # archive_url lists tolerantly when the upstream returns 500.
   if (is.null(archive_parsed)) {
     return(tibble())
   }
 
-  # One element per entry, iterate over this to ensure
-  # each episode and respective elements can be matched correctly
-  # for things like topics and categories where not every episode
-  # has such an element
   entries <- archive_parsed |>
     rvest::html_nodes(css = ".episode-list li")
 
-  # Subcategory detection
   subcat_header <- archive_parsed |>
     rvest::html_nodes("h6") |>
     rvest::html_text()
-
   has_categories <- identical(subcat_header, "Subcategories")
 
   purrr::map(entries, \(x) {
-    # Treat episode numbers as character in case of letter suffixes
     epnums <- x |>
       rvest::html_nodes(css = ".ep-num") |>
       rvest::html_text() |>
@@ -169,7 +123,6 @@ incomparable_parse_archive <- function(archive_url) {
     topics <- x |>
       rvest::html_nodes(".episode-subtitle") |>
       rvest::html_text()
-
     if (identical(topics, character(0))) {
       topics <- NA_character_
     }
@@ -194,22 +147,18 @@ incomparable_parse_archive <- function(archive_url) {
 
 #' Extract subcategory index for given show
 #'
-#' Not actively used in other functions but could come in handy.
-#'
 #' @inheritParams incomparable_parse_archive
-#'
-#' @return A tibble with subcategory links `link` and category name `category`
+#' @return A tibble with subcategory links and category names.
 #' @export
-#'
 #' @examples
 #' \dontrun{
 #' incomparable_get_subcategories("https://www.theincomparable.com/gameshow/archive/")
 #' }
 incomparable_get_subcategories <- function(
-  archive_url = "https://www.theincomparable.com/gameshow/archive/"
+  archive_url = "https://www.theincomparable.com/gameshow/archive/",
+  cache = TRUE
 ) {
-  show_index <- polite::bow(archive_url) |>
-    polite::scrape()
+  show_index <- poddr_get(archive_url, as = "html", cache = cache)
 
   show_index |>
     rvest::html_nodes("#recent aside a") |>
@@ -225,35 +174,25 @@ incomparable_get_subcategories <- function(
 
 #' Parse The Incomparable stats.txt files
 #'
-#' The `stats.txt` files have a slightly different format, especially the
-#' host/guest information may differ from what is returned by
-#' `incomparable_parse_archive()`, which implicitly assumes the first person
-#' mentioned to be the host of the episode. However, this data source
-#' does not include podcast subcategories (e.g. "Old Movie Club") or
-#' topic information, which is only available on the archive page.
-#' @param stats_url URL to the `stats.txt`, e.g.
-#' `"https://www.theincomparable.com/salvage/stats.txt"`.
-#'
+#' @param stats_url URL to the `stats.txt`.
+#' @inheritParams incomparable_get_shows
 #' @return A tibble.
 #' @export
-#'
 #' @examples
 #' \dontrun{
 #' incomparable_parse_stats("https://www.theincomparable.com/salvage/stats.txt")
 #' }
-incomparable_parse_stats <- function(stats_url) {
-  polite_read_delim(
-    stats_url,
+incomparable_parse_stats <- function(stats_url, cache = TRUE) {
+  body <- poddr_get(stats_url, as = "text", cache = cache)
+  parse_incomparable_stats_text(body)
+}
+
+parse_incomparable_stats_text <- function(text) {
+  readr::read_delim(
+    I(text),
     delim = ";",
     quote = "",
-    col_names = c(
-      "number",
-      "date",
-      "duration",
-      "title",
-      "host",
-      "guest"
-    ),
+    col_names = c("number", "date", "duration", "title", "host", "guest"),
     col_types = "cccccc",
     trim_ws = TRUE
   ) |>
@@ -271,41 +210,30 @@ incomparable_parse_stats <- function(stats_url) {
 
 #' Retrieve all episodes for The Incomparable shows
 #'
-#' This combines `incomparable_parse_stats()` and `incomparable_parse_archive()`
-#' to retrieve full episode information including host/guest, durations
-#' including seconds, podcast subcategories and topics.
-#' Use sparingly to limit unnecessarily hammering the poor webserver!
-#' @param incomparable_shows Dataset of shows with title and URLs as returned by
-#' `incomparable_get_shows()`.
+#' @param incomparable_shows Dataset of shows as returned by `incomparable_get_shows()`.
 #' @inheritParams incomparable_get_shows
-#'
-#' @return A tibble with one row per episode.
+#' @return A tibble.
 #' @export
-#'
 #' @examples
 #' \dontrun{
-#' incomparable_shows <- incomparable_get_shows()
-#' incomparable <- incomparable_get_episodes(incomparable_shows)
+#' shows <- incomparable_get_shows()
+#' incomparable_get_episodes(shows)
 #' }
 incomparable_get_episodes <- function(incomparable_shows, cache = TRUE) {
-  cli::cli_progress_bar(
+  pb_id <- cli::cli_progress_bar(
     "Getting episodes",
     total = nrow(incomparable_shows),
-    format = "{cli::pb_spin} {cli::pb_current}/{cli::pb_total} {show}"
+    format = "{cli::pb_spin} {cli::pb_current}/{cli::pb_total} {show}",
+    .auto_close = FALSE
   )
 
   episodes <- purrr::pmap(
     incomparable_shows,
     \(show, stats_url, archive_url, ...) {
-      cli::cli_progress_update(set = NULL, status = show, force = TRUE)
+      cli::cli_progress_update(id = pb_id, status = show, force = TRUE)
 
-      # Archive includes topic/category/subtitle data not present in stats.txt.
-      # We drop archive's date/title/host/guest/duration in favor of stats.txt:
-      # stats.txt has full HH:MM:SS duration, consistent quoting, and the
-      # archive's host/guest parser is less reliable.
-      archived <- incomparable_parse_archive(archive_url)
+      archived <- incomparable_parse_archive(archive_url, cache = cache)
 
-      # Some archive pages return empty (e.g. dwf as of 2021-09-29)
       if (nrow(archived) == 0) {
         cli::cli_alert_warning("Empty archive page for {show} at {archive_url}")
         return(tibble())
@@ -317,7 +245,7 @@ incomparable_get_episodes <- function(incomparable_shows, cache = TRUE) {
           -dplyr::any_of(c("duration", "title", "host", "guest", "date"))
         )
 
-      stats <- incomparable_parse_stats(stats_url) |>
+      stats <- incomparable_parse_stats(stats_url, cache = cache) |>
         dplyr::mutate(show = show)
 
       stats |>
@@ -341,13 +269,8 @@ incomparable_get_episodes <- function(incomparable_shows, cache = TRUE) {
     }
   ) |>
     purrr::list_rbind()
-  cli::cli_progress_done()
+  cli::cli_progress_done(id = pb_id)
 
   checkmate::assert_data_frame(episodes, min.rows = 1, ncols = 14)
-
-  if (cache) {
-    cache_podcast_data(episodes, filename = "incomparable_episodes")
-  }
-
   episodes
 }
