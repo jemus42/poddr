@@ -1,4 +1,4 @@
-# atp_get_episodes schema snapshot is stable
+# atp_get_episodes(page_limit = 1) is correct
 
     Code
       glimpse_schema(out)

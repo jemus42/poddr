@@ -14,6 +14,23 @@ local_isolated_cache <- function(envir = parent.frame()) {
   )
 }
 
+# robotstxt caches robots.txt fetches in-process. vcr cassettes only record
+# requests they observe, so when a cassette is replayed in a fresh session
+# the robotstxt lookup needs to be in the cassette — otherwise the cached
+# in-process value short-circuits the call and vcr's recording is incomplete.
+#
+# robotstxt does not export a public cache-clearing function; reach into the
+# internal `rt_cache` environment. This is a deliberate, documented use of `:::`.
+local_clear_robotstxt_cache <- function(envir = parent.frame()) {
+  cache_env <- robotstxt:::rt_cache
+  rm(list = ls(envir = cache_env), envir = cache_env)
+  withr::defer(
+    rm(list = ls(envir = cache_env), envir = cache_env),
+    envir = envir
+  )
+  invisible()
+}
+
 # Schema printer used by cassette-backed tests — captures column
 # names and classes only, so the snapshot survives cassette
 # re-records.
