@@ -54,6 +54,9 @@ assert_scrapable <- function(url) {
   ok <- robotstxt::paths_allowed(
     paths = url,
     bot = "poddr",
+    # Force in-process HTTP so vcr can intercept the robots.txt fetch
+    # during cassette recording and replay. robotstxt defaults to async
+    # via futures, which runs outside the intercepted session.
     use_futures = FALSE
   )
   if (!isTRUE(ok)) {
