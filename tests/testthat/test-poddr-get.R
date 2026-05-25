@@ -1,6 +1,6 @@
 test_that("poddr_get returns an xml_document for as = 'html'", {
   local_isolated_cache()
-  vcr::use_cassette("poddr_get-html", {
+  vcr::use_cassette("poddr_get-html", re_record_interval = 30L * 86400L, {
     out <- poddr_get(
       "https://www.theincomparable.com/shows/",
       as = "html"
@@ -11,7 +11,7 @@ test_that("poddr_get returns an xml_document for as = 'html'", {
 
 test_that("poddr_get returns a character body for as = 'text'", {
   local_isolated_cache()
-  vcr::use_cassette("poddr_get-text", {
+  vcr::use_cassette("poddr_get-text", re_record_interval = 30L * 86400L, {
     out <- poddr_get(
       "https://www.theincomparable.com/salvage/stats.txt",
       as = "text"
