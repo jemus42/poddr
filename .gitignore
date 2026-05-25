@@ -2,7 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-docs/*
-!docs/superpowers/
+docs
 data_cache
 README_cache
