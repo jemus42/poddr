@@ -2,18 +2,21 @@
 % Please edit documentation in R/utils-caching.R
 \name{update_cached_data}
 \alias{update_cached_data}
-\title{Update and cache data locally}
+\title{Fetch all sources and cache results to disk}
 \usage{
-update_cached_data(dir = "data_cache")
+update_cached_data(dir = here::here("data_cache"))
 }
 \arguments{
-\item{dir}{\verb{["data_cache"]} Directory path to save cached data to.}
+\item{dir}{Directory to save data to. Default: \code{here::here("data_cache")}.}
 }
 \value{
-Nothing
+Invisibly returns the list of paths written.
 }
 \description{
-Update and cache data locally
+Convenience entry point used by the scheduled GitHub Action. Calls each
+fetch orchestrator and writes its output via \code{\link[=cache_podcast_data]{cache_podcast_data()}}.
+Targets users typically don't want this — call the individual
+\verb{*_get_episodes()} functions instead.
 }
 \examples{
 \dontrun{
