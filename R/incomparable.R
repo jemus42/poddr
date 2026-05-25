@@ -187,6 +187,54 @@ incomparable_parse_stats <- function(stats_url, cache = TRUE) {
   parse_incomparable_stats_text(body)
 }
 
+#' Parse a single Incomparable episode page
+#'
+#' Recovers `summary` (and `topic` when present) for episodes that
+#' aren't on the archive page yet. The archive page is re-rendered on
+#' a slower cadence than `stats.txt` updates, so the newest episode of
+#' an active show is typically missing from the archive for hours to
+#' weeks. `incomparable_get_episodes()` calls this automatically for
+#' any episode in `stats.txt` that the archive doesn't list.
+#'
+#' @param episode_url The per-episode URL,
+#'   e.g. `"https://www.theincomparable.com/sophomorelit/190/"`.
+#' @inheritParams incomparable_get_shows
+#'
+#' @return A one-row tibble with columns `summary` and `topic` (either
+#'   may be `NA_character_` if the page doesn't expose them).
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' incomparable_parse_episode("https://www.theincomparable.com/sophomorelit/190/")
+#' }
+incomparable_parse_episode <- function(episode_url, cache = TRUE) {
+  parsed <- poddr_get(episode_url, as = "html", cache = cache)
+  parse_incomparable_episode_html(parsed)
+}
+
+parse_incomparable_episode_html <- function(episode_parsed) {
+  if (is.null(episode_parsed)) {
+    return(tibble(summary = NA_character_, topic = NA_character_))
+  }
+
+  summary <- episode_parsed |>
+    rvest::html_nodes("meta[property='og:description']") |>
+    rvest::html_attr("content")
+  summary <- if (length(summary) == 0) NA_character_ else summary[1]
+
+  # Individual episode pages rarely carry a populated .episode-subtitle
+  # (the archive page does), but cheap to check.
+  topic <- episode_parsed |>
+    rvest::html_nodes(".episode-subtitle") |>
+    rvest::html_text() |>
+    stringr::str_trim()
+  topic <- topic[nzchar(topic)]
+  topic <- if (length(topic) == 0) NA_character_ else topic[1]
+
+  tibble(summary = summary, topic = topic)
+}
+
 parse_incomparable_stats_text <- function(text) {
   readr::read_delim(
     I(text),
@@ -206,6 +254,34 @@ parse_incomparable_stats_text <- function(text) {
         stringr::str_replace_all(.x, "\\s*,\\s*", ";")
       }
     ))
+}
+
+# For each episode that appears in stats.txt but not on the archive
+# page, fetch the per-episode page and merge its summary (+ topic when
+# present) into the archived tibble. No-op when archive is current.
+# The episode URL is the archive URL with `archive/` swapped for the
+# episode number.
+fill_incomparable_archive_gap <- function(
+  archived,
+  stats,
+  archive_url,
+  cache = TRUE
+) {
+  gap_numbers <- setdiff(stats$number, archived$number)
+  if (length(gap_numbers) == 0) {
+    return(archived)
+  }
+
+  show_base_url <- sub("archive/?$", "", archive_url)
+
+  gap_rows <- purrr::map(gap_numbers, \(n) {
+    ep_url <- paste0(show_base_url, n, "/")
+    fields <- incomparable_parse_episode(ep_url, cache = cache)
+    tibble(number = n, summary = fields$summary, topic = fields$topic)
+  }) |>
+    purrr::list_rbind()
+
+  dplyr::bind_rows(archived, gap_rows)
 }
 
 # Join stats and archive tibbles for one show. Date-derived columns
@@ -294,6 +370,12 @@ incomparable_get_episodes <- function(incomparable_shows, cache = TRUE) {
       }
 
       stats <- incomparable_parse_stats(stats_url, cache = cache)
+      archived <- fill_incomparable_archive_gap(
+        archived,
+        stats,
+        archive_url,
+        cache = cache
+      )
       combine_incomparable_episodes(show, stats, archived)
     }
   ) |>

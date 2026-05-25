@@ -92,6 +92,105 @@ test_that("combine_incomparable_episodes fills derived columns for episodes only
   expect_true(is.na(ep3$summary))
 })
 
+test_that("parse_incomparable_episode_html extracts summary from og:description", {
+  html <- rvest::read_html(
+    '<html><head>
+    <meta property="og:description" content="An episode about robots.">
+    </head><body><h2>Title here</h2></body></html>'
+  )
+
+  out <- parse_incomparable_episode_html(html)
+
+  expect_equal(out$summary, "An episode about robots.")
+  expect_true(is.na(out$topic))
+})
+
+test_that("parse_incomparable_episode_html picks up topic when present", {
+  html <- rvest::read_html(
+    '<html><head>
+    <meta property="og:description" content="Some summary.">
+    </head><body><span class="episode-subtitle">Segment Name</span></body></html>'
+  )
+
+  out <- parse_incomparable_episode_html(html)
+
+  expect_equal(out$summary, "Some summary.")
+  expect_equal(out$topic, "Segment Name")
+})
+
+test_that("parse_incomparable_episode_html returns NA tibble on NULL input", {
+  out <- parse_incomparable_episode_html(NULL)
+  expect_equal(nrow(out), 1)
+  expect_true(is.na(out$summary))
+  expect_true(is.na(out$topic))
+})
+
+test_that("fill_incomparable_archive_gap fetches per-episode pages for missing episodes", {
+  archived <- tibble::tibble(
+    number = c("1", "2"),
+    title = c("Old1", "Old2"),
+    date = as.Date(c("2024-01-15", "2024-02-15")),
+    year = c(2024L, 2024L),
+    month = factor(c("January", "February"), ordered = TRUE),
+    weekday = factor(c("Monday", "Thursday"), ordered = TRUE),
+    host = c("A", "A"),
+    guest = c("B", "C"),
+    category = NA_character_,
+    topic = c("t1", "t2"),
+    summary = c("s1", "s2"),
+    network = "The Incomparable"
+  )
+  stats <- tibble::tibble(
+    number = c("1", "2", "3"),
+    date = as.Date(c("2024-01-15", "2024-02-15", "2024-03-18"))
+  )
+
+  testthat::local_mocked_bindings(
+    incomparable_parse_episode = function(episode_url, cache = TRUE) {
+      tibble::tibble(summary = "Episode 3 summary", topic = NA_character_)
+    }
+  )
+
+  out <- fill_incomparable_archive_gap(
+    archived,
+    stats,
+    "https://example.com/show/archive/"
+  )
+
+  expect_equal(nrow(out), 3)
+  ep3 <- out[out$number == "3", ]
+  expect_equal(ep3$summary, "Episode 3 summary")
+  expect_true(is.na(ep3$topic))
+  # Other archive-side columns stay NA on the gap row — combine() handles them
+  expect_true(is.na(ep3$title))
+  expect_true(is.na(ep3$category))
+})
+
+test_that("fill_incomparable_archive_gap is a no-op when archive is current", {
+  archived <- tibble::tibble(
+    number = c("1", "2"),
+    title = c("A", "B"),
+    summary = c("s1", "s2"),
+    topic = c(NA_character_, NA_character_)
+  )
+  stats <- tibble::tibble(number = c("1", "2"))
+
+  # Mock would error if called — verifies no fetch happens
+  testthat::local_mocked_bindings(
+    incomparable_parse_episode = function(...) {
+      stop("Should not be called when archive is current")
+    }
+  )
+
+  out <- fill_incomparable_archive_gap(
+    archived,
+    stats,
+    "https://example.com/show/archive/"
+  )
+
+  expect_equal(out, archived)
+})
+
 test_that("combine_incomparable_episodes leaves matched episodes intact", {
   archived <- tibble::tibble(
     number = "1",
