@@ -1,3 +1,25 @@
+# poddr 0.3.2
+
+## New features
+
+* `incomparable_get_episodes()` now fetches each per-episode page for
+  episodes that appear in `stats.txt` but aren't listed on the show's
+  archive page yet (the archive renders on a slower cadence than
+  `stats.txt` updates, so the newest episode is typically missing from
+  the archive for hours to weeks). This recovers `summary` for those
+  episodes from the per-episode `og:description` meta tag. `topic`
+  remains `NA` for newest-episode gaps unless the individual page
+  happens to populate `.episode-subtitle`.
+
+* New exported helper `incomparable_parse_episode(episode_url, cache)`
+  returns a one-row tibble (`summary`, `topic`) for a given episode
+  URL — exposed for direct use; called automatically by the
+  orchestrator's gap-fill.
+
+* The gap-fill is lazy: zero extra HTTP requests when the archive is
+  current. Worst case scales with the gap size (typically 0–1 episodes
+  per show per scheduled run).
+
 # poddr 0.3.1
 
 ## Bug fixes
