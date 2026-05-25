@@ -11,3 +11,5 @@
 ^\.Rhistory$
 ^Makefile$
 ^docs/superpowers$
+^data_cache$
+^attic$
