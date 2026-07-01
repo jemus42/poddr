@@ -94,7 +94,7 @@
 <h2 class="page-header" data-toc-text="0.2.7" id="poddr-027">poddr 0.2.7<a class="anchor" aria-label="anchor" href="#poddr-027"></a></h2>
 <ul><li>Maintenance release.</li>
 <li>
-<code><a href="../reference/incomparable_parse_stats.html">incomparable_parse_stats()</a></code> now fetches <code>stats.txt</code> through <code><a href="https://dmi3kno.github.io/polite/reference/politely.html" class="external-link">polite::politely()</a></code> so that requests respect <code>robots.txt</code> and a per-host delay, matching the rest of the scrapers.</li>
+<code><a href="../reference/incomparable_parse_stats.html">incomparable_parse_stats()</a></code> now fetches <code>stats.txt</code> through <code>polite::politely()</code> so that requests respect <code>robots.txt</code> and a per-host delay, matching the rest of the scrapers.</li>
 <li>Switched progress bars from the <code>progress</code> package to <code>cli</code>, dropping one direct dependency.</li>
 <li>Replaced superseded <code><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">purrr::map_dfr()</a></code>/<code>pmap_dfr()</code> with <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code>/<code>pmap()</code> + <code><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">purrr::list_rbind()</a></code>.</li>
 <li>
