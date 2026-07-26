@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">poddr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -47,6 +47,14 @@
       <small>Source: <a href="https://github.com/jemus42/poddr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.3" id="poddr-033">poddr 0.3.3<a class="anchor" aria-label="anchor" href="#poddr-033"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-3"></a></h3>
+<ul><li><p><code><a href="../reference/incomparable_get_episodes.html">incomparable_get_episodes()</a></code> no longer warns about parsing issues on shows whose <code>stats.txt</code> rows carry an extra trailing subtitle field (e.g. Game Show’s <code>TL;DR Episode N</code>, which itself contains a <code>;</code>). Each line is now trimmed to its six semantic fields before parsing, so the ragged rows parse cleanly. The parsed columns were already correct; only the spurious <code>readr</code> warning is removed.</p></li>
+<li><p><code>assert_scrapable()</code> no longer surfaces <code>robotstxt</code>’s non-fatal <code>on_*</code> fetch events (missing robots.txt, content-type mismatch, suspect content) as warnings. These never changed the allow/disallow verdict.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.2" id="poddr-032">poddr 0.3.2<a class="anchor" aria-label="anchor" href="#poddr-032"></a></h2>
 <div class="section level3">
@@ -163,7 +171,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>
