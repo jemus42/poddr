@@ -1,3 +1,18 @@
+# poddr 0.3.3
+
+## Bug fixes
+
+* `incomparable_get_episodes()` no longer warns about parsing issues on
+  shows whose `stats.txt` rows carry an extra trailing subtitle field
+  (e.g. Game Show's `TL;DR Episode N`, which itself contains a `;`).
+  Each line is now trimmed to its six semantic fields before parsing, so
+  the ragged rows parse cleanly. The parsed columns were already correct;
+  only the spurious `readr` warning is removed.
+
+* `assert_scrapable()` no longer surfaces `robotstxt`'s non-fatal `on_*`
+  fetch events (missing robots.txt, content-type mismatch, suspect
+  content) as warnings. These never changed the allow/disallow verdict.
+
 # poddr 0.3.2
 
 ## New features

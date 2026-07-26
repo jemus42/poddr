@@ -51,14 +51,18 @@ poddr_get <- function(
 }
 
 assert_scrapable <- function(url) {
-  ok <- robotstxt::paths_allowed(
+  # robotstxt signals non-fatal fetch quirks (missing robots.txt, wrong
+  # content-type, suspect content) as warnings via its on_* event handlers.
+  # They're informational and don't change the allowed/disallowed verdict, so
+  # suppress them to keep scraping output clean.
+  ok <- suppressWarnings(robotstxt::paths_allowed(
     paths = url,
     bot = "poddr",
     # Force in-process HTTP so vcr can intercept the robots.txt fetch
     # during cassette recording and replay. robotstxt defaults to async
     # via futures, which runs outside the intercepted session.
     use_futures = FALSE
-  )
+  ))
   if (!isTRUE(ok)) {
     cli::cli_abort(c(
       "robots.txt disallows scraping {.url {url}} for user-agent {.val poddr}.",

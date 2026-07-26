@@ -236,6 +236,24 @@ parse_incomparable_episode_html <- function(episode_parsed) {
 }
 
 parse_incomparable_stats_text <- function(text) {
+  # Some stats.txt rows carry an extra trailing field after `guest` (an
+  # episode subtitle that may itself contain ";", e.g. "TL;DR Episode 2"),
+  # which makes rows ragged and trips readr's column-count warning. Only the
+  # first six fields are semantic, so trim each line to them before parsing.
+  lines <- sub("\r$", "", strsplit(text, "\n", fixed = TRUE)[[1]])
+  lines <- lines[nzchar(trimws(lines))]
+  text <- paste(
+    vapply(
+      lines,
+      function(line) {
+        fields <- strsplit(line, ";", fixed = TRUE)[[1]]
+        paste(fields[seq_len(min(6L, length(fields)))], collapse = ";")
+      },
+      character(1),
+      USE.NAMES = FALSE
+    ),
+    collapse = "\n"
+  )
   readr::read_delim(
     I(text),
     delim = ";",

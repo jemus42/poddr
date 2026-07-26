@@ -44,6 +44,19 @@ test_that("parse_incomparable_stats_text parses a stats.txt line", {
   expect_equal(out$guest, "Carol")
 })
 
+test_that("parse_incomparable_stats_text ignores extra trailing fields without warning", {
+  # Real Game Show rows append an unused subtitle that itself contains ";",
+  # yielding >6 fields. Only the first six are semantic; parsing must keep
+  # them and emit no readr column-count warning.
+  text <- "118;01 Oct 2019;1:09:19;A title;Alice;Bob, Carol;TL;DR Episode 2\n"
+  expect_no_warning(out <- parse_incomparable_stats_text(text))
+
+  expect_equal(nrow(out), 1)
+  expect_equal(out$title, "A title")
+  expect_equal(out$host, "Alice")
+  expect_equal(out$guest, "Bob;Carol")
+})
+
 # Regression test for the latest-episode NA bug reported by the
 # podcasts.jemu.name agent 2026-05-25: stats.txt updates faster than
 # the archive page, so the newest episode appears in stats but not in
